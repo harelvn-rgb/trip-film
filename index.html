@@ -107,6 +107,21 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud .clock{color:#fff;opacity:.85;font-size:14px}
 .ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
 .gate{z-index:6}
+.deep{position:fixed;inset:0;z-index:60;background:#000}
+.deep-stage{position:absolute;inset:0;overflow:hidden}
+.deep-pl{position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(100vh,56.25vw);transform:translate(-50%,-50%);pointer-events:none}
+.deep-pl iframe,.deep-pl>div{width:100%;height:100%;border:0}
+.deep-scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.65),rgba(0,0,0,0) 25%,rgba(0,0,0,0) 55%,rgba(0,0,0,.85))}
+.deep-top{position:absolute;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:max(16px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-left,0px)) 0 max(20px,env(safe-area-inset-right,0px))}
+.deep-name{font-family:var(--display);font-weight:700;font-size:clamp(34px,5vw,64px);line-height:.9}
+.deep-bottom{position:absolute;inset:auto 0 0 0;padding:0 max(20px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-right,0px));display:grid;gap:10px}
+.deep-cap{max-width:62ch}
+.deep-cap .n{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.deep-cap h3{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,56px);line-height:.95;margin:2px 0}
+.deep-cap p{margin:0;font-size:clamp(15px,1.6vw,19px)}
+.deep-load{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px;border:3px solid rgba(255,255,255,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.deep-load[hidden]{display:none}
+.deepbtn{font:inherit;font-weight:700;font-size:15px;color:#121212;border:0;border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .still{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;overflow:hidden}
 .still.on{opacity:1}
 .still img{width:100%;height:100%;object-fit:cover;transform:scale(1.36);animation:kb 9s ease-out both}
@@ -320,6 +335,16 @@ section.block{margin-top:64px}
     </div>
   </section>
 
+  <div class="deep" id="deep" hidden>
+    <div class="deep-stage"><div class="deep-pl"><div id="deepP"></div></div><div class="deep-scrim"></div>
+      <div class="deep-top"><div><div class="eyebrow" id="deepEy"></div><div class="deep-name" id="deepName"></div></div><button class="hbtn wide" id="deepX" type="button">✕ חזרה לסרט</button></div>
+      <div class="deep-bottom"><div class="deep-cap"><span class="n" id="deepN"></span><h3 id="deepT"></h3><p id="deepD"></p></div>
+        <div class="hud-prog"><i id="deepProg"></i></div>
+        <div class="hud-row"><button class="hbtn" id="deepPrev" type="button" aria-label="הקודם">→</button><button class="hbtn big" id="deepPlay" type="button" aria-label="עצירה">❚❚</button><button class="hbtn" id="deepNext" type="button" aria-label="הבא">←</button><span class="sp"></span><span class="clock" id="deepClock"></span></div>
+      </div>
+      <div class="deep-load" id="deepLoad"></div>
+    </div>
+  </div>
   <div class="modal" id="modal" hidden><div class="modal-box"><button class="btn modal-x" id="modalX" type="button">✕ סגירה</button><iframe id="modalF" allow="autoplay; encrypted-media; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="סרטון"></iframe><div class="modal-t" id="modalT"></div></div></div>
   <p class="foot">הסרטונים שייכים לבעליהם ומוצגים דרך נגן יוטיוב. המחירים הם הערכות לפי בדיקה מאוקטובר 2026 ושער של כ-125 קרונות לדולר. רק חלק מהם מבוסס על מחירים מפורסמים, ולכן הם לפני אימות מול ספקים. לפני הזמנה יש לבדוק אזהרות מסע מול המטה לביטחון לאומי.</p>
 </div>
@@ -464,6 +489,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
       <div class="line">${esc(d.line)}</div>
       <div class="price">${d.price.toLocaleString("en-US")}$ <small>לאדם, טווח ${esc(d.range)}</small></div>
       <dl class="facts"><dt>מתי</dt><dd>${esc(d.season)}</dd><dt>טיסה</dt><dd>${esc(d.flight)}</dd><dt>עוגנים</dt><dd>${esc(d.anchors)}</dd></dl>
+      <button class="deepbtn" type="button" data-deep="${d.id}" style="background:${d.hex};justify-content:center">▶ חוויה מלאה, כ-${Math.round((d.atts.length+1)*45/60)} דקות</button>
     </div>
     <div style="min-width:0">
       <ul class="atts">${d.atts.map(a=>`<li><button class="thumb" type="button" data-play="${a.v[0]}" data-title="${esc(a.n)}" aria-label="ניגון ${esc(a.n)}"><img loading="lazy" alt="" src="${thumb(a.v[0],"mqdefault")}"></button><div class="body"><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row">${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></div></li>`).join("")}</ul>
@@ -662,7 +688,8 @@ function renderOverlay(){
     return;
   }
   const d=st.d, idx=D.indexOf(d);
-  const head=`<div class="ov-top"><span class="chip" style="color:${d.hex}">יעד ${idx+1} מתוך ${D.length} · ${esc(d.name)}</span><span class="chip">${esc(d.when)} · ${d.price.toLocaleString("en-US")}$ לאדם</span></div>`;
+  const deepB=`<button class="deepbtn" type="button" data-deep="${d.id}" style="background:${d.hex}">▶ חוויה מלאה: ${esc(d.name)}</button>`;
+  const head=`<div class="ov-top"><span class="chip" style="color:${d.hex}">יעד ${idx+1} מתוך ${D.length} · ${esc(d.name)}</span><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">${st.type==="att"?"":deepB}<span class="chip">${esc(d.when)} · ${d.price.toLocaleString("en-US")}$ לאדם</span></span></div>`;
   if(st.type==="title"){
     ov.innerHTML=head+`<div class="title-block fade"><div class="big" style="color:${d.hex}">${esc(d.name)}</div><div class="tag">${esc(d.line)}</div>
     <div class="meta"><span class="chip">${esc(d.season)}</span><span class="chip">טיסה ${esc(d.flight)}</span></div></div>`;
@@ -727,6 +754,47 @@ function start(){
   playing=false;setPlaying(true);enterStep(0);
 }
 $("#startBtn").addEventListener("click",start);
+/* ---------- full experience per destination ---------- */
+const DEEP_MS=45000;
+const deep={d:null,list:[],i:0,yt:null,ready:false,timer:null,t0:0,left:DEEP_MS,paused:false,seeked:false,iv:null};
+function whenYT(cb){if(window.YT&&YT.Player){cb();return}loadYT();const iv=setInterval(()=>{if(window.YT&&YT.Player){clearInterval(iv);cb()}},150)}
+function openDeep(id){
+  const d=D.find(x=>x.id===id);if(!d)return;
+  if(started&&playing)setPlaying(false);
+  deep.d=d;deep.list=[{id:d.promo[0],t:d.name,p:d.line,n:"פתיחה"},...d.atts.map((a,k)=>({id:a.v[0],t:a.n,p:a.t,n:`${k+1} / ${d.atts.length}`}))];
+  $("#deepEy").textContent="חוויה מלאה";$("#deepName").textContent=d.name;$("#deepName").style.color=d.hex;
+  {const it=deep.list[0];$("#deepN").textContent=it.n;$("#deepT").textContent=it.t;$("#deepD").textContent=it.p;$("#deepLoad").hidden=false}
+  $("#deep").hidden=false;try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}
+  whenYT(()=>{
+    if(!deep.yt){deep.yt=new YT.Player("deepP",{width:"100%",height:"100%",playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,cc_load_policy:0,origin:location.origin},
+      events:{onReady:()=>{deep.ready=true;deepPlay(0)},onStateChange:deepState,onError:()=>deepGo(deep.i+1)}})}
+    else deepPlay(0);
+  });
+}
+function deepPlay(i){
+  if(!deep.d)return;if(i<0)i=0;if(i>=deep.list.length){closeDeep();return}
+  deep.i=i;const it=deep.list[i];deep.seeked=false;deep.paused=false;$("#deepPlay").textContent="❚❚";
+  $("#deepN").textContent=it.n;$("#deepT").textContent=it.t;$("#deepD").textContent=it.p;$("#deepLoad").hidden=false;
+  clearTimeout(deep.timer);clearInterval(deep.iv);deep.left=DEEP_MS;
+  const cd=durCache[it.id];const f=START[it.id]??.25;deep.cached=!!(cd&&cd>60);
+  try{deep.yt.unMute();deep.yt.setVolume(90);deep.yt.loadVideoById({videoId:it.id,startSeconds:deep.cached?cd*f:0})}catch(e){}
+}
+function deepState(e){
+  if(e.data===YT.PlayerState.PLAYING){
+    try{deep.yt.unloadModule("captions");deep.yt.unloadModule("cc")}catch(_){}
+    if(!deep.seeked){deep.seeked=true;const it=deep.list[deep.i];const dur=deep.yt.getDuration()||0;if(dur)durCache[it.id]=dur;
+      if(!deep.cached&&dur>60){deep.yt.seekTo(dur*(START[it.id]??.25),true);return}}
+    $("#deepLoad").hidden=true;
+    if(!deep.paused&&!deep.iv){deep.t0=performance.now();deep.timer=setTimeout(()=>deepGo(deep.i+1),deep.left);deep.iv=setInterval(deepTick,250)}
+  }else if(e.data===YT.PlayerState.ENDED){deepGo(deep.i+1)}
+}
+function deepTick(){const used=DEEP_MS-deep.left+(performance.now()-deep.t0);$("#deepProg").style.width=Math.min(100,(deep.i+used/DEEP_MS)/deep.list.length*100)+"%";$("#deepClock").textContent=`${deep.i+1} / ${deep.list.length}`}
+function deepGo(i){clearTimeout(deep.timer);clearInterval(deep.iv);deep.iv=null;deepPlay(i)}
+function deepToggle(){if(!deep.yt)return;if(deep.paused){deep.paused=false;deep.yt.playVideo();$("#deepPlay").textContent="❚❚"}else{deep.paused=true;clearTimeout(deep.timer);clearInterval(deep.iv);deep.iv=null;deep.left=Math.max(1000,deep.left-(performance.now()-deep.t0));deep.yt.pauseVideo();$("#deepPlay").textContent="▶"}}
+function closeDeep(){clearTimeout(deep.timer);clearInterval(deep.iv);deep.iv=null;try{deep.yt&&deep.yt.stopVideo()}catch(e){}$("#deep").hidden=true;deep.d=null;try{document.fullscreenElement&&document.exitFullscreen()}catch(e){}}
+$("#deepX").addEventListener("click",closeDeep);$("#deepNext").addEventListener("click",()=>deepGo(deep.i+1));$("#deepPrev").addEventListener("click",()=>deepGo(deep.i-1));$("#deepPlay").addEventListener("click",deepToggle);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-deep]");if(!b)return;e.stopPropagation();openDeep(b.dataset.deep)},true);
+document.addEventListener("keydown",e=>{if($("#deep").hidden)return;e.stopImmediatePropagation();if(e.key==="Escape")closeDeep();if(e.key==="ArrowLeft")deepGo(deep.i+1);if(e.key==="ArrowRight")deepGo(deep.i-1);if(e.key===" "){e.preventDefault();deepToggle()}},true);
 document.addEventListener("click",e=>{const b=e.target.closest("[data-play]");if(!b)return;if(playing)setPlaying(false);$("#modalF").src="https://www.youtube.com/embed/"+b.dataset.play+"?autoplay=1&rel=0&modestbranding=1&cc_load_policy=0";$("#modalT").textContent=b.dataset.title;$("#modal").hidden=false});
 function closeModal(){$("#modal").hidden=true;$("#modalF").src="about:blank"}
 $("#modalX").addEventListener("click",closeModal);$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
