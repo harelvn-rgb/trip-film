@@ -33,7 +33,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .mast p{margin:0;max-width:46ch;color:var(--muted)}
 
 /* screen */
-.screen{position:relative;isolation:isolate;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:16/9;max-width:100%;box-shadow:0 30px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--line)}
+.screen{position:relative;isolation:isolate;width:min(100%, calc((100vh - 24px) * 16 / 9));margin-inline:auto;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:16/9;max-width:100%;box-shadow:0 30px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--line)}
 @media (max-width:700px){.screen{aspect-ratio:9/14}}
 .screen canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(5,6,8,.72) 0%,rgba(5,6,8,0) 34%,rgba(5,6,8,0) 48%,rgba(5,6,8,.86) 100%)}
@@ -107,6 +107,26 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud .clock{color:#fff;opacity:.85;font-size:14px}
 .ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
 .gate{z-index:6}
+.fitcard{display:grid;gap:14px;background:rgba(8,10,13,.66);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(12px,2vw,22px);max-width:980px}
+.fit-moment b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,52px);line-height:1}
+.fit-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 22px;font-size:clamp(14px,1.5vw,17px);font-weight:600}
+@media (max-width:700px){.fit-cols{grid-template-columns:1fr}}
+@media (max-width:700px){
+.ov{padding:12px!important;padding-bottom:84px!important}
+.ov-top .chip{font-size:11px;padding:3px 8px}
+.datacard,.fitcard{gap:8px;padding:10px}
+.dc-v{font-size:46px}
+.dc-grid{grid-template-columns:1fr;font-size:13px}
+.dc-grid div:nth-child(n+3){display:none}
+.dc-scores{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding-top:6px}
+.dc-scores .dc-l{font-size:9px;letter-spacing:0;line-height:1.1;min-height:2.2em}
+.dots i{width:7px;height:7px}
+.fit-moment b{font-size:26px}
+.fit-cols{font-size:13px;gap:6px}
+.fit-meta .chip:last-child{display:none}
+}
+.fit-meta{display:flex;flex-wrap:wrap;gap:8px}
+.fit-meta .chip{font-weight:600;letter-spacing:0}
 .screen.loading::after{content:"";position:absolute;top:18px;left:50%;width:26px;height:26px;margin-left:-13px;border:3px solid rgba(255,255,255,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;z-index:4}
 @keyframes spin{to{transform:rotate(360deg)}}
 /* transport */
@@ -234,7 +254,7 @@ section.block{margin-top:64px}
     <div class="gate" id="startgate">
       <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
       <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
-      <p>כ-7 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
+      <p>כ-7.5 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
     </div>
     <div class="hud" id="hud">
       <div class="hud-prog" id="bar" role="slider" aria-label="ציר הזמן" tabindex="0"><i id="prog"></i><div class="ticks" id="ticks"></div><span class="tip" id="tip" hidden></span></div>
@@ -292,7 +312,7 @@ document.documentElement.lang="he";
 const WHO={t:"נוער",g:"סבים",a:"כולם"};
 const A=(n,t,w,v,o=0,f=1,z=0)=>({n,t,w,v:Array.isArray(v)?v:[v],o,f,z});
 const D=[
- {id:"is",name:"איסלנד",color:"var(--c-is)",hex:"#7fd6d0",season:"יוני עד אמצע אוגוסט, הכי טוב תחילת יולי",when:"יולי",price:4150,range:"4,000–4,400",flight:"עם עצירה, כ-14 עד 17 שעות",anchors:"3 (הלה, האלי, ריקיאוויק)",
+ {id:"is",fit:{"t": "זיפליין מעל קרחון, שנורקל בין יבשות, זודיאק בין קרחונים", "p": "הליכה על הקרחון ובהרים הצבעוניים של לנדמנאלאוגר", "g": "מפלים מהרכב, סירה אמפיבית בלגונה, מעיינות חמים", "m": "ארוחה חגיגית תחת שמש חצות, אחרי יום בין קרחונים", "w": "10–15°C, גשם אפשרי", "e": "טיסה עם עצירה, 3 מקומות לינה, יום נסיעה אחד של כ-6 שעות"},name:"איסלנד",color:"var(--c-is)",hex:"#7fd6d0",season:"יוני עד אמצע אוגוסט, הכי טוב תחילת יולי",when:"יולי",price:4150,range:"4,000–4,400",flight:"עם עצירה, כ-14 עד 17 שעות",anchors:"3 (הלה, האלי, ריקיאוויק)",
   line:"קרח, אש ותוכים, באור של לילה שלא נגמר.",
   promo:["P0FuspOiTng"],
   best:[6,7],ok:[8],no:[],
@@ -311,7 +331,7 @@ const D=[
   miss:"אין לווייתן כחול ואין זוהר צפוני בקיץ. קר בהרים גם ביולי. ממשלת איסלנד ביקורתית כלפי ישראל.",
   tip:"לשריין את הלינה ואת Slippurinn כבר בנובמבר. בעונה הזו המקומות הקטנים נגמרים ראשונים.",
   s:{wow:5,animals:3,adr:5,gp:4,val:3}},
- {id:"lk",name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:3350,range:"2,500–3,350",flight:"עם עצירה",anchors:"2 (הרי התה, החוף הדרומי)",
+ {id:"lk",fit:{"t": "רפטינג, גלישה וספארי נמרים בג'יפ פתוח", "p": "הרכבת בין מטעי התה והלווייתנים", "g": "בונגלו תה עם באטלר ווילת חוף עם צוות", "m": "לווייתן כחול מתרומם ליד הסירה בבוקר", "w": "28–32°C, לח", "e": "טיסה עם עצירה, 2 מקומות לינה, יום מעבר ארוך"},name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:3350,range:"2,500–3,350",flight:"עם עצירה",anchors:"2 (הרי התה, החוף הדרומי)",
   line:"הלווייתן הגדול בעולם, נמרים, ותה בתוך העננים.",
   promo:["NBWEClCXC6A"],
   best:[2,3],ok:[12,1],no:[6,7,8,9,10],
@@ -328,7 +348,7 @@ const D=[
   miss:"חוף הדרום היה ברמת אזהרה 4 ב-2024. ספארי ירגיש מוכר אחרי אפריקה. יום מעבר ארוך, חום ולחות.",
   tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
   s:{wow:4,animals:5,adr:3,gp:3,val:4}},
- {id:"tz",name:"טנזניה וזנזיבר",color:"var(--c-tz)",hex:"#e8913f",season:"יולי עד אוגוסט",when:"יולי–אוגוסט",price:6750,range:"5,000–6,750",flight:"עם עצירה, דרך אדיס אבבה",anchors:"3 (נגורונגורו, סרנגטי, זנזיבר)",
+ {id:"tz",fit:{"t": "ציד עם ההדזבה, גלישת עפיפונים ושנורקל", "p": "חציית המארה וכדור פורח בזריחה", "g": "ספארי מהרכב, לודג' מאבן, חוף בזנזיבר", "m": "כדור פורח בזריחה מעל עדרי הנדידה", "w": "15–26°C בספארי, כ-27°C בזנזיבר", "e": "טיסה עם עצירה, 3 מקומות, טיסה פנימית ושעות ארוכות ברכב"},name:"טנזניה וזנזיבר",color:"var(--c-tz)",hex:"#e8913f",season:"יולי עד אוגוסט",when:"יולי–אוגוסט",price:6750,range:"5,000–6,750",flight:"עם עצירה, דרך אדיס אבבה",anchors:"3 (נגורונגורו, סרנגטי, זנזיבר)",
   line:"הספארי הגדול בעולם, ואחריו האיים של זנזיבר.",
   promo:["qOhmZwk1Ft4"], zpromo:["y5RpLxjjWdA","rOHAQM87KfE"],
   best:[7,8],ok:[],no:[],
@@ -350,7 +370,7 @@ const D=[
   miss:"זו חזרה על מה שכבר ראיתם. שלושה עוגנים, והיקר מכולם.",
   tip:"בלי הכדור הפורח ועם לודג'ים בדרגת ביניים יורדים לכ-5,000 דולר לאדם.",
   s:{wow:4,animals:5,adr:2,gp:3,val:1}},
- {id:"it",name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"כ-2,800",flight:"ישירה, כ-4 שעות",anchors:"2 (קורטינה, אגם גארדה)",
+ {id:"it",fit:{"t": "ויה פרטה וגשר תלוי, מנהרות, רפטינג ומצנח רחיפה", "p": "הליכות בין צוקי הדולומיטים", "g": "רכבלים עד הפסגות, הרכבל המסתובב ואגם גארדה", "m": "ארוחה בבקתה הררית מול צוקים ורודים בשקיעה", "w": "20–27°C, קריר בפסגות", "e": "טיסה ישירה של 4 שעות, 2 מקומות לינה"},name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"כ-2,800",flight:"ישירה, כ-4 שעות",anchors:"2 (קורטינה, אגם גארדה)",
   line:"צוקים ורודים, מנהרות מלחמה ורכבלים מעל העננים.",
   promo:["Tu0lBDLOqPA"],
   best:[6,7,9],ok:[8],no:[],
@@ -368,7 +388,7 @@ const D=[
   miss:"כמעט אין חיות. האווירה קרובה למה שכבר ראיתם באוסטריה. המון בלאן רחוק כ-5 שעות מקורטינה.",
   tip:"להשקיע במדריך הרים פרטי לכל השבוע. הוא הופך את הדולומיטים מנוף להרפתקה.",
   s:{wow:3,animals:1,adr:4,gp:5,val:5}},
- {id:"vn",name:"וייטנאם",color:"var(--c-vn)",hex:"#ec5b4b",season:"מרץ עד אפריל",when:"מרץ–אפריל",price:3000,range:"2,700–3,300",flight:"ישירה של ארקיע להאנוי, 11.5 עד 12.5 שעות",anchors:"3 (האנוי, פונג נה, הוי אן)",
+ {id:"vn",fit:{"t": "זיפליין למערה, קייקים ואופנוע במעבר הי ואן", "p": "שיעור בישול והעיר העתיקה בהוי אן", "g": "שייט במפרץ, מערות סלולות וגשר הזהב ברכבל", "m": "לילה על סירה במפרץ לאן הא, פנסים על המים", "w": "22–30°C, לח", "e": "טיסה ישירה של 12 שעות, 3 מקומות ו-2 טיסות פנימיות"},name:"וייטנאם",color:"var(--c-vn)",hex:"#ec5b4b",season:"מרץ עד אפריל",when:"מרץ–אפריל",price:3000,range:"2,700–3,300",flight:"ישירה של ארקיע להאנוי, 11.5 עד 12.5 שעות",anchors:"3 (האנוי, פונג נה, הוי אן)",
   line:"מפרץ של אלפי צוקים, מערות ענק ועיר של פנסים.",
   promo:["Mw1lYkuHmTk"],
   best:[3,4],ok:[2,5],no:[12,1],
@@ -424,6 +444,9 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
         <div class="stay"><b>לינה ואוכל</b>${esc(d.stay)}</div>
         <div class="miss"><b>מה חסר</b>${esc(d.miss)}</div>
         <div class="tip"><b>טיפ מהיועץ</b>${esc(d.tip)}</div>
+        <div class="stay"><b>רגע בת המצווה</b>${esc(d.fit.m)}</div>
+        <div class="stay"><b>נוער · הורים · סבים</b>${esc(d.fit.t)}. ${esc(d.fit.p)}. ${esc(d.fit.g)}.</div>
+        <div class="stay"><b>מזג אוויר ומאמץ נסיעה</b>${esc(d.fit.w)}. ${esc(d.fit.e)}.</div>
       </div>
     </div>`;
     box.appendChild(s);
@@ -502,15 +525,16 @@ const Music={ac:null,master:null,wet:null,noise:null,on:true,started:false,e:0,n
 };
 
 /* ---------- film: real footage sequencer ---------- */
-const TITLE_MS=8000, DATA_MS=12000, SUB_MS=5500;
+const TITLE_MS=7000, DATA_MS=10000, FIT_MS=9000, SUB_MS=4500;
 const steps=[{k:"intro",type:"intro",dur:8000}];
 const chapters=[{label:"פתיחה",at:0,k:"intro"}];
 D.forEach(d=>{
   chapters.push({label:d.name,at:steps.length,k:d.id});
   const film=d.atts.filter(a=>a.f);
-  const clip=film.length>8?7000:8000;
+  const clip=film.length>8?6500:7500;
   steps.push({k:d.id,type:"title",d,vid:d.promo,frac:.12,dur:TITLE_MS});
   steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS,cont:true});
+  steps.push({k:d.id,type:"fit",d,vid:d.promo,frac:.5,dur:FIT_MS,cont:true});
   let zDone=false;
   film.forEach((a,i)=>{
     if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:.3,dur:SUB_MS})}
@@ -588,7 +612,7 @@ function renderOverlay(){
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   if(st.type==="intro"){
     ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
-    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-7 דקות</div><div class="big">לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
+    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-7.5 דקות</div><div class="big">לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
     return;
   }
   if(st.type==="cmp"){
@@ -611,6 +635,13 @@ function renderOverlay(){
     <div class="meta"><span class="chip">${esc(d.season)}</span><span class="chip">טיסה ${esc(d.flight)}</span></div></div>`;
   }else if(st.type==="sub"){
     ov.innerHTML=head+`<div class="title-block fade"><div class="eyebrow">החלק השני של הטיול</div><div class="big" style="color:${d.hex}">זנזיבר</div><div class="tag">אחרי הספארי, כמה ימים של ים טורקיז, שנורקל ועיר עתיקה.</div></div>`;
+  }else if(st.type==="fit"){
+    const f=d.fit;
+    ov.innerHTML=head+`<div class="fitcard fade">
+      <div class="fit-moment"><span class="dc-l">רגע בת המצווה</span><b style="color:${d.hex}">${esc(f.m)}</b></div>
+      <div class="fit-cols"><div><span class="dc-l">לנוער</span>${esc(f.t)}</div><div><span class="dc-l">להורים</span>${esc(f.p)}</div><div><span class="dc-l">לסבא וסבתא</span>${esc(f.g)}</div></div>
+      <div class="fit-meta"><span class="chip">🌡 ${esc(f.w)}</span><span class="chip">✈ ${esc(f.e)}</span></div>
+    </div>`;
   }else if(st.type==="data"){
     ov.innerHTML=head+`<div class="datacard fade">
       <div class="dc-k"><span class="dc-l">כולל הכול, לאדם</span><span class="dc-v" style="color:${d.hex}">${d.price.toLocaleString("en-US")}$</span><span class="dc-s">טווח ${esc(d.range)}</span></div>
@@ -659,7 +690,7 @@ function setPlaying(p){
   clearInterval(progIv);if(p)progIv=setInterval(updateProg,250);updateProg();
 }
 function start(){
-  $("#startgate").hidden=true;started=true;loadYT();
+  $("#startgate").hidden=true;started=true;loadYT();try{$("#screen").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
   const scr=$("#screen");if(scr.requestFullscreen&&$("#fsAuto").checked){scr.requestFullscreen().catch(()=>{})}
   playing=false;setPlaying(true);enterStep(0);
 }
