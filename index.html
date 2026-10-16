@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>לאן טסים</title>
+<title>טיול בת המצווה של עינבר</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Assistant:wght@400;600;700;800&display=swap">
 <style>
@@ -75,8 +75,8 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .pl{position:absolute;top:50%;left:50%;height:100%;aspect-ratio:16/9;min-width:100%;transform:translate(-50%,-50%) scale(1.02);opacity:0;transition:opacity .9s ease;pointer-events:none}
 .pl.on{opacity:1}
 .pl iframe,.pl>div{width:100%;height:100%;border:0;display:block}
-.gate{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,rgba(5,6,8,.35),rgba(5,6,8,.8));text-align:center;padding:16px}
-.gate-btn{font:inherit;font-family:var(--display);font-weight:700;font-size:clamp(34px,6vw,64px);color:#1a1307;background:var(--accent);border:0;border-radius:999px;padding:.15em .9em .1em;cursor:pointer;display:inline-flex;align-items:center;gap:.35em;box-shadow:0 20px 60px -10px rgba(233,176,75,.55)}
+.gate{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,rgba(12,10,6,.82),rgba(3,4,6,.97));text-align:center;padding:16px}
+.gate-btn{font:inherit;font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,44px);color:#1a1307;background:var(--accent);border:0;border-radius:999px;padding:.15em .9em .1em;cursor:pointer;display:inline-flex;align-items:center;gap:.35em;box-shadow:0 20px 60px -10px rgba(233,176,75,.55)}
 .gate-btn span{font-size:.7em}
 .gate p{margin:0;color:var(--text);opacity:.85;max-width:40ch}
 .gate-fs{display:inline-flex;gap:8px;align-items:center;font-weight:600}
@@ -106,7 +106,16 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hbtn.wide{font-size:14px}
 .hud .clock{color:#fff;opacity:.85;font-size:14px}
 .ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
-.gate{z-index:6}
+.gate{z-index:6;transition:opacity 1s ease,transform 1.2s ease}
+.gate.leaving{opacity:0;transform:scale(1.12);pointer-events:none}
+.marquee{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px}
+.mq-ey{font-size:clamp(16px,2.2vw,26px);letter-spacing:.3em;color:var(--text);opacity:0;animation:mqIn 1s .2s ease forwards}
+.mq-name{font-family:var(--display);font-weight:700;font-size:clamp(72px,14vw,190px);line-height:.85;background:linear-gradient(100deg,#b8862e 0%,#f3d58a 30%,#fff6dc 45%,#e9b04b 60%,#b8862e 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 40px rgba(233,176,75,.45));opacity:0;animation:mqIn 1.4s .5s cubic-bezier(.2,.8,.2,1) forwards,shine 5s 1.8s linear infinite}
+.mq-sub{font-size:clamp(14px,1.8vw,20px);letter-spacing:.18em;color:var(--muted);opacity:0;animation:mqIn 1s 1.2s ease forwards}
+@keyframes mqIn{from{opacity:0;transform:translateY(18px) scale(.96);letter-spacing:.5em}to{opacity:1;transform:none}}
+@keyframes shine{to{background-position:-250% 0}}
+@media (prefers-reduced-motion:reduce){.mq-ey,.mq-name,.mq-sub{animation:none;opacity:1}}
+@media (max-width:700px){.marquee{margin-bottom:4px}.gate p{display:none}}
 .deep{position:fixed;inset:0;z-index:60;background:#000}
 .deep-stage{position:absolute;inset:0;overflow:hidden}
 .deep-pl{position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(100vh,56.25vw);transform:translate(-50%,-50%);pointer-events:none}
@@ -155,6 +164,8 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .fit-moment b{font-size:26px}
 .fit-cols{font-size:13px;gap:6px}
 .fit-meta .chip:last-child{display:none}
+.title-block .tag{font-size:15px}
+.big{font-size:clamp(44px,13vw,64px)!important}
 }
 .fit-meta{display:flex;flex-wrap:wrap;gap:8px}
 .fit-meta .chip{font-weight:600;letter-spacing:0}
@@ -270,7 +281,7 @@ section.block{margin-top:64px}
 <div class="wrap" dir="rtl" lang="he">
   <header class="mast">
     <div>
-      <div class="eyebrow">טיול בת המצווה · 2027</div>
+      <div class="eyebrow">טיול בת המצווה של עינבר · 2027</div>
       <h1>חמישה עולמות. בחירה אחת.</h1>
     </div>
     <p>שבעה מטיילים, שלושה דורות. לוחצים פעם אחת על הפעלה, צופים בסרט, ובסוף מצביעים.</p>
@@ -281,8 +292,13 @@ section.block{margin-top:64px}
     <div class="pl" id="pA"><div></div></div>
     <div class="pl" id="pB"><div></div></div>
     <div class="scrim"></div>
-    <div class="ov" id="ov" aria-live="polite"></div>
+    <div class="ov" id="ov" aria-live="polite" style="visibility:hidden"></div>
     <div class="gate" id="startgate">
+      <div class="marquee">
+        <div class="mq-ey">טיול בת המצווה של</div>
+        <div class="mq-name">עינבר ווקנין</div>
+        <div class="mq-sub">2027 · חמישה עולמות · בחירה אחת</div>
+      </div>
       <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
       <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
       <p>כ-7.5 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
@@ -312,7 +328,7 @@ section.block{margin-top:64px}
   </section>
 
   <section class="block" id="program">
-    <div class="sh"><h2>היעדים</h2><p>מה עושים בכל מקום, מי נהנה מה, מה חסר, וכמה זה עולה לאדם כולל הכול.</p></div>
+    <div class="sh"><h2>היעדים</h2><p>מה עושים בכל מקום, מתי הכי כדאי לנסוע, וכמה זה עולה לאדם כולל הכול.</p></div>
     <div id="dests"></div>
   </section>
 
@@ -370,7 +386,7 @@ const D=[
    A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a","QExESkZdS-M"),
    A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1)],
   stay:"Stracta בהלה, Hali ליד הלגונה. ארוחה חגיגית ב-Matur og Drykkur, ו-Slippurinn באיי וסטמן.",
-  miss:"אין לווייתן כחול ואין זוהר צפוני בקיץ. קר בהרים גם ביולי. ממשלת איסלנד ביקורתית כלפי ישראל.",
+  miss:"בקיץ, יוני עד אוגוסט: שמש חצות, תוכים, לווייתנים והרים ירוקים. בחורף, נובמבר עד מרץ: זוהר צפוני ומערות קרח כחולות. ההמלצה לכם: תחילת יולי, עם מעיל גשם ושכבות חמות.",
   tip:"לשריין את הלינה ואת Slippurinn כבר בנובמבר. בעונה הזו המקומות הקטנים נגמרים ראשונים.",
   s:{wow:5,animals:3,adr:5,gp:4,val:3}},
  {id:"lk",fit:{"t": "רפטינג, גלישה וספארי נמרים בג'יפ פתוח", "p": "הרכבת בין מטעי התה והלווייתנים", "g": "בונגלו תה עם באטלר ווילת חוף עם צוות", "m": "לווייתן כחול מתרומם ליד הסירה בבוקר", "w": "28–32°C, לח", "e": "טיסה עם עצירה, 2 מקומות לינה, יום מעבר ארוך"},name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:3350,range:"2,500–3,350",flight:"עם עצירה",anchors:"2 (הרי התה, החוף הדרומי)",
@@ -387,7 +403,7 @@ const D=[
    A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t","CwD6k-JfS1o"),
    A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a","lrtVzDkb3xI")],
   stay:"Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
-  miss:"חוף הדרום היה ברמת אזהרה 4 ב-2024. ספארי ירגיש מוכר אחרי אפריקה. יום מעבר ארוך, חום ולחות.",
+  miss:"העונה של החוף הדרומי: דצמבר עד מרץ, יחד עם עונת הלווייתנים הכחולים. ההמלצה לכם: סוף פברואר עד אמצע מרץ. הרי התה קרירים ונעימים, החוף חם, ומשלבים ימי מנוחה בווילה.",
   tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
   s:{wow:4,animals:5,adr:3,gp:3,val:4}},
  {id:"tz",fit:{"t": "ציד עם ההדזבה, גלישת עפיפונים ושנורקל", "p": "חציית המארה וכדור פורח בזריחה", "g": "ספארי מהרכב, לודג' מאבן, חוף בזנזיבר", "m": "כדור פורח בזריחה מעל עדרי הנדידה", "w": "15–26°C בספארי, כ-27°C בזנזיבר", "e": "טיסה עם עצירה, 3 מקומות, טיסה פנימית ושעות ארוכות ברכב"},name:"טנזניה וזנזיבר",color:"var(--c-tz)",hex:"#e8913f",season:"יולי עד אוגוסט",when:"יולי–אוגוסט",price:6750,range:"5,000–6,750",flight:"עם עצירה, דרך אדיס אבבה",anchors:"3 (נגורונגורו, סרנגטי, זנזיבר)",
@@ -409,7 +425,7 @@ const D=[
    A("קופי הקולובוס האדומים","יער ג'וזאני, המין היחיד שחי רק בזנזיבר.","a","vCbxAOTpXjQ",0,0,1),
    A("צבי הענק באי פריזן","צבים בני יותר ממאה שנה, שייט קצר מהעיר.","g","4605C0V8-Yw",0,0,1)],
   stay:"Ngorongoro Serena ו-Serengeti Serena, לודג'ים מאבן. וילה בזנזיבר.",
-  miss:"זו חזרה על מה שכבר ראיתם. שלושה עוגנים, והיקר מכולם.",
+  miss:"העונה היבשה: יוני עד אוקטובר. ההמלצה לכם: אמצע יולי עד אוגוסט, בזמן חציית המארה. ספארי בבקרים, ובסוף כמה ימי ים בזנזיבר, טיסה פנימית קצרה ביניהם.",
   tip:"בלי הכדור הפורח ועם לודג'ים בדרגת ביניים יורדים לכ-5,000 דולר לאדם.",
   s:{wow:4,animals:5,adr:2,gp:3,val:1}},
  {id:"it",fit:{"t": "ויה פרטה וגשר תלוי, מנהרות, רפטינג ומצנח רחיפה", "p": "הליכות בין צוקי הדולומיטים", "g": "רכבלים עד הפסגות, הרכבל המסתובב ואגם גארדה", "m": "ארוחה בבקתה הררית מול צוקים ורודים בשקיעה", "w": "20–27°C, קריר בפסגות", "e": "טיסה ישירה של 4 שעות, 2 מקומות לינה"},name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"כ-2,800",flight:"ישירה, כ-4 שעות",anchors:"2 (קורטינה, אגם גארדה)",
@@ -428,7 +444,7 @@ const D=[
    A("מצנח רחיפה מעל גארדה","טנדם עם מדריך, מפסגת הר באלדו עד חוף האגם.","t","FAyiIW_ulCc",1),
    A("רפטינג בנהר הנוצ'ה","אחד מנהרות הרפטינג הטובים באלפים, בעמק ואל די סולה.","t","Ixy7UUXljfc",1)],
   stay:"דירה או צ'אלה בקורטינה דאמפצו, וילה על אגם גארדה.",
-  miss:"כמעט אין חיות. האווירה קרובה למה שכבר ראיתם באוסטריה. המון בלאן רחוק כ-5 שעות מקורטינה.",
+  miss:"כל הרכבלים והשבילים פתוחים מיוני עד ספטמבר. ההמלצה לכם: יולי או ספטמבר. טיסה ישירה קצרה, שני בסיסים בלבד, ומדריך הרים פרטי לימי האקשן.",
   tip:"להשקיע במדריך הרים פרטי לכל השבוע. הוא הופך את הדולומיטים מנוף להרפתקה.",
   s:{wow:3,animals:1,adr:4,gp:5,val:5}},
  {id:"vn",fit:{"t": "זיפליין למערה, קייקים ואופנוע במעבר הי ואן", "p": "שיעור בישול והעיר העתיקה בהוי אן", "g": "שייט במפרץ, מערות סלולות וגשר הזהב ברכבל", "m": "לילה על סירה במפרץ לאן הא, פנסים על המים", "w": "22–30°C, לח", "e": "טיסה ישירה של 12 שעות, 3 מקומות ו-2 טיסות פנימיות"},name:"וייטנאם",color:"var(--c-vn)",hex:"#ec5b4b",season:"מרץ עד אפריל",when:"מרץ–אפריל",price:3000,range:"2,700–3,300",flight:"ישירה של ארקיע להאנוי, 11.5 עד 12.5 שעות",anchors:"3 (האנוי, פונג נה, הוי אן)",
@@ -444,7 +460,7 @@ const D=[
    A("הוי אן","שייט פנסים בלילה ושיעור בישול בעיר העתיקה.","a","PHe_0vSE1Lg"),
    A("מעבר הי ואן","נסיעת אופנוע עם נהג בכביש החוף המפורסם.","t","TaHwk7fVXyM")],
   stay:"שייט עם תאים משפחתיים, לודג' בפונג נה, וילה בהוי אן.",
-  miss:"כמעט אין חיות. הטיסה מעל 10 שעות. נדרשת ויזה אלקטרונית, ושלושה עוגנים לפחות.",
+  miss:"ההמלצה לכם: מרץ עד אפריל, מזג אוויר נעים בצפון ובמרכז. טיסה ישירה של ארקיע להאנוי, ויזה אלקטרונית מראש, ושני אזורים בלבד לעשרה עד שנים עשר ימים.",
   tip:"שני אזורים בלבד, צפון ומרכז, עשרה עד שנים עשר ימים. בלי לנסות להגיע לדרום.",
   s:{wow:4,animals:1,adr:4,gp:3,val:4}}
 ];
@@ -495,7 +511,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
       <ul class="atts">${d.atts.map(a=>`<li><button class="thumb" type="button" data-play="${a.v[0]}" data-title="${esc(a.n)}" aria-label="ניגון ${esc(a.n)}"><img loading="lazy" alt="" src="${thumb(a.v[0],"mqdefault")}"></button><div class="body"><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row">${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></div></li>`).join("")}</ul>
       <div class="extra">
         <div class="stay"><b>לינה ואוכל</b>${esc(d.stay)}</div>
-        <div class="miss"><b>מה חסר</b>${esc(d.miss)}</div>
+        <div class="stay"><b>עונה והמלצה</b>${esc(d.miss)}</div>
         <div class="tip"><b>טיפ מהיועץ</b>${esc(d.tip)}</div>
         <div class="stay"><b>רגע בת המצווה</b>${esc(d.fit.m)}</div>
         <div class="stay"><b>מזג אוויר ומאמץ נסיעה</b>${esc(d.fit.w)}. ${esc(d.fit.e)}.</div>
@@ -670,8 +686,8 @@ function renderOverlay(){
   const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:null);
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   if(st.type==="intro"){
-    ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
-    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-7.5 דקות</div><div class="big">לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
+    ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה של עינבר · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
+    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-7.5 דקות</div><div class="big" style="font-size:clamp(52px,8.5vw,120px)">עינבר, לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
     return;
   }
   if(st.type==="cmp"){
@@ -704,7 +720,7 @@ function renderOverlay(){
   }else if(st.type==="data"){
     ov.innerHTML=head+`<div class="datacard fade">
       <div class="dc-k"><span class="dc-l">כולל הכול, לאדם</span><span class="dc-v" style="color:${d.hex}">${d.price.toLocaleString("en-US")}$</span><span class="dc-s">טווח ${esc(d.range)}</span></div>
-      <div class="dc-grid"><div><span class="dc-l">מתי</span>${esc(d.season)}</div><div><span class="dc-l">טיסה</span>${esc(d.flight)}</div><div><span class="dc-l">עוגנים</span>${esc(d.anchors)}</div><div><span class="dc-l">מה חסר</span>${esc(d.miss)}</div></div>
+      <div class="dc-grid"><div><span class="dc-l">מתי</span>${esc(d.season)}</div><div><span class="dc-l">טיסה</span>${esc(d.flight)}</div><div><span class="dc-l">עוגנים</span>${esc(d.anchors)}</div><div><span class="dc-l">עונה והמלצה</span>${esc(d.miss)}</div></div>
       <div class="dc-scores">${SCOLS.map(c=>`<div><span class="dc-l">${c[1]}</span>${dots(d.s[c[0]])}</div>`).join("")}</div>
     </div>`;
   }else{
@@ -751,7 +767,7 @@ function setPlaying(p){
   clearInterval(progIv);if(p)progIv=setInterval(updateProg,250);updateProg();
 }
 function start(){
-  $("#startgate").hidden=true;started=true;loadYT();try{$("#screen").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
+  {const g=$("#startgate");g.classList.add("leaving");setTimeout(()=>{g.hidden=true},1100)}started=true;$("#ov").style.visibility="visible";loadYT();try{$("#screen").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
   const scr=$("#screen");if(scr.requestFullscreen&&$("#fsAuto").checked){scr.requestFullscreen().catch(()=>{})}
   playing=false;setPlaying(true);enterStep(0);
 }
@@ -908,7 +924,7 @@ if(!reduce)requestAnimationFrame(loop);
 renderOverlay();resize();
 
 /* ---------- vote ---------- */
-const VOTERS=["אבא","אמא","הבן הגדול","הבת","בת המצווה","סבא","סבתא"];
+const VOTERS=["אבא","אמא","הבן הגדול","הבת","עינבר","סבא","סבתא"];
 let votes={}, docRef=null, canWrite=true, writeChain=Promise.resolve();
 try{const s=localStorage.getItem("trip-votes");if(s)votes=JSON.parse(s)||{}}catch(e){}
 const status=t=>{$("#status").textContent=t};
