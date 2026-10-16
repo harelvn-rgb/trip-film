@@ -44,6 +44,10 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .big{font-family:var(--display);font-weight:700;font-size:clamp(56px,11vw,138px);line-height:.82;letter-spacing:.005em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
 .tag{font-size:clamp(17px,2.1vw,24px);font-weight:600;text-shadow:0 2px 14px rgba(0,0,0,.7)}
 .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.tmoment{margin-top:14px;padding:10px 14px;border-radius:12px;background:rgba(8,10,13,.55);backdrop-filter:blur(6px);border-inline-start:3px solid currentColor;max-width:44ch}
+.tmoment span{display:block;font-size:12px;letter-spacing:.14em;color:#e9d7a8;font-weight:700;margin-bottom:2px}
+.tmoment b{font-size:clamp(17px,2vw,24px);line-height:1.25;color:#fff;font-weight:700}
+@media (max-width:700px){.tmoment b{font-size:15px}}
 .meta .chip{font-weight:600;letter-spacing:0}
 .shot{display:flex;flex-direction:column;gap:4px;max-width:60ch;min-width:0}
 .shot .n{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
@@ -319,7 +323,7 @@ section.block{margin-top:64px}
       <div class="gate-cta">
       <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
       <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
-      <p>כ-8 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
+      <p>כ-6 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
       </div>
     </div>
     <div class="hud" id="hud">
@@ -396,24 +400,26 @@ const D=[
   calnote:"מערות הקרח הכחולות רק נובמבר עד מרץ, והזוהר הצפוני רק ספטמבר עד אפריל.",
   atts:[
    A("לנדמנאלאוגר","הרים בצבעי חלודה, ירוק וצהוב, שדות אובסידיאן וטבילה במעיין חם טבעי בסוף.","a","KAPLJrVWagg"),
+   A("סקוגאפוס וסליאלנדספוס","שני המפלים המפורסמים של איסלנד. מאחורי אחד הולכים בשביל בתוך הסלע, ומתחת לשני עומדים בתוך הרסס ומחפשים קשת.","a",["-eejVvSLQfk","xfejpaTA9u4"]),
    A("הקרחון בסולהיימיוקול","הליכה עם נעלי ברזל על קרחון חי, ולנוער זיפליין מעליו.","t","kGRF19PDTB4"),
    A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t","ULnYRIlC0Q0"),
    A("תוכי איי וסטמן","המושבה הגדולה בעולם, כ-1.1 מיליון זוגות, והר געש שהתפרץ ב-1973.","a","2Hi-cDYQd68"),
    A("זודיאק ביוקולסארלון","סירה מהירה בין קרחונים צפים עד קיר הקרחון. הסבים בסירה אמפיבית.","a","S0PhL19vLYc",1),
-   A("חוף היהלומים","גושי קרח שקופים זרוקים על חול שחור.","a","lPmMesPEQ4s"),
+   A("חוף היהלומים","גושי קרח שקופים זרוקים על חול שחור.","a","lPmMesPEQ4s",0,0),
    A("לווייתנים מריקיאוויק","גבנונים ומינקי. ביותר מ-90 אחוז מההפלגות רואים.","a","GYhLx_EnVpg",1),
    A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a","QExESkZdS-M"),
-   A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1)],
+   A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1,0)],
   stay:"Stracta בהלה, Hali ליד הלגונה. ארוחה חגיגית ב-Matur og Drykkur, ו-Slippurinn באיי וסטמן.",
   miss:"בקיץ, יוני עד אוגוסט: שמש חצות, תוכים, לווייתנים והרים ירוקים. בחורף, נובמבר עד מרץ: זוהר צפוני ומערות קרח כחולות. ההמלצה לכם: תחילת יולי, עם מעיל גשם ושכבות חמות.",
   tip:"לשריין את הלינה ואת Slippurinn כבר בנובמבר. בעונה הזו המקומות הקטנים נגמרים ראשונים.",
   s:{wow:5,animals:3,adr:5,gp:4,val:4}},
- {id:"lk",fit:{"t": "רפטינג, גלישה וספארי נמרים בג'יפ פתוח", "p": "הרכבת בין מטעי התה והלווייתנים", "g": "בונגלו תה עם באטלר ווילת חוף עם צוות", "m": "לווייתן כחול מתרומם ליד הסירה בבוקר", "w": "28–32°C, לח", "e": "טיסה עם עצירה, 2 מקומות לינה, יום מעבר ארוך"},name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:2600,range:"2,300–3,000",flight:"עם עצירה",anchors:"2 (הרי התה, החוף הדרומי)",
-  line:"הלווייתן הגדול בעולם, נמרים, ותה בתוך העננים.",
+ {id:"lk",fit:{"t": "רפטינג, גלישה וספארי נמרים בג'יפ פתוח", "p": "סלע האריה, הרכבת בין מטעי התה והלווייתנים", "g": "בונגלו תה עם באטלר ווילת חוף עם צוות", "m": "לווייתן כחול מתרומם ליד הסירה בבוקר", "w": "28–32°C, לח", "e": "טיסה עם עצירה, 3 מקומות לינה ורכבת נופית ביניהם"},name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:2600,range:"2,300–3,000",flight:"עם עצירה",anchors:"3 (סיגיריה, הרי התה, החוף הדרומי)",
+  line:"סלע האריה, הלווייתן הגדול בעולם, ותה בתוך העננים.",
   promo:["TPFI-k84_SA"],
   best:[2,3],ok:[12,1],no:[6,7,8,9,10],
   calnote:"לווייתנים כחולים דצמבר עד מרץ. יאלה סגור בספטמבר ואוקטובר, ובקיץ מונסון בחוף הדרומי.",
   atts:[
+   A("סלע האריה בסיגיריה","מבצר מלכותי על סלע של 200 מטר באמצע הג'ונגל. עולים במדרגות בין כפות האריה עד הפסגה, והנוף פתוח לכל הכיוונים.","a",["XkCZHYRz4oo","ty_Wx_VfL-s"]),
    A("לווייתנים כחולים במיריסה","יוצאים בבוקר, והמדף היבשתי מביא את היצור הגדול על כדור הארץ קרוב לחוף.","a","98XmqV_rUps"),
    A("ספארי ביאלה","צפיפות הנמרים הגבוהה בעולם, פילים, דובי שפתיים ותנינים.","a","Xa2rirO_0rA"),
    A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t","EzzcDcaG4P4"),
@@ -421,7 +427,7 @@ const D=[
    A("בונגלו תה קולוניאלי","בית של מגדלי תה מהמאה ה-19 עם באטלר, בתוך מטע פעיל.","g","6ViBh5ZAU5s",1),
    A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t","CwD6k-JfS1o"),
    A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a","lrtVzDkb3xI")],
-  stay:"Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
+  stay:"שני לילות ליד סיגיריה, Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
   miss:"העונה של החוף הדרומי: דצמבר עד מרץ, יחד עם עונת הלווייתנים הכחולים. ההמלצה לכם: סוף פברואר עד אמצע מרץ. הרי התה קרירים ונעימים, החוף חם, ומשלבים ימי מנוחה בווילה.",
   tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
   s:{wow:4,animals:5,adr:3,gp:3,val:5}},
@@ -433,7 +439,7 @@ const D=[
   atts:[
    A("לוע נגורונגורו","יורדים לתחתית לוע הר געש עתיק שמלא בחיות.","a","45eddk-pMuY"),
    A("הסרנגטי","הנדידה הגדולה וחציית נהר המארה.","a","Fzlq5YwwY-c"),
-   A("טרנגירה","עדרי פילים ענקיים בין עצי באובב.","a","yMDsMC9W1gQ"),
+   A("טרנגירה","עדרי פילים ענקיים בין עצי באובב.","a","yMDsMC9W1gQ",0,0),
    A("שבט ההדזבה","זריחה עם ציידים לקטים באגם אייאסי. הנוער יוצא לציד עם קשתות.","a","VM_NOXAN7b8"),
    A("כדור פורח","טיסה בזריחה מעל הסרנגטי, כ-500 עד 600 דולר לאדם.","a","HgA6cH2joZE"),
    A("לודג' מאבן","Serengeti Serena, בנוי מאבן ולא אוהל, עם נוף לסוואנה.","g","WzNTDtYKtqY",1,0),
@@ -447,7 +453,7 @@ const D=[
   miss:"העונה היבשה: יוני עד אוקטובר. ההמלצה לכם: אמצע יולי עד אוגוסט, בזמן חציית המארה. ספארי בבקרים, ובסוף כמה ימי ים בזנזיבר, טיסה פנימית קצרה ביניהם.",
   tip:"ההצעה של המדריך לאוגוסט, כ-5,500 דולר לאדם, היא נקודת פתיחה טובה. לודג'ים בדרגת ביניים בסרנגטי וטיסה פנימית אחת לזנזיבר מורידים לכ-5,000.",
   s:{wow:4,animals:5,adr:2,gp:3,val:2}},
- {id:"it",fit:{"t": "ויה פרטה וגשר תלוי, מנהרות מלחמה, מצנח רחיפה ורפטינג", "p": "שבילים בין צוקים ורודים, אחו ירוק ואגמים בצבע אמרלד", "g": "בוקר במחלבת פרמזן, סדנת פסטה, פרארי ושייט בגארדה", "m": "לילה ברפוג'ו לגאצואי, 2,752 מטר, כשהצוקים מסביב נצבעים בוורוד בשקיעה", "w": "20–27°C, קריר בפסגות", "e": "טיסה ישירה של 4 שעות לוונציה, 2 בסיסים"},name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"2,600–3,100",flight:"ישירה לוונציה או לורונה, כ-4 שעות",anchors:"2 (הדולומיטים, אגם גארדה), ויום בפארמה ומודנה",
+ {id:"it",fit:{"t": "ויה פרטה וגשר תלוי, מנהרות מלחמה, מצנח רחיפה ורפטינג", "p": "שבילים בין צוקים ורודים, אחו ירוק ואגמים בצבע אמרלד", "g": "בוקר במחלבת פרמזן, סדנת פסטה, פרארי ושייט בגארדה", "m": "לילה בבקתה בגובה 2,752 מטר, כשהצוקים נצבעים בוורוד בשקיעה", "w": "20–27°C, קריר בפסגות", "e": "טיסה ישירה של 4 שעות לוונציה, 2 בסיסים"},name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"2,600–3,100",flight:"ישירה לוונציה או לורונה, כ-4 שעות",anchors:"2 (הדולומיטים, אגם גארדה), ויום בפארמה ומודנה",
   line:"צוקים ורודים, אגמים בצבע אמרלד, וגבינה שמבשילה שנתיים.",
   promo:["xcnLX0EnWcc","u6VKAdxV4bw"], zpromo:["VEd_wSjLnT0","IQcJCmAVDjY"], sub2:{ey:"החלק השני של הטיול",t:"אגמים וטעמים",tag:"יורדים מההרים אל מחלבות הפרמזן, אל אגם גארדה ואל התעלות של ונציה.",chip:"אגמים וטעמים"},
   best:[6,7,9],ok:[8],no:[],
@@ -456,19 +462,19 @@ const D=[
    A("רכס סצ'דה","רכבל מעמק גרדנה לרכס שנראה כמו גל אבן ענק שנשבר, ומתחתיו אחו ירוק עד האופק.","a",["4UeCqaGgWO0","rPf2d-N2PYk"]),
    A("אלפה די סיוזי וארוחה בבקתה","האחו ההררי הגדול באירופה. פרות, בקתות עץ, וארוחת צהריים של קנדרלי, גבינות הרים ושטרודל מול הנוף.","a",["AR88T70EG8w","1o26ejm445E"]),
    A("אגם בראייס","סירות עץ על מים בצבע אמרלד מתחת לצוק אנכי. שוכרים סירה וחותרים בעצמכם.","a",["Rhmyqr9ujZw","L02Sc7A2C50"]),
-   A("טרה צ'ימה די לבארדו","שלושת הצריחים המפורסמים של הדולומיטים, ושביל נוח שמקיף אותם.","a","c5z-I4yAGY4"),
+   A("טרה צ'ימה די לבארדו","שלושת הצריחים המפורסמים של הדולומיטים, ושביל נוח שמקיף אותם.","a","c5z-I4yAGY4",0,0),
    A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","a","WL2HpiE3uwU"),
    A("גשר צוק המוות","ויה פרטה איוונו דיבונה, גשר תלוי של 27 מטר. יוצאים עם מדריך הרים.","t","Yazv7p-9pBo"),
    A("צ'ינקווה טורי","המוזיאון הפתוח הגדול באירופה למלחמה, עולים ברכבל.","a","yNIOtJXi1UQ",1,0),
    A("מרמולדה","מלכת הדולומיטים, 3,265 מטר, ורכבל עד הקרחון.","a","iwOaheCBMk0",0,0),
    A("רפטינג בנהר הנוצ'ה","אחד מנהרות הרפטינג הטובים באלפים, בעמק ואל די סולה.","t","Ixy7UUXljfc",1,0),
    A("בוקר במחלבת פרמזן","בשש בבוקר מרימים את הגבינה מדודי הנחושת, ואחר כך נכנסים למחסן של אלפי גלגלים. טעימה של פרמזן בן 12, 24 ו-36 חודשים.","a",["IQcJCmAVDjY","GA7xtobfzmc"],0,1,1),
-   A("סדנת פסטה טרייה","מרדדים בצק במערוך ענק כמו הספולינות של בולוניה, ואוכלים את הטורטליני שהכנתם.","a","FYdaLR88EqA",0,1,1),
+   A("סדנת פסטה טרייה","מרדדים בצק במערוך ענק כמו הספולינות של בולוניה, ואוכלים את הטורטליני שהכנתם.","a","FYdaLR88EqA",0,0,1),
    A("מוזיאון פרארי במרנלו","המכוניות האדומות, הסיפור של אנצו פרארי, ואפשר גם סימולטור נהיגה.","a",["2H2LsPvoO7A","xiTh29qNnDk"],0,1,1),
    A("מודנה וחומץ בלסמי","עליית גג עם חביות עץ שבהן החומץ מבשיל עשרות שנים, וטעימה ישר מהחבית.","a","eMr7GdR5h1E",0,0,1),
-   A("אגם גארדה ומלצ'זינה","העיירה על המים, ורכבל מסתובב להר באלדו 1,760 מטר מעל האגם.","a","skeVmBZc1lM",0,1,1),
-   A("טירת סירמיונה","טירה מימי הביניים שעומדת בתוך האגם, שייט סביב חצי האי וגלידה בסמטאות.","a","EzH36D2M9cE",0,1,1),
-   A("מצנח רחיפה מעל גארדה","טנדם עם מדריך, מפסגת הר באלדו עד חוף האגם.","t","FAyiIW_ulCc",1,1,1),
+   A("אגם גארדה ומלצ'זינה","העיירה על המים, ורכבל מסתובב להר באלדו 1,760 מטר מעל האגם.","a","skeVmBZc1lM",0,0,1),
+   A("אגם גארדה וטירת סירמיונה","טירה מימי הביניים שעומדת בתוך האגם, שייט בין העיירות וגלידה בסמטאות.","a","EzH36D2M9cE",0,1,1),
+   A("מצנח רחיפה מעל גארדה","טנדם עם מדריך, מפסגת הר באלדו עד חוף האגם.","t","FAyiIW_ulCc",1,0,1),
    A("ונציה","יום אחרון בתעלות, גונדולה בתעלה הגדולה וכיכר סן מרקו. משם טסים הביתה.","a",["l_haVwAMY58","KePQSzEact4"],0,1,1)],
   stay:"צ'אלה או דירה גדולה בקורטינה דאמפצו, לילה אחד ברפוג'ו לגאצואי, וילה עם בריכה על אגם גארדה.",
   miss:"כל הרכבלים, השבילים והבקתות פתוחים מיוני עד ספטמבר. ההמלצה לכם: יולי, או ספטמבר כשהעמקים שקטים יותר. נוחתים בוונציה, שני בסיסים בלבד, ומדריך הרים פרטי לימי האקשן.",
@@ -481,6 +487,7 @@ const D=[
   calnote:"בדצמבר עד פברואר הצפון קר ומעורפל. במרכז עונת סערות מספטמבר עד ינואר.",
   atts:[
    A("שייט לילה במפרץ לאן הא","מאות צוקי גיר מתוך המים, קייקים, מערה ושחייה מהסיפון.","a","FUKqs1efCgE"),
+   A("נין בין וטאם קוק","שייט בסירת משוטים בין צוקי גיר ושדות אורז. החותרים מחזיקים את המשוט ברגליים.","a",["_oUzXzTCIJ4","MnyYWNUPR1Y"]),
    A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a","8DHpKXo6iEE"),
    A("מערת החושך","זיפליין של 400 מטר, קייקים, שחייה לתוך מערה ואמבט בוץ.","t","2eUixYYYQvs"),
    A("בה נה הילס","רכבל ל-1,500 מטר והגשר הזהב שנשען על שתי ידיים ענקיות.","a","zDuRWVVXfVk"),
@@ -621,29 +628,28 @@ const Music={ac:null,master:null,wet:null,noise:null,on:true,started:false,e:0,n
 
 /* ---------- film: real footage sequencer ---------- */
 /* start points */
-const START={xcnLX0EnWcc:.25,u6VKAdxV4bw:.25,"4UeCqaGgWO0":.5,"rPf2d-N2PYk":.5,AR88T70EG8w:.5,"1o26ejm445E":.5,Rhmyqr9ujZw:.5,L02Sc7A2C50:.5,VEd_wSjLnT0:.72,IQcJCmAVDjY:.25,GA7xtobfzmc:.5,FYdaLR88EqA:.5,"2H2LsPvoO7A":.75,xiTh29qNnDk:.5,eMr7GdR5h1E:.5,EzH36D2M9cE:.5,l_haVwAMY58:.25,KePQSzEact4:.5,YJGbH1LeVAY:.22,KAPLJrVWagg:.72,kGRF19PDTB4:.5,ULnYRIlC0Q0:.5,"2Hi-cDYQd68":.25,S0PhL19vLYc:.5,lPmMesPEQ4s:.25,GYhLx_EnVpg:.25,"QExESkZdS-M":.72,"3uSsbjjPx2w":.24,
+const START={"-eejVvSLQfk":.5,xfejpaTA9u4:.5,XkCZHYRz4oo:.25,"ty_Wx_VfL-s":.5,_oUzXzTCIJ4:.5,MnyYWNUPR1Y:.5,xcnLX0EnWcc:.25,u6VKAdxV4bw:.25,"4UeCqaGgWO0":.5,"rPf2d-N2PYk":.5,AR88T70EG8w:.5,"1o26ejm445E":.5,Rhmyqr9ujZw:.5,L02Sc7A2C50:.5,VEd_wSjLnT0:.72,IQcJCmAVDjY:.25,GA7xtobfzmc:.5,FYdaLR88EqA:.5,"2H2LsPvoO7A":.75,xiTh29qNnDk:.5,eMr7GdR5h1E:.5,EzH36D2M9cE:.5,l_haVwAMY58:.25,KePQSzEact4:.5,YJGbH1LeVAY:.22,KAPLJrVWagg:.72,kGRF19PDTB4:.5,ULnYRIlC0Q0:.5,"2Hi-cDYQd68":.25,S0PhL19vLYc:.5,lPmMesPEQ4s:.25,GYhLx_EnVpg:.25,"QExESkZdS-M":.72,"3uSsbjjPx2w":.24,
 "TPFI-k84_SA":.25,"98XmqV_rUps":.5,Xa2rirO_0rA:.25,EzzcDcaG4P4:.3,MEF5iQg5_nM:.5,"6ViBh5ZAU5s":.25,"CwD6k-JfS1o":.5,lrtVzDkb3xI:.5,
 DEAcPVg8V7U:.25,y5RpLxjjWdA:.25,u1ARrjOefgc:.5,"45eddk-pMuY":.25,"Fzlq5YwwY-c":.25,yMDsMC9W1gQ:.5,VM_NOXAN7b8:.25,HgA6cH2joZE:.72,xq5xNUUcPhk:.5,"gvz_pZS-E54":.25,y5zsdeVXbX8:.5,iUq317Zzcyg:.25,tOwuFuS1F7s:.25,"QDaZB0MEN-U":.25,mNCnWFa0hr8:.5,dbuWrzrIY1Q:.5,
 dAGKMaekrOw:.5,WL2HpiE3uwU:.25,yNIOtJXi1UQ:.5,"Yazv7p-9pBo":.5,"c5z-I4yAGY4":.25,"OpomaNqeW-o":.5,skeVmBZc1lM:.72,FAyiIW_ulCc:.5,Ixy7UUXljfc:.5,
 "G0N2tIS-keQ":.25,FUKqs1efCgE:.5,"8DHpKXo6iEE":.75,"2eUixYYYQvs":.5,zDuRWVVXfVk:.25,"PHe_0vSE1Lg":.5,TaHwk7fVXyM:.75};
 const startFor=(ids,def)=>START[ids[0]]??def;
-const TITLE_MS=7000, DATA_MS=10000, FIT_MS=9000, SUB_MS=4500;
+const TITLE_MS=7000, DATA_MS=9000, SUB_MS=4000;
 const steps=[{k:"intro",type:"intro",dur:8000}];
 const chapters=[{label:"פתיחה",at:0,k:"intro"}];
 D.forEach(d=>{
   chapters.push({label:d.name,at:steps.length,k:d.id});
   const film=d.atts.filter(a=>a.f);
-  const clip=film.length>8?6500:7500;
+  const clip=film.length>8?6000:6500;
   steps.push({k:d.id,type:"title",d,vid:d.promo,frac:startFor(d.promo,.2),dur:TITLE_MS});
   steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS,cont:true});
-  steps.push({k:d.id,type:"fit",d,vid:d.promo,frac:.5,dur:FIT_MS,cont:true});
   let zDone=false;
   film.forEach((a,i)=>{
     if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:startFor(d.zpromo,.3),dur:SUB_MS})}
     steps.push({k:d.id,type:"att",d,a,i,n:film.length,vid:a.v,frac:startFor(a.v,.35),dur:clip});
   });
 });
-chapters.push({label:"השוואה",at:steps.length,k:"cmp"});steps.push({k:"cmp",type:"cmp",dur:22000});
+chapters.push({label:"השוואה",at:steps.length,k:"cmp"});steps.push({k:"cmp",type:"cmp",dur:18000});
 chapters.push({label:"הצבעה",at:steps.length,k:"vote"});steps.push({k:"vote",type:"vote",dur:0});
 const TOTAL=steps.reduce((s,x)=>s+x.dur,0);
 const chapterOf=i=>{let c=0;chapters.forEach((h,j)=>{if(h.at<=i)c=j});return c};
@@ -714,7 +720,7 @@ function renderOverlay(){
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   if(st.type==="intro"){
     ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה של עינבר · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
-    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-8 דקות</div><div class="big" style="font-size:clamp(52px,8.5vw,120px)">עינבר, לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
+    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-6 דקות</div><div class="big" style="font-size:clamp(52px,8.5vw,120px)">עינבר, לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
     return;
   }
   if(st.type==="cmp"){
@@ -735,7 +741,7 @@ function renderOverlay(){
   const head=`<div class="ov-top"><span class="chip" style="color:${d.hex}">יעד ${idx+1} מתוך ${D.length} · ${esc(d.name)}</span><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">${st.type==="att"?"":deepB}<span class="chip">${esc(d.when)} · ${d.price.toLocaleString("en-US")}$ לאדם</span></span></div>`;
   if(st.type==="title"){
     ov.innerHTML=head+`<div class="title-block fade"><div class="big" style="color:${d.hex}">${esc(d.name)}</div><div class="tag">${esc(d.line)}</div>
-    <div class="meta"><span class="chip">${esc(d.season)}</span><span class="chip">טיסה ${esc(d.flight)}</span></div></div>`;
+    <div class="tmoment" style="color:${d.hex}"><span>רגע בת המצווה</span><b>${esc(d.fit.m)}</b></div></div>`;
   }else if(st.type==="sub"){
     ov.innerHTML=head+`<div class="title-block fade"><div class="eyebrow">${esc(d.sub2.ey)}</div><div class="big" style="color:${d.hex}">${esc(d.sub2.t)}</div><div class="tag">${esc(d.sub2.tag)}</div></div>`;
   }else if(st.type==="fit"){
