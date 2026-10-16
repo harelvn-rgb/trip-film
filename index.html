@@ -91,7 +91,12 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud{position:absolute;inset:auto 0 0 0;z-index:5;padding:10px max(14px,env(safe-area-inset-left,0px)) 12px;background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,0));transition:opacity .35s ease;opacity:1}
 .screen.idle .hud{opacity:0;pointer-events:none}
 .screen.idle{cursor:none}
-.hud-prog{height:4px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.hud-prog{position:relative;height:8px;background:rgba(255,255,255,.18);border-radius:4px;margin-bottom:10px;cursor:pointer;transition:height .15s}
+.hud-prog:hover{height:12px}
+.hud-prog>i{border-radius:4px}
+.ticks{position:absolute;inset:0;pointer-events:none}
+.ticks b{position:absolute;top:-3px;bottom:-3px;width:2px;background:rgba(255,255,255,.55)}
+.tip{position:absolute;bottom:18px;transform:translateX(50%);background:rgba(0,0,0,.85);color:#fff;font-size:13px;font-weight:700;padding:4px 8px;border-radius:6px;white-space:nowrap}
 .hud-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
 .hud-row{display:flex;align-items:center;gap:8px}
 .hud .sp{flex:1}
@@ -102,6 +107,8 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud .clock{color:#fff;opacity:.85;font-size:14px}
 .ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
 .gate{z-index:6}
+.screen.loading::after{content:"";position:absolute;top:18px;left:50%;width:26px;height:26px;margin-left:-13px;border:3px solid rgba(255,255,255,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;z-index:4}
+@keyframes spin{to{transform:rotate(360deg)}}
 /* transport */
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:12px}
 .btn{font:inherit;font-weight:700;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
@@ -230,7 +237,7 @@ section.block{margin-top:64px}
       <p>כ-7 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
     </div>
     <div class="hud" id="hud">
-      <div class="hud-prog"><i id="prog"></i></div>
+      <div class="hud-prog" id="bar" role="slider" aria-label="ציר הזמן" tabindex="0"><i id="prog"></i><div class="ticks" id="ticks"></div><span class="tip" id="tip" hidden></span></div>
       <div class="hud-row">
         <button class="hbtn" id="prev" type="button" aria-label="הקודם">→</button>
         <button class="hbtn big" id="play" type="button" aria-label="הפעלה או עצירה">▶</button>
@@ -503,7 +510,7 @@ D.forEach(d=>{
   const film=d.atts.filter(a=>a.f);
   const clip=film.length>8?7000:8000;
   steps.push({k:d.id,type:"title",d,vid:d.promo,frac:.12,dur:TITLE_MS});
-  steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS});
+  steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS,cont:true});
   let zDone=false;
   film.forEach((a,i)=>{
     if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:.3,dur:SUB_MS})}
@@ -522,7 +529,7 @@ chapters.forEach((c,i)=>{const b=el("button",{type:"button"},esc(c.label));b.add
 /* players */
 const P=[{el:$("#pA"),yt:null,ready:false},{el:$("#pB"),yt:null,ready:false}];
 let ytReady=false, slot=0;
-const prep=[null,null]; // {step, ok, done, cb}
+const prep=[null,null];const durCache={}; // {step, ok, done, cb}
 function loadYT(){if(window.YT&&window.YT.Player){initPlayers();return}const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s)}
 window.onYouTubeIframeAPIReady=initPlayers;
 function initPlayers(){if(ytReady)return;ytReady=true;
@@ -531,7 +538,7 @@ function initPlayers(){if(ytReady)return;ytReady=true;
     events:{onReady:()=>{p.ready=true;p.yt.mute();if(P.every(q=>q.ready))kick()},onStateChange:e=>onState(k,e),onError:()=>onErr(k)}})});
 }
 function kick(){prepare(slot,si);prepare(1-slot,nextVideoStep(si))}
-function nextVideoStep(i){for(let j=i+1;j<steps.length;j++){if(steps[j].vid)return j;if(steps[j].type==="vote")return -1}return -1}
+function nextVideoStep(i){for(let j=i+1;j<steps.length;j++){if(steps[j].vid&&!steps[j].cont)return j;if(steps[j].type==="vote")return -1}return -1}
 function prepare(k,i){
   const p=P[k];if(!p.ready||i<0||!steps[i]||!steps[i].vid){prep[k]=null;return}
   const st=steps[i];const job={step:i,ids:st.vid.slice(),idx:0,frac:st.frac,ok:false,done:false,seeked:false};prep[k]=job;
@@ -541,17 +548,19 @@ function tryId(k,job){
   if(job.idx>=job.ids.length){job.done=true;job.ok=false;settle(k,job);return}
   job.seeked=false;clearTimeout(job.to);
   job.to=setTimeout(()=>{if(prep[k]===job&&!job.done){job.idx++;tryId(k,job)}},7000);
-  try{P[k].yt.mute();P[k].yt.loadVideoById({videoId:job.ids[job.idx],startSeconds:0})}catch(e){job.idx++;tryId(k,job)}
+  const id=job.ids[job.idx];const cd=durCache[id];job.cached=!!(cd&&cd>20);
+  try{P[k].yt.mute();P[k].yt.loadVideoById({videoId:id,startSeconds:job.cached?cd*job.frac:0})}catch(e){job.idx++;tryId(k,job)}
 }
 function onErr(k){const job=prep[k];if(!job||job.done)return;job.idx++;tryId(k,job)}
 function onState(k,e){
   const job=prep[k];if(!job)return;
   if(e.data===YT.PlayerState.PLAYING&&!job.done){
     try{P[k].yt.unloadModule("captions");P[k].yt.unloadModule("cc")}catch(_){}
-    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d>20){P[k].yt.seekTo(d*job.frac,true);setTimeout(()=>{if(prep[k]===job&&!job.done&&P[k].yt.getPlayerState()===1)onState(k,{data:1})},900);return}}
-    clearTimeout(job.to);job.done=true;job.ok=true;
-    if(!(steps[si]&&job.step===si&&playing))P[k].yt.pauseVideo();
-    settle(k,job);
+    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d)durCache[job.ids[job.idx]]=d;if(d>20&&!job.cached){P[k].yt.seekTo(d*job.frac,true);setTimeout(()=>{if(prep[k]===job&&!job.done&&P[k].yt.getPlayerState()===1)onState(k,{data:1})},900);return}}
+    clearTimeout(job.to);
+    if(steps[si]&&job.step===si&&playing){job.done=true;job.ok=true;settle(k,job);return}
+    if(job.buffering)return;job.buffering=true;
+    setTimeout(()=>{if(prep[k]!==job)return;job.done=true;job.ok=true;if(!(job.step===si&&playing)){try{P[k].yt.pauseVideo()}catch(_){}}settle(k,job)},1500);
   }
 }
 function settle(k,job){if(job.step===si&&steps[si].vid)showVideo(k,job.ok)}
@@ -566,6 +575,7 @@ function applyAudio(){
   else{if(vidOn){try{P[slot].yt.mute()}catch(e){}}Music.duck(sndMode==="off")}
 }
 function showVideo(k,ok){
+  $("#screen").classList.remove("loading");
   P.forEach((p,j)=>p.el.classList.toggle("on",ok&&j===k));
   if(ok&&playing){try{P[k].yt.playVideo()}catch(e){}}
   applyAudio();
@@ -615,18 +625,22 @@ function renderOverlay(){
 }
 
 /* timeline */
+let reloadT=null;
+function prepareIfNeeded(k,n){if(n<0)return;if(prep.some(j=>j&&j.step===n))return;prepare(k,n)}
 function enterStep(i){
-  si=Math.max(0,Math.min(steps.length-1,i));
+  si=Math.max(0,Math.min(steps.length-1,i));i=si;
   const st=steps[si];
   setSceneKey(st.k);Music.setStyle(st.k);renderOverlay();
-  if(st.vid){
+  clearTimeout(reloadT);
+  if(st.cont&&prep[slot]&&prep[slot].step===si-1){prep[slot].step=si;const k=slot;reloadT=setTimeout(()=>{if(si===i)prepareIfNeeded(1-k,nextVideoStep(si))},300)}
+  else if(st.vid){
     let k=prep.findIndex(j=>j&&j.step===si);
-    if(k<0){k=slot;prepare(k,si)}
+    if(k<0){k=P[slot].el.classList.contains("on")?1-slot:slot;prepare(k,si)}
     slot=k;const job=prep[k];
-    if(job&&job.done)showVideo(k,job.ok);else P.forEach(p=>p.el.classList.remove("on"));
-    P.forEach((p,j)=>{if(j!==k){try{p.yt&&p.ready&&p.yt.pauseVideo()}catch(e){}}});
-    prepare(1-k,nextVideoStep(si));
-  }else{hideVideos();const n=nextVideoStep(si);if(n>=0&&!prep.some(j=>j&&j.step===n))prepare(slot,n)}
+    if(job&&job.done)showVideo(k,job.ok);else $("#screen").classList.add("loading");
+    const other=1-k;
+    const reload=()=>{reloadT=setTimeout(()=>{if(si!==i)return;if(P[other].el.classList.contains("on"))return reload();try{P[other].yt&&P[other].ready&&P[other].yt.pauseVideo()}catch(e){}prepareIfNeeded(other,nextVideoStep(si))},1000)};reload();
+  }else{$("#screen").classList.remove("loading");hideVideos();const n=nextVideoStep(si);reloadT=setTimeout(()=>{if(si===i&&n>=0&&!prep.some(j=>j&&j.step===n))prepare(slot,n)},1000)}
   remain=st.dur;stepStart=performance.now();arm();applyAudio();updateProg();
 }
 let fadeOutT=null;
@@ -650,6 +664,13 @@ function start(){
   playing=false;setPlaying(true);enterStep(0);
 }
 $("#startBtn").addEventListener("click",start);
+const startOf=i=>{let t=0;for(let j=0;j<i;j++)t+=steps[j].dur;return t};
+$("#ticks").innerHTML=chapters.slice(1).map(c=>`<b style="right:${startOf(c.at)/TOTAL*100}%"></b>`).join("");
+function fracAt(e){const r=$("#bar").getBoundingClientRect();return Math.max(0,Math.min(1,(r.right-e.clientX)/r.width))}
+function stepAtTime(t){let acc=0;for(let j=0;j<steps.length;j++){if(acc+steps[j].dur>t)return j;acc+=steps[j].dur}return steps.length-1}
+$("#bar").addEventListener("click",e=>{e.stopPropagation();const j=stepAtTime(fracAt(e)*TOTAL);if(!started){start()}enterStep(j)});
+$("#bar").addEventListener("mousemove",e=>{const f=fracAt(e),j=stepAtTime(f*TOTAL),c=chapters[chapterOf(j)],st=steps[j];const tip=$("#tip");tip.hidden=false;tip.style.right=(f*100)+"%";tip.style.transform="translateX(50%)";tip.textContent=c.label+(st.a?" · "+st.a.n:"")});
+$("#bar").addEventListener("mouseleave",()=>{$("#tip").hidden=true});
 $("#play").addEventListener("click",()=>{if(!started){start();return}if(!playing&&si===steps.length-1)enterStep(0);setPlaying(!playing)});
 $("#next").addEventListener("click",()=>{if(!started){start();return}step()});
 $("#prev").addEventListener("click",()=>{if(!started){start();return}back()});
