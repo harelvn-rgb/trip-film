@@ -632,14 +632,14 @@ function tryId(k,job){
   job.seeked=false;clearTimeout(job.to);
   job.to=setTimeout(()=>{if(prep[k]===job&&!job.done){job.idx++;tryId(k,job)}},7000);
   const id=job.ids[job.idx];if(job.idx>0&&START[id]!=null)job.frac=START[id];const cd=durCache[id];job.cached=!!(cd&&cd>20);
-  try{P[k].yt.mute();P[k].yt.loadVideoById({videoId:id,startSeconds:job.cached?cd*job.frac:0})}catch(e){job.idx++;tryId(k,job)}
+  job.target=job.cached?cd*job.frac:0;try{P[k].yt.mute();P[k].yt.loadVideoById({videoId:id,startSeconds:job.target})}catch(e){job.idx++;tryId(k,job)}
 }
 function onErr(k){const job=prep[k];if(!job||job.done)return;job.idx++;tryId(k,job)}
 function onState(k,e){
   const job=prep[k];if(!job)return;
   if(e.data===YT.PlayerState.PLAYING&&!job.done){
     try{P[k].yt.unloadModule("captions");P[k].yt.unloadModule("cc")}catch(_){}
-    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d)durCache[job.ids[job.idx]]=d;if(d>20&&!job.cached){P[k].yt.seekTo(d*job.frac,true);setTimeout(()=>{if(prep[k]===job&&!job.done&&P[k].yt.getPlayerState()===1)onState(k,{data:1})},900);return}}
+    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d)durCache[job.ids[job.idx]]=d;if(d>20&&!job.cached){job.target=d*job.frac;P[k].yt.seekTo(job.target,true);setTimeout(()=>{if(prep[k]===job&&!job.done&&P[k].yt.getPlayerState()===1)onState(k,{data:1})},900);return}}
     clearTimeout(job.to);
     if(steps[si]&&job.step===si&&playing){job.done=true;job.ok=true;settle(k,job);return}
     if(job.buffering)return;job.buffering=true;
@@ -734,7 +734,9 @@ function enterStep(i){
   remain=st.dur;stepStart=performance.now();arm();applyAudio();updateProg();
 }
 let fadeOutT=null;
-function arm(){clearTimeout(timer);clearTimeout(fadeOutT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>enterStep(si+1),remain);const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
+let prerollT=null;
+function preroll(){const n=si+1;if(!steps[n]||!steps[n].vid||steps[n].cont)return;const k=prep.findIndex(j=>j&&j.step===n);if(k<0)return;const job=prep[k];if(!job.done||!job.ok)return;try{P[k].yt.mute();P[k].yt.seekTo(job.target||0,true);P[k].yt.playVideo()}catch(e){}}
+function arm(){clearTimeout(timer);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>enterStep(si+1),remain);prerollT=setTimeout(preroll,Math.max(0,remain-1300));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
 function goStep(i){enterStep(i)}
 function step(){if(si<steps.length-1)enterStep(si+1)}
 function back(){if(si>0)enterStep(si-1)}
