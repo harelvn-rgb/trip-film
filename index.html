@@ -151,8 +151,10 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .deepbtn{font:inherit;font-weight:700;font-size:15px;color:#121212;border:0;border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .still{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;overflow:hidden}
 .still.on{opacity:1}
-.still img{width:100%;height:100%;object-fit:cover;transform:scale(1.36);animation:kb 9s ease-out both}
-.still img.wide{transform:scale(1.04)}
+.still img{width:100%;height:100%;object-fit:cover;--s0:1.38;--s1:1.48;animation:kbs 9s ease-out both}
+.still img.wide{--s0:1.04;--s1:1.14}
+@keyframes kbs{from{transform:scale(var(--s0))}to{transform:scale(var(--s1))}}
+.mus{position:absolute;left:0;top:0;width:200px;height:200px;opacity:0;pointer-events:none;z-index:-1;overflow:hidden}.mus>div{position:absolute;inset:0}
 @keyframes kb{from{scale:1}to{scale:1.08}}
 @media (prefers-reduced-motion:reduce){.still img{animation:none}}
 .atts li{padding:0;overflow:hidden}
@@ -296,7 +298,7 @@ section.block{margin-top:64px}
 /* ---- big-screen pass: readable from the couch ---- */
 .pl{transition:opacity 1.15s ease-in-out;animation:kb 22s ease-in-out infinite alternate}
 .pl.alt{animation-delay:-11s}
-@keyframes kb{from{transform:translate(-50%,-50%) scale(1.05)}to{transform:translate(-50%,-50%) scale(1.15)}}
+@keyframes kb{from{transform:translate(-50%,-50%) scale(calc(var(--vz,1)*1.05))}to{transform:translate(-50%,-50%) scale(calc(var(--vz,1)*1.15))}}
 @media (prefers-reduced-motion:reduce){.pl{animation:none}}
 .chip{font-size:clamp(13px,1.35vw,18px)}
 .tag{font-size:clamp(18px,2.6vw,34px)}
@@ -368,6 +370,8 @@ section.block{margin-top:64px}
 
   <div class="screen" id="screen">
     <canvas id="cv" aria-hidden="true"></canvas>
+    <div class="mus" aria-hidden="true"><div id="mA"><div></div></div><div id="mB"><div></div></div></div>
+    <div class="still" id="stillA"><img alt=""></div><div class="still" id="stillB"><img alt=""></div>
     <div class="pl" id="pA"><div></div></div>
     <div class="pl alt" id="pB"><div></div></div>
     <div class="scrim"></div>
@@ -449,6 +453,7 @@ section.block{margin-top:64px}
     </div>
   </div>
   <div class="modal" id="modal" hidden><div class="modal-box"><button class="btn modal-x" id="modalX" type="button">✕ סגירה</button><iframe id="modalF" allow="autoplay; encrypted-media; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="סרטון"></iframe><div class="modal-t" id="modalT"></div></div></div>
+  <p class="foot">פסקול הסרט: Pharrell Williams – Happy · איסלנד: Of Monsters and Men – Little Talks · סרי לנקה: Surangani, באילה · טנזניה וזנזיבר: Zuchu – Sukari · איטליה: Al Bano &amp; Romina Power – Felicità · וייטנאם: Hoàng Thùy Linh – Để Mị Nói Cho Mà Nghe. השירים מנוגנים מיוטיוב.</p>
   <p class="foot">הסרטונים שייכים לבעליהם ומוצגים דרך נגן יוטיוב. המחירים הם הערכות לפי בדיקה מאוקטובר 2026 ושער של כ-125 קרונות לדולר. רק חלק מהם מבוסס על מחירים מפורסמים, ולכן הם לפני אימות מול ספקים. לפני הזמנה יש לבדוק אזהרות מסע מול המטה לביטחון לאומי.</p>
 </div>
 
@@ -463,15 +468,15 @@ const D=[
   best:[6,7],ok:[8],no:[],
   calnote:"מערות הקרח הכחולות רק נובמבר עד מרץ, והזוהר הצפוני רק ספטמבר עד אפריל.",
   atts:[
-   A("לנדמנאלאוגר","הרים בצבעי חלודה, ירוק וצהוב, שדות אובסידיאן וטבילה במעיין חם טבעי בסוף.","a","KAPLJrVWagg"),
+   A("לנדמנאלאוגר","הרים בצבעי חלודה, ירוק וצהוב, שדות אובסידיאן וטבילה במעיין חם טבעי בסוף.","a",["KAPLJrVWagg","HsMN__wzkhY","RBebVbsJ9zc"]),
    A("סקוגאפוס וסליאלנדספוס","שני המפלים המפורסמים של איסלנד. מאחורי אחד הולכים בשביל בתוך הסלע, ומתחת לשני עומדים בתוך הרסס ומחפשים קשת.","a",["-eejVvSLQfk","xfejpaTA9u4"]),
-   A("הקרחון בסולהיימיוקול","הליכה עם נעלי ברזל על קרחון חי, ולנוער זיפליין מעליו.","t","kGRF19PDTB4"),
-   A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t","ULnYRIlC0Q0"),
-   A("תוכי איי וסטמן","המושבה הגדולה בעולם, כ-1.1 מיליון זוגות, והר געש שהתפרץ ב-1973.","a","2Hi-cDYQd68"),
-   A("זודיאק ביוקולסארלון","סירה מהירה בין קרחונים צפים עד קיר הקרחון. הסבים בסירה אמפיבית.","a","S0PhL19vLYc",1),
+   A("הקרחון בסולהיימיוקול","הליכה עם נעלי ברזל על קרחון חי, ולנוער זיפליין מעליו.","t",["kGRF19PDTB4","wrg4ZueSoCE"]),
+   A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t",["l5GNOKqJjtE","ULnYRIlC0Q0"]),
+   A("תוכי איי וסטמן","המושבה הגדולה בעולם, כ-1.1 מיליון זוגות, והר געש שהתפרץ ב-1973.","a",["2Hi-cDYQd68","iS-9FATRpbM"]),
+   A("זודיאק ביוקולסארלון","סירה מהירה בין קרחונים צפים עד קיר הקרחון. הסבים בסירה אמפיבית.","a",["S0PhL19vLYc","jCm9w9UsC4Y","f3Rs-BRvd8U"],1),
    A("חוף היהלומים","גושי קרח שקופים זרוקים על חול שחור.","a","lPmMesPEQ4s",0,0),
-   A("לווייתנים מריקיאוויק","גבנונים ומינקי. ביותר מ-90 אחוז מההפלגות רואים.","a","GYhLx_EnVpg",1),
-   A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a","QExESkZdS-M"),
+   A("לווייתנים מריקיאוויק","גבנונים ומינקי. ביותר מ-90 אחוז מההפלגות רואים.","a",["NO2FCuztj6Q","GYhLx_EnVpg"],1),
+   A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a",["QExESkZdS-M","gdvl0062Hfk","TisMHZ9_vuU"]),
    A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1,0)],
   stay:"Stracta בהלה, Hali ליד הלגונה. ארוחה חגיגית ב-Matur og Drykkur, ו-Slippurinn באיי וסטמן.",
   miss:"בקיץ, יוני עד אוגוסט: שמש חצות, תוכים, לווייתנים והרים ירוקים. בחורף, נובמבר עד מרץ: זוהר צפוני ומערות קרח כחולות. ההמלצה לכם: תחילת יולי, עם מעיל גשם ושכבות חמות.",
@@ -484,28 +489,28 @@ const D=[
   calnote:"לווייתנים כחולים דצמבר עד מרץ. יאלה סגור בספטמבר ואוקטובר, ובקיץ מונסון בחוף הדרומי.",
   atts:[
    A("סלע האריה בסיגיריה","מבצר מלכותי על סלע של 200 מטר באמצע הג'ונגל. עולים במדרגות בין כפות האריה עד הפסגה, והנוף פתוח לכל הכיוונים.","a",["XkCZHYRz4oo","ty_Wx_VfL-s"]),
-   A("לווייתנים כחולים במיריסה","יוצאים בבוקר, והמדף היבשתי מביא את היצור הגדול על כדור הארץ קרוב לחוף.","a","98XmqV_rUps"),
-   A("ספארי ביאלה","צפיפות הנמרים הגבוהה בעולם, פילים, דובי שפתיים ותנינים.","a","Xa2rirO_0rA"),
-   A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t","EzzcDcaG4P4"),
-   A("הרכבת הנופית","הנסיעה בין מטעי התה וגשר תשע הקשתות היא האטרקציה עצמה.","a","MEF5iQg5_nM"),
-   A("בונגלו תה קולוניאלי","בית של מגדלי תה מהמאה ה-19 עם באטלר, בתוך מטע פעיל.","g","6ViBh5ZAU5s",1),
-   A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t","CwD6k-JfS1o"),
-   A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a","lrtVzDkb3xI")],
+   A("לווייתנים כחולים במיריסה","יוצאים בבוקר, והמדף היבשתי מביא את היצור הגדול על כדור הארץ קרוב לחוף.","a",["98XmqV_rUps","1DwDEYHjEZI"]),
+   A("ספארי ביאלה","צפיפות הנמרים הגבוהה בעולם, פילים, דובי שפתיים ותנינים.","a",["tzlhUJqak38","Xa2rirO_0rA"]),
+   A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t",["EzzcDcaG4P4","bwTW-tscs1Y"]),
+   A("הרכבת הנופית","הנסיעה בין מטעי התה וגשר תשע הקשתות היא האטרקציה עצמה.","a",["Oy3k1Fdbl-0","KnwH-t7utRE","MEF5iQg5_nM"]),
+   A("בונגלו תה קולוניאלי","בית של מגדלי תה מהמאה ה-19 עם באטלר, בתוך מטע פעיל.","g",["6ViBh5ZAU5s","RUiznYJmXJw"],1),
+   A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t",["v8ogmVRbUeU","RD-dsrXpUys","CwD6k-JfS1o"]),
+   A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a",["lrtVzDkb3xI","Vlb8HnD7q0w","bD87jUPtvAw"])],
   stay:"שני לילות ליד סיגיריה, Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
   miss:"העונה של החוף הדרומי: דצמבר עד מרץ, יחד עם עונת הלווייתנים הכחולים. ההמלצה לכם: סוף פברואר עד אמצע מרץ. הרי התה קרירים ונעימים, החוף חם, ומשלבים ימי מנוחה בווילה.",
   tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
   s:{wow:4,animals:5,adr:3,gp:3,val:5}},
  {id:"tz",fit:{"t": "ציד עם ההדזבה, גלישת עפיפונים ושנורקל", "p": "חציית המארה וכדור פורח בזריחה", "g": "ספארי מהרכב, לודג' מאבן, חוף בזנזיבר", "m": "כדור פורח בזריחה מעל עדרי הנדידה", "w": "15–26°C בספארי, כ-27°C בזנזיבר", "e": "טיסה עם עצירה, 3 מקומות, טיסה פנימית ושעות ארוכות ברכב"},name:"טנזניה וזנזיבר",color:"var(--c-tz)",hex:"#e8913f",season:"יולי עד אוגוסט",when:"יולי–אוגוסט",price:5300,range:"5,000–5,500, לפי הצעת מדריך",flight:"עם עצירה, דרך אדיס אבבה",anchors:"3 (נגורונגורו, סרנגטי, זנזיבר)",
   line:"הספארי הגדול בעולם, ואחריו האיים של זנזיבר.",
-  promo:["DEAcPVg8V7U"], zpromo:["y5RpLxjjWdA","u1ARrjOefgc"], sub2:{ey:"החלק השני של הטיול",t:"זנזיבר",tag:"אחרי הספארי, כמה ימים של ים טורקיז, שנורקל ועיר עתיקה.",chip:"זנזיבר"},
+  promo:["DEAcPVg8V7U","2H1fMsBRPQo"], zpromo:["y5RpLxjjWdA","u1ARrjOefgc"], sub2:{ey:"החלק השני של הטיול",t:"זנזיבר",tag:"אחרי הספארי, כמה ימים של ים טורקיז, שנורקל ועיר עתיקה.",chip:"זנזיבר"},
   best:[7,8],ok:[],no:[],
   calnote:"חציית נהר המארה בצפון הסרנגטי מאמצע יולי עד סוף אוגוסט.",
   atts:[
-   A("לוע נגורונגורו","יורדים לתחתית לוע הר געש עתיק שמלא בחיות.","a","45eddk-pMuY"),
-   A("הסרנגטי","הנדידה הגדולה וחציית נהר המארה.","a","Fzlq5YwwY-c"),
+   A("לוע נגורונגורו","יורדים לתחתית לוע הר געש עתיק שמלא בחיות.","a",["45eddk-pMuY","sJOrdHHIbp8","L1V8q81czn8"]),
+   A("הסרנגטי","הנדידה הגדולה וחציית נהר המארה.","a",["Fzlq5YwwY-c","oTw4XnLnSmU"]),
    A("טרנגירה","עדרי פילים ענקיים בין עצי באובב.","a","yMDsMC9W1gQ",0,0),
-   A("שבט ההדזבה","זריחה עם ציידים לקטים באגם אייאסי. הנוער יוצא לציד עם קשתות.","a","VM_NOXAN7b8"),
-   A("כדור פורח","טיסה בזריחה מעל הסרנגטי, כ-500 עד 600 דולר לאדם.","a","HgA6cH2joZE"),
+   A("שבט ההדזבה","זריחה עם ציידים לקטים באגם אייאסי. הנוער יוצא לציד עם קשתות.","a",["VM_NOXAN7b8","a--lrNNrWas"]),
+   A("כדור פורח","טיסה בזריחה מעל הסרנגטי, כ-500 עד 600 דולר לאדם.","a",["HgA6cH2joZE","TJEZEGL6aPc"]),
    A("לודג' מאבן","Serengeti Serena, בנוי מאבן ולא אוהל, עם נוף לסוואנה.","g","WzNTDtYKtqY",1,0),
    A("חופי זנזיבר","מים טורקיז בנונגווי, קנדווה ופאג'ה.","a",["xq5xNUUcPhk","gvz_pZS-E54"],0,1,1),
    A("סטון טאון","העיר העתיקה, הסמטאות והדלתות המגולפות, ושקיעה על סירת דאו.","g",["y5zsdeVXbX8","iUq317Zzcyg"],0,1,1),
@@ -527,8 +532,8 @@ const D=[
    A("אלפה די סיוזי וארוחה בבקתה","האחו ההררי הגדול באירופה. פרות, בקתות עץ, וארוחת צהריים של קנדרלי, גבינות הרים ושטרודל מול הנוף.","a",["AR88T70EG8w","1o26ejm445E"]),
    A("אגם בראייס","סירות עץ על מים בצבע אמרלד מתחת לצוק אנכי. שוכרים סירה וחותרים בעצמכם.","a",["Rhmyqr9ujZw","L02Sc7A2C50"]),
    A("טרה צ'ימה די לבארדו","שלושת הצריחים המפורסמים של הדולומיטים, ושביל נוח שמקיף אותם.","a","c5z-I4yAGY4",0,0),
-   A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","a","WL2HpiE3uwU"),
-   A("גשר צוק המוות","ויה פרטה איוונו דיבונה, גשר תלוי של 27 מטר. יוצאים עם מדריך הרים.","t","Yazv7p-9pBo"),
+   A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","a",["WL2HpiE3uwU","Fkc79yV8hwI"]),
+   A("גשר צוק המוות","ויה פרטה איוונו דיבונה, גשר תלוי של 27 מטר. יוצאים עם מדריך הרים.","t",["Yazv7p-9pBo","xfkYfvr-EuY","Dp8P1Tf7tzE"]),
    A("צ'ינקווה טורי","המוזיאון הפתוח הגדול באירופה למלחמה, עולים ברכבל.","a","yNIOtJXi1UQ",1,0),
    A("מרמולדה","מלכת הדולומיטים, 3,265 מטר, ורכבל עד הקרחון.","a","iwOaheCBMk0",0,0),
    A("רפטינג בנהר הנוצ'ה","אחד מנהרות הרפטינג הטובים באלפים, בעמק ואל די סולה.","t","Ixy7UUXljfc",1,0),
@@ -537,7 +542,7 @@ const D=[
    A("מוזיאון פרארי במרנלו","המכוניות האדומות, הסיפור של אנצו פרארי, ואפשר גם סימולטור נהיגה.","a",["2H2LsPvoO7A","xiTh29qNnDk"],0,1,1),
    A("מודנה וחומץ בלסמי","עליית גג עם חביות עץ שבהן החומץ מבשיל עשרות שנים, וטעימה ישר מהחבית.","a","eMr7GdR5h1E",0,0,1),
    A("אגם גארדה ומלצ'זינה","העיירה על המים, ורכבל מסתובב להר באלדו 1,760 מטר מעל האגם.","a","skeVmBZc1lM",0,0,1),
-   A("אגם גארדה וטירת סירמיונה","טירה מימי הביניים שעומדת בתוך האגם, שייט בין העיירות וגלידה בסמטאות.","a","EzH36D2M9cE",0,1,1),
+   A("אגם גארדה וטירת סירמיונה","טירה מימי הביניים שעומדת בתוך האגם, שייט בין העיירות וגלידה בסמטאות.","a",["EzH36D2M9cE","Q-6Z_GBztWg"],0,1,1),
    A("מצנח רחיפה מעל גארדה","טנדם עם מדריך, מפסגת הר באלדו עד חוף האגם.","t","FAyiIW_ulCc",1,0,1),
    A("ונציה","יום אחרון בתעלות, גונדולה בתעלה הגדולה וכיכר סן מרקו. משם טסים הביתה.","a",["l_haVwAMY58","KePQSzEact4"],0,1,1)],
   stay:"צ'אלה או דירה גדולה בקורטינה דאמפצו, לילה אחד ברפוג'ו לגאצואי, וילה עם בריכה על אגם גארדה.",
@@ -546,17 +551,17 @@ const D=[
   s:{wow:4,animals:1,adr:4,gp:5,val:5}},
  {id:"vn",fit:{"t": "זיפליין למערה, קייקים ואופנוע במעבר הי ואן", "p": "שיעור בישול והעיר העתיקה בהוי אן", "g": "שייט במפרץ, מערות סלולות וגשר הזהב ברכבל", "m": "לילה על סירה במפרץ לאן הא, פנסים על המים", "w": "22–30°C, לח", "e": "טיסה ישירה של 12 שעות, 3 מקומות ו-2 טיסות פנימיות"},name:"וייטנאם",color:"var(--c-vn)",hex:"#ec5b4b",season:"מרץ עד אפריל",when:"מרץ–אפריל",price:2300,range:"2,000–2,600",flight:"ישירה של ארקיע להאנוי, 11.5 עד 12.5 שעות",anchors:"3 (האנוי, פונג נה, הוי אן)",
   line:"מפרץ של אלפי צוקים, מערות ענק ועיר של פנסים.",
-  promo:["G0N2tIS-keQ"],
+  promo:["G0N2tIS-keQ","9Sk-Ft4sgaM"],
   best:[3,4],ok:[2,5],no:[12,1],
   calnote:"בדצמבר עד פברואר הצפון קר ומעורפל. במרכז עונת סערות מספטמבר עד ינואר.",
   atts:[
-   A("שייט לילה במפרץ לאן הא","מאות צוקי גיר מתוך המים, קייקים, מערה ושחייה מהסיפון.","a","FUKqs1efCgE"),
+   A("שייט לילה במפרץ לאן הא","מאות צוקי גיר מתוך המים, קייקים, מערה ושחייה מהסיפון.","a",["FUKqs1efCgE","3SoXlybjUfc","TPWbEUhYeyg"]),
    A("נין בין וטאם קוק","שייט בסירת משוטים בין צוקי גיר ושדות אורז. החותרים מחזיקים את המשוט ברגליים.","a",["_oUzXzTCIJ4","MnyYWNUPR1Y"]),
-   A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a","8DHpKXo6iEE"),
-   A("מערת החושך","זיפליין של 400 מטר, קייקים, שחייה לתוך מערה ואמבט בוץ.","t","2eUixYYYQvs"),
-   A("בה נה הילס","רכבל ל-1,500 מטר והגשר הזהב שנשען על שתי ידיים ענקיות.","a","zDuRWVVXfVk"),
-   A("הוי אן","שייט פנסים בלילה ושיעור בישול בעיר העתיקה.","a","PHe_0vSE1Lg"),
-   A("מעבר הי ואן","נסיעת אופנוע עם נהג בכביש החוף המפורסם.","t","TaHwk7fVXyM")],
+   A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a",["8DHpKXo6iEE","aSdrsEvm0y0","AemI8X_W2go"]),
+   A("מערת החושך","זיפליין של 400 מטר, קייקים, שחייה לתוך מערה ואמבט בוץ.","t",["2eUixYYYQvs","XFJixg2s03w"]),
+   A("בה נה הילס","רכבל ל-1,500 מטר והגשר הזהב שנשען על שתי ידיים ענקיות.","a",["zDuRWVVXfVk","1TKSH19PuVQ"]),
+   A("הוי אן","שייט פנסים בלילה ושיעור בישול בעיר העתיקה.","a",["PHe_0vSE1Lg","Vym2MBTbvw4"]),
+   A("מעבר הי ואן","נסיעת אופנוע עם נהג בכביש החוף המפורסם.","t",["TaHwk7fVXyM","mi-80N6KT5Y"])],
   stay:"שייט עם תאים משפחתיים, לודג' בפונג נה, וילה בהוי אן.",
   miss:"ההמלצה לכם: מרץ עד אפריל, מזג אוויר נעים בצפון ובמרכז. טיסה ישירה של ארקיע להאנוי, ויזה אלקטרונית מראש, ושני אזורים בלבד לעשרה עד שנים עשר ימים.",
   tip:"בשטח הכל זול מאוד: מלונות טובים, שייט, טיסות פנימיות ואוכל. רוב הכסף הולך על הטיסה, ולכן שווה להשוות בין הטיסה הישירה של ארקיע לטיסה עם עצירה.",
@@ -564,13 +569,12 @@ const D=[
 ];
 const vurl=id=>"https://www.youtube.com/watch?v="+id;
 const thumb=(id,q)=>`https://i.ytimg.com/vi/${id}/${q}.jpg`;
-function setImg(img,id){img.className="";img.onerror=null;
-  img.onload=()=>{if(img.naturalWidth<=120&&img.src.includes("maxres")){img.src=thumb(id,"hqdefault")}else if(img.src.includes("maxres"))img.className="wide"};
-  img.onerror=()=>{if(img.src.includes("maxres"))img.src=thumb(id,"hqdefault")};
-  img.src=thumb(id,"maxresdefault");}
+const STILL={"-eejVvSLQfk":["maxres2",1],"1DwDEYHjEZI":["maxres1",1],"1TKSH19PuVQ":["maxres1",1],"1o26ejm445E":["maxres2",1],"2H1fMsBRPQo":["maxres1",1.35],"2H2LsPvoO7A":["maxres3",1],"2Hi-cDYQd68":["maxres1",1],"2eUixYYYQvs":["maxres2",1],"3SoXlybjUfc":["maxres1",1],"3uSsbjjPx2w":["maxres1",1],"45eddk-pMuY":["maxres1",1],"4605C0V8-Yw":["maxres1",1],"4UeCqaGgWO0":["sd2",1],"6ViBh5ZAU5s":["maxres1",1],"8DHpKXo6iEE":["maxres3",1],"98XmqV_rUps":["maxres2",1],"9Sk-Ft4sgaM":["maxres1",1.32],"AR88T70EG8w":["maxres2",1],"AemI8X_W2go":["maxres1",1],"CwD6k-JfS1o":["maxres2",1],"DEAcPVg8V7U":["maxres1",1],"Dp8P1Tf7tzE":["maxres1",1],"EzH36D2M9cE":["maxres2",1],"EzzcDcaG4P4":["maxres1",1],"FAyiIW_ulCc":["sd2",1],"FUKqs1efCgE":["maxres2",1],"FYdaLR88EqA":["maxres2",1],"Fkc79yV8hwI":["maxres1",1],"Fzlq5YwwY-c":["maxres1",1],"G0N2tIS-keQ":["maxres1",1],"GA7xtobfzmc":["maxres2",1],"GYhLx_EnVpg":["maxres1",1],"HgA6cH2joZE":["maxres3",1],"HsMN__wzkhY":["maxres1",1],"IQcJCmAVDjY":["sd1",1.22],"Ixy7UUXljfc":["maxres2",1],"KAPLJrVWagg":["sd3",1],"KePQSzEact4":["maxres2",1],"KnwH-t7utRE":["maxres1",1],"L02Sc7A2C50":["maxres2",1],"L1V8q81czn8":["maxres1",1],"MEF5iQg5_nM":["maxres2",1],"MnyYWNUPR1Y":["maxres2",1],"NO2FCuztj6Q":["maxres1",1],"Oy3k1Fdbl-0":["maxres1",1],"PHe_0vSE1Lg":["maxres2",1],"Q-6Z_GBztWg":["maxres1",1],"QDaZB0MEN-U":["maxres1",1],"QExESkZdS-M":["maxres3",1],"RBebVbsJ9zc":["maxres1",1],"RD-dsrXpUys":["maxres1",1],"RUiznYJmXJw":["maxres1",1],"Rhmyqr9ujZw":["maxres2",1],"S0PhL19vLYc":["maxres2",1.33],"TJEZEGL6aPc":["maxres1",1],"TPFI-k84_SA":["maxres1",1],"TPWbEUhYeyg":["maxres1",1],"TaHwk7fVXyM":["maxres3",1.31],"TisMHZ9_vuU":["maxres1",1],"ULnYRIlC0Q0":["maxres2",1],"VEd_wSjLnT0":["maxres3",1],"VM_NOXAN7b8":["maxres1",1],"Vlb8HnD7q0w":["maxres1",1.33],"Vym2MBTbvw4":["maxres1",1],"WL2HpiE3uwU":["maxres1",1],"WzNTDtYKtqY":["sd1",1],"XFJixg2s03w":["maxres1",1],"Xa2rirO_0rA":["maxres1",1],"XkCZHYRz4oo":["sd1",1],"YJGbH1LeVAY":["maxres1",1],"Yazv7p-9pBo":["maxres2",1],"_oUzXzTCIJ4":["maxres2",1],"a--lrNNrWas":["maxres1",1],"aSdrsEvm0y0":["maxres1",1],"bD87jUPtvAw":["maxres1",1],"bwTW-tscs1Y":["hqdefault",1],"c5z-I4yAGY4":["maxres1",1],"dbuWrzrIY1Q":["maxres2",1],"eMr7GdR5h1E":["maxres2",1],"f3Rs-BRvd8U":["maxres1",1],"gdvl0062Hfk":["maxres1",1],"gvz_pZS-E54":["maxres1",1],"iS-9FATRpbM":["sd1",1],"iUq317Zzcyg":["maxres1",1],"iwOaheCBMk0":["maxres1",1],"jCm9w9UsC4Y":["maxres1",1],"kGRF19PDTB4":["maxres2",1],"l5GNOKqJjtE":["maxres1",1],"lPmMesPEQ4s":["maxres1",1],"l_haVwAMY58":["maxres1",1],"lrtVzDkb3xI":["maxres2",1],"mNCnWFa0hr8":["maxres2",1.32],"mi-80N6KT5Y":["maxres1",1],"oTw4XnLnSmU":["maxres1",1],"rPf2d-N2PYk":["maxres2",1],"sJOrdHHIbp8":["maxres1",1],"skeVmBZc1lM":["maxres3",1],"tOwuFuS1F7s":["maxres1",1],"ty_Wx_VfL-s":["maxres2",1],"tzlhUJqak38":["maxres1",1],"u1ARrjOefgc":["sd2",1],"u6VKAdxV4bw":["maxres1",1],"v8ogmVRbUeU":["maxres1",1],"vCbxAOTpXjQ":["maxres1",1],"wrg4ZueSoCE":["maxres1",1.25],"xcnLX0EnWcc":["maxres1",1],"xfejpaTA9u4":["maxres2",1],"xfkYfvr-EuY":["maxres1",1],"xiTh29qNnDk":["maxres2",1],"xq5xNUUcPhk":["maxres2",1],"y5RpLxjjWdA":["maxres1",1],"y5zsdeVXbX8":["maxres2",1],"yMDsMC9W1gQ":["maxres2",1],"yNIOtJXi1UQ":["sd2",1],"zDuRWVVXfVk":["maxres1",1]};
+function stillOf(id){const r=STILL[id]||["hqdefault",1];return {src:thumb(id,r[0]),z:r[1]}}
 let stillSlot=0,stillId=null;
-function showStill(id){return;const els=[$("#stillA"),$("#stillB")];if(!id){els.forEach(e=>e.classList.remove("on"));stillId=null;return}
-  if(id===stillId)return;stillId=id;stillSlot=1-stillSlot;const e=els[stillSlot];const img=e.querySelector("img");setImg(img,id);img.style.animation="none";void img.offsetWidth;img.style.animation="";
+function showStill(id){const els=[$("#stillA"),$("#stillB")];if(!id){els.forEach(e=>e.classList.remove("on"));stillId=null;return}
+  if(id===stillId)return;stillId=id;stillSlot=1-stillSlot;const e=els[stillSlot],img=e.querySelector("img"),o=stillOf(id);
+  img.style.setProperty("--s0",(1.03*o.z).toFixed(3));img.style.setProperty("--s1",(1.12*o.z).toFixed(3));img.src=o.src;img.style.animation="none";void img.offsetWidth;img.style.animation="";
   e.classList.add("on");els[1-stillSlot].classList.remove("on")}
 const vidLink=a=>`<a class="vid" href="${vurl(a.v[0])}" target="_blank" rel="noopener">${a.o?"סרטון רשמי ↗":"לצפייה בסרטון ↗"}</a>`;
 const SCOLS=[["wow","וואו וחידוש"],["animals","חיות"],["adr","אדרנלין לנוער"],["gp","נוחות לסבים"],["val","תמורה לכסף"]];
@@ -779,7 +783,7 @@ const Music={ac:null,master:null,bus:null,wet:null,noise:null,on:true,started:fa
    if(i==="mandolin")this.mandolin(m,t,len,v);else if(i==="marimba")this.marimba(m,t,v);else if(i==="bell")this.bell(m,t,v);
    else if(i==="zither")this.zither(m,t,len,v,(e*7)%9===0);else if(i==="flute")this.flute(m,t,len,v);else if(i==="danbau")this.danbau(m,t,len,v);
    else if(i==="vox")this.vox(m,t,len,v);else if(i==="bass")this.bass(m,t,len,v);else this.pluck(m,t,v)})},
- loop(){if(!this.ac)return;while(this.next<this.ac.currentTime+.3){try{this.sched(this.e,this.next)}catch(err){}this.next+=this.sd();this.e++}},
+ loop(){if(!this.ac)return;while(this.next<this.ac.currentTime+.3){if(!this.fxOnly){try{this.sched(this.e,this.next)}catch(err){}}this.next+=this.sd();this.e++}},fxOnly:true,
  setStyle(k){const ns=STY[k]||STY.intro;if(ns===this.style)return;this.style=ns;if(this.ac&&this.started){this.e=0;this.next=this.ac.currentTime+.03}},
  play(){this.init();if(!this.ac)return;this.ac.resume();if(!this.started){this.started=true;this.next=this.ac.currentTime+.1;this.e=0}
   this.master.gain.cancelScheduledValues(this.ac.currentTime);this.master.gain.setTargetAtTime(this.on&&!this.ducked?.6:0,this.ac.currentTime,.6);
@@ -791,7 +795,7 @@ const Music={ac:null,master:null,bus:null,wet:null,noise:null,on:true,started:fa
 
 /* ---------- film: real footage sequencer ---------- */
 /* start points */
-const START={"-eejVvSLQfk":.5,xfejpaTA9u4:.5,XkCZHYRz4oo:.25,"ty_Wx_VfL-s":.5,_oUzXzTCIJ4:.5,MnyYWNUPR1Y:.5,xcnLX0EnWcc:.25,u6VKAdxV4bw:.25,"4UeCqaGgWO0":.5,"rPf2d-N2PYk":.5,AR88T70EG8w:.5,"1o26ejm445E":.5,Rhmyqr9ujZw:.5,L02Sc7A2C50:.5,VEd_wSjLnT0:.72,IQcJCmAVDjY:.25,GA7xtobfzmc:.5,FYdaLR88EqA:.5,"2H2LsPvoO7A":.75,xiTh29qNnDk:.5,eMr7GdR5h1E:.5,EzH36D2M9cE:.5,l_haVwAMY58:.25,KePQSzEact4:.5,YJGbH1LeVAY:.22,KAPLJrVWagg:.72,kGRF19PDTB4:.5,ULnYRIlC0Q0:.5,"2Hi-cDYQd68":.25,S0PhL19vLYc:.5,lPmMesPEQ4s:.25,GYhLx_EnVpg:.25,"QExESkZdS-M":.72,"3uSsbjjPx2w":.24,
+const START={"HsMN__wzkhY":0.75,"RBebVbsJ9zc":0.5,"wrg4ZueSoCE":0.5,"l5GNOKqJjtE":0.75,"iS-9FATRpbM":0.5,"jCm9w9UsC4Y":0.75,"f3Rs-BRvd8U":0.5,"NO2FCuztj6Q":0.25,"gdvl0062Hfk":0.5,"TisMHZ9_vuU":0.5,"1DwDEYHjEZI":0.5,"tzlhUJqak38":0.5,"bwTW-tscs1Y":0.5,"Oy3k1Fdbl-0":0.5,"KnwH-t7utRE":0.75,"RUiznYJmXJw":0.5,"v8ogmVRbUeU":0.5,"RD-dsrXpUys":0.25,"Vlb8HnD7q0w":0.5,"bD87jUPtvAw":0.5,"sJOrdHHIbp8":0.5,"L1V8q81czn8":0.75,"oTw4XnLnSmU":0.75,"a--lrNNrWas":0.5,"TJEZEGL6aPc":0.5,"2H1fMsBRPQo":0.5,"Fkc79yV8hwI":0.5,"xfkYfvr-EuY":0.25,"Dp8P1Tf7tzE":0.25,"Q-6Z_GBztWg":0.25,"3SoXlybjUfc":0.75,"TPWbEUhYeyg":0.5,"aSdrsEvm0y0":0.5,"AemI8X_W2go":0.75,"XFJixg2s03w":0.5,"1TKSH19PuVQ":0.5,"Vym2MBTbvw4":0.25,"mi-80N6KT5Y":0.5,"9Sk-Ft4sgaM":0.25,"-eejVvSLQfk":.5,xfejpaTA9u4:.5,XkCZHYRz4oo:.25,"ty_Wx_VfL-s":.5,_oUzXzTCIJ4:.5,MnyYWNUPR1Y:.5,xcnLX0EnWcc:.25,u6VKAdxV4bw:.25,"4UeCqaGgWO0":.5,"rPf2d-N2PYk":.5,AR88T70EG8w:.5,"1o26ejm445E":.5,Rhmyqr9ujZw:.5,L02Sc7A2C50:.5,VEd_wSjLnT0:.72,IQcJCmAVDjY:.25,GA7xtobfzmc:.5,FYdaLR88EqA:.5,"2H2LsPvoO7A":.75,xiTh29qNnDk:.5,eMr7GdR5h1E:.5,EzH36D2M9cE:.5,l_haVwAMY58:.25,KePQSzEact4:.5,YJGbH1LeVAY:.22,KAPLJrVWagg:.72,kGRF19PDTB4:.5,ULnYRIlC0Q0:.5,"2Hi-cDYQd68":.25,S0PhL19vLYc:.5,lPmMesPEQ4s:.25,GYhLx_EnVpg:.25,"QExESkZdS-M":.72,"3uSsbjjPx2w":.24,
 "TPFI-k84_SA":.25,"98XmqV_rUps":.5,Xa2rirO_0rA:.25,EzzcDcaG4P4:.3,MEF5iQg5_nM:.5,"6ViBh5ZAU5s":.25,"CwD6k-JfS1o":.5,lrtVzDkb3xI:.5,
 DEAcPVg8V7U:.25,y5RpLxjjWdA:.25,u1ARrjOefgc:.5,"45eddk-pMuY":.25,"Fzlq5YwwY-c":.25,yMDsMC9W1gQ:.5,VM_NOXAN7b8:.25,HgA6cH2joZE:.72,xq5xNUUcPhk:.5,"gvz_pZS-E54":.25,y5zsdeVXbX8:.5,iUq317Zzcyg:.25,tOwuFuS1F7s:.25,"QDaZB0MEN-U":.25,mNCnWFa0hr8:.5,dbuWrzrIY1Q:.5,
 dAGKMaekrOw:.5,WL2HpiE3uwU:.25,yNIOtJXi1UQ:.5,"Yazv7p-9pBo":.5,"c5z-I4yAGY4":.25,"OpomaNqeW-o":.5,skeVmBZc1lM:.72,FAyiIW_ulCc:.5,Ixy7UUXljfc:.5,
@@ -830,7 +834,7 @@ let ytReady=false, slot=0;
 const prep=[null,null];const durCache={}; // {step, ok, done, cb}
 function loadYT(){if(window.YT&&window.YT.Player){initPlayers();return}const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s)}
 window.onYouTubeIframeAPIReady=initPlayers;
-function initPlayers(){if(ytReady)return;ytReady=true;
+function initPlayers(){if(ytReady)return;ytReady=true;initMusic();
   P.forEach((p,k)=>{p.yt=new YT.Player(p.el.querySelector("div"),{width:"100%",height:"100%",
     playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,mute:1,cc_load_policy:0,origin:location.origin},
     events:{onReady:()=>{p.ready=true;p.yt.mute();if(P.every(q=>q.ready))kick()},onStateChange:e=>onState(k,e),onError:()=>onErr(k)}})});
@@ -869,20 +873,66 @@ function fadeTo(k,target,ms){clearInterval(fadeIv);const yt=P[k].yt;if(!yt)retur
   fadeIv=setInterval(()=>{n++;v+=dv;try{yt.setVolume(Math.max(0,Math.min(100,v)))}catch(e){}if(n>=steps){clearInterval(fadeIv);if(target===0){try{yt.mute()}catch(e){}}}},50)}
 function applyAudio(){
   const st=steps[si];const job=prep[slot];const vidOn=!!(st&&st.vid&&job&&job.step===si&&job.done&&job.ok);
-  if(sndMode==="orig"&&vidOn){Music.duck(true);if(playing)fadeTo(slot,85,600)}
-  else{if(vidOn){try{P[slot].yt.mute()}catch(e){}}Music.duck(sndMode==="off")}
+  const mode=(sndMode==="music"&&!musicOn())?"orig":sndMode;
+  if(mode==="orig"&&vidOn){if(playing)fadeTo(slot,85,600)}
+  else if(vidOn){try{P[slot].yt.mute()}catch(e){}}
+  Music.duck(sndMode==="off")
 }
 function showVideo(k,ok){
   $("#screen").classList.remove("loading");
+  {const j=prep[k];const id=j&&j.ids[j.idx];const z=(id&&STILL[id])?STILL[id][1]:1;P[k].el.style.setProperty("--vz",z)}
   P.forEach((p,j)=>p.el.classList.toggle("on",ok&&j===k));
   if(ok&&playing){try{P[k].yt.playVideo()}catch(e){}}
   applyAudio();
 }
+
+/* ---------- soundtrack: a real song for every country, on two hidden YouTube players ---------- */
+const TRACK={
+ intro:{ids:[["dJqxQzxLbHM",0],["TAlYUxQzNyI",0],["6p3E7OMw52g",0]]},               /* Pharrell – Happy */
+ is:{ids:[["gSdjztTxYgk",6],["qt7ox1M_XG4",2],["HpDRhQQ6R4k",0]]},                    /* Of Monsters and Men – Little Talks / Mountain Sound */
+ lk:{ids:[["JMSB8ywzKvo",0],["EMYn05fsNrQ",3],["6to3-AMQhFQ",20]]},                   /* Surangani (A.E. Manohar) / Gypsies baila */
+ tz:{ids:[["366QIVYhR_g",6],["M0jRQ0fryBo",5],["6pAW4P62Gok",4]]},                    /* Zuchu – Sukari / Diamond Platnumz – Holiday */
+ it:{ids:[["_a6fMVxTEI8",0],["Jzf9C_PF5hE",0],["FZtAKWSnzMA",0]]},                    /* Al Bano & Romina Power – Felicità / Celentano – Azzurro */
+ vn:{ids:[["rzFnxpG-pbc",8],["vdck9OBanpc",0],["UfMEtjxzpBk",0]]},                    /* Hoàng Thùy Linh – Để Mị Nói Cho Mà Nghe / See Tình */
+ cmp:{ids:[["dJqxQzxLbHM",46],["TAlYUxQzNyI",46],["6p3E7OMw52g",30]]}                 /* Happy, from the chorus */
+};
+const MVOL=72;
+const trackKey=k=>k==="vote"?"cmp":(TRACK[k]?k:"intro");
+const MP=[{el:$("#mA")},{el:$("#mB")}].map(m=>Object.assign(m,{yt:null,ready:false,key:null,idx:0,live:false,failed:false,vol:0,want:0,iv:null}));
+let mCur=-1,mKey=null;
+function initMusic(){MP.forEach((m,k)=>{m.yt=new YT.Player(m.el.querySelector("div"),{width:"200",height:"200",
+  playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,origin:location.origin},
+  events:{onReady:()=>{m.ready=true;try{m.yt.mute()}catch(e){}if(MP.every(q=>q.ready)&&started)musicFor(steps[si].k,true)},onError:()=>mFail(k),onStateChange:e=>{if(e.data===0&&m.key){try{m.yt.seekTo(TRACK[m.key].ids[m.idx][1]||0,true);m.yt.playVideo()}catch(_){}}}}})})}
+function mLoad(k,key){const m=MP[k];m.key=key;m.idx=0;m.failed=false;mStart(k)}
+function mStart(k){const m=MP[k],tr=TRACK[m.key];if(!tr||m.idx>=tr.ids.length){m.failed=true;applyAudio();return}
+  m.live=false;m.vol=0;try{m.yt.mute();m.yt.setVolume(0);m.yt.loadVideoById({videoId:tr.ids[m.idx][0],startSeconds:tr.ids[m.idx][1]||0})}catch(e){mFail(k)}
+  clearTimeout(m.to);m.to=setTimeout(()=>{if(!m.live&&m.key)mFail(k)},12000)}
+function mFail(k){const m=MP[k];if(!m.key)return;m.idx++;mStart(k)}
+/* unmute only once the song itself is playing (never during an ad or buffering) */
+setInterval(()=>{MP.forEach((m,k)=>{if(!m.ready||!m.key)return;let ct=0,st=-1;try{ct=m.yt.getCurrentTime();st=m.yt.getPlayerState()}catch(e){return}
+  const s0=(TRACK[m.key].ids[m.idx]||[])[1]||0;
+  let du=0;try{du=m.yt.getDuration()}catch(e){}
+  if(!m.live&&st===1&&ct>=s0+.3&&du>90){m.live=true;clearTimeout(m.to)}
+  const target=(k===mCur&&m.live&&playing&&sndMode==="music")?MVOL:0;
+  if(k!==mCur&&m.vol<=0&&st===1&&m.live){try{m.yt.pauseVideo()}catch(e){}}
+  if(m.vol!==target){m.vol=target>m.vol?Math.min(target,m.vol+6):Math.max(0,m.vol-8);try{if(m.vol>0){m.yt.unMute();m.yt.setVolume(m.vol)}else m.yt.mute()}catch(e){}}
+})},90);
+function musicFor(k,force){if(!MP.every(q=>q.ready))return;const key=trackKey(k);if(key===mKey&&!force)return;mKey=key;
+  let j=MP.findIndex(m=>m.key===key);
+  if(j<0){j=mCur<0?0:1-mCur;mLoad(j,key)}else if(playing){try{MP[j].yt.playVideo()}catch(e){}}
+  mCur=j;
+  /* preload the next country's song on the other player once this one is running */
+  const nk=nextKey(si);const o=1-j;clearTimeout(musicFor.t);
+  musicFor.t=setTimeout(()=>{if(mCur!==j||!nk||MP[o].key===nk)return;mLoad(o,nk)},4000)}
+function nextKey(i){const cur=trackKey(steps[i].k);for(let n=i+1;n<steps.length;n++){const t=trackKey(steps[n].k);if(t!==cur)return t}return null}
+function musicPlay(p){MP.forEach((m,k)=>{if(!m.ready||!m.key)return;try{if(p&&k===mCur)m.yt.playVideo();else if(!p)m.yt.pauseVideo()}catch(e){}})}
+const musicOn=()=>{const m=MP[mCur];return !!(m&&m.key===mKey&&!m.failed)};
+
 function hideVideos(){P.forEach(p=>{p.el.classList.remove("on");try{p.yt&&p.yt.pauseVideo()}catch(e){}})}
 
 /* overlay */
 function renderOverlay(){
-  const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:null);
+  const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:(st.type==="country"?st.d.promo[0]:null));
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   ov.classList.remove("country");
   if(st.type==="intro"){
@@ -941,26 +991,26 @@ function prepareIfNeeded(k,n){if(n<0)return;if(prep.some(j=>j&&j.step===n))retur
 function enterStep(i){
   si=Math.max(0,Math.min(steps.length-1,i));i=si;
   const st=steps[si];
-  setSceneKey(st.k);Music.setStyle(st.k);renderOverlay();
+  setSceneKey(st.k);Music.setStyle(st.k);renderOverlay();musicFor(st.k);
   clearTimeout(reloadT);
   if(st.cont&&prep[slot]&&prep[slot].step===si-1){prep[slot].step=si;const k=slot;reloadT=setTimeout(()=>{if(si===i)prepareIfNeeded(1-k,nextVideoStep(si))},300)}
   else if(st.vid){
     let k=prep.findIndex(j=>j&&j.step===si);
     if(k<0){k=P[slot].el.classList.contains("on")?1-slot:slot;prepare(k,si)}
     slot=k;const job=prep[k];
-    if(job&&job.done)showVideo(k,job.ok);else $("#screen").classList.add("loading");
+    if(job&&job.done)showVideo(k,job.ok);else{$("#screen").classList.add("loading");P.forEach(p=>p.el.classList.remove("on"))}
     const other=1-k;
     const reload=()=>{reloadT=setTimeout(()=>{if(si!==i)return;if(P[other].el.classList.contains("on"))return reload();try{P[other].yt&&P[other].ready&&P[other].yt.pauseVideo()}catch(e){}prepareIfNeeded(other,nextVideoStep(si))},1000)};reload();
   }else{$("#screen").classList.remove("loading");hideVideos();const n=nextVideoStep(si);reloadT=setTimeout(()=>{if(si===i&&n>=0&&!prep.some(j=>j&&j.step===n))prepare(slot,n)},1000)}
   remain=st.dur;stepStart=performance.now();arm();applyAudio();updateProg();
-  if(playing&&sndMode!=="off"){if(st.type==="country")Music.fx("impact");else if(st.type==="att"||st.type==="sub")Music.fx("whoosh")}
+  if(playing&&sndMode!=="off"&&st.type==="country")Music.fx("impact")
 }
 let fadeOutT=null;
 let prerollT=null;
 function preroll(){const n=si+1;if(!steps[n]||!steps[n].vid||steps[n].cont)return;const k=prep.findIndex(j=>j&&j.step===n);if(k<0)return;const job=prep[k];if(!job.done||!job.ok)return;try{P[k].yt.mute();P[k].yt.seekTo(job.target||0,true);P[k].yt.playVideo()}catch(e){}}
 function advance(w){const n=si+1,ns=steps[n];if(ns&&ns.vid&&!ns.cont&&w<2600){const j=prep.find(x=>x&&x.step===n);if(j&&!j.done){timer=setTimeout(()=>advance(w+200),200);return}}enterStep(n)}
 let riserT=null;
-function arm(){clearTimeout(timer);clearTimeout(riserT);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>advance(0),remain);if(steps[si+1]&&steps[si+1].type==="country"&&sndMode!=="off")riserT=setTimeout(()=>Music.fx("riser"),Math.max(0,remain-1450));prerollT=setTimeout(preroll,Math.max(0,remain-1600));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
+function arm(){clearTimeout(timer);clearTimeout(riserT);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>advance(0),remain);prerollT=setTimeout(preroll,Math.max(0,remain-1600));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
 /* watchdog: a frozen or finished clip never stays on screen */
 let wd={t:-1,since:0,key:""};
 setInterval(()=>{if(!playing)return;const st=steps[si],job=prep[slot];if(!st||!st.vid||!job||!job.done||!job.ok||job.step!==si)return;
@@ -980,9 +1030,9 @@ function updateProg(){$("#prog").style.width=Math.min(100,elapsed()/TOTAL*100)+"
 let progIv=null;
 function setPlaying(p){
   if(p===playing)return;
-  if(!p){remain=Math.max(0,remain-(performance.now()-stepStart));clearTimeout(timer);P.forEach(q=>{try{q.yt&&q.ready&&q.yt.pauseVideo()}catch(e){}});Music.pause()}
+  if(!p){remain=Math.max(0,remain-(performance.now()-stepStart));clearTimeout(timer);P.forEach(q=>{try{q.yt&&q.ready&&q.yt.pauseVideo()}catch(e){}});Music.pause();musicPlay(false)}
   playing=p;$("#play").textContent=p?"❚❚":"▶";$("#screen").classList.remove("idle");
-  if(p){stepStart=performance.now();Music.play();const job=prep[slot];if(steps[si].vid&&job&&job.step===si&&job.ok){try{P[slot].yt.playVideo()}catch(e){}}arm();applyAudio();poke()}
+  if(p){stepStart=performance.now();Music.play();musicPlay(true);const job=prep[slot];if(steps[si].vid&&job&&job.step===si&&job.ok){try{P[slot].yt.playVideo()}catch(e){}}arm();applyAudio();poke()}
   clearInterval(progIv);if(p)progIv=setInterval(updateProg,250);updateProg();
 }
 function start(){
