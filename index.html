@@ -263,8 +263,6 @@ section.block{margin-top:64px}
 
   <div class="screen" id="screen">
     <canvas id="cv" aria-hidden="true"></canvas>
-    <div class="still" id="stillA"><img alt=""></div>
-    <div class="still" id="stillB"><img alt=""></div>
     <div class="pl" id="pA"><div></div></div>
     <div class="pl" id="pB"><div></div></div>
     <div class="scrim"></div>
@@ -431,7 +429,7 @@ function setImg(img,id){img.className="";img.onerror=null;
   img.onerror=()=>{if(img.src.includes("maxres"))img.src=thumb(id,"hqdefault")};
   img.src=thumb(id,"maxresdefault");}
 let stillSlot=0,stillId=null;
-function showStill(id){const els=[$("#stillA"),$("#stillB")];if(!id){els.forEach(e=>e.classList.remove("on"));stillId=null;return}
+function showStill(id){return;const els=[$("#stillA"),$("#stillB")];if(!id){els.forEach(e=>e.classList.remove("on"));stillId=null;return}
   if(id===stillId)return;stillId=id;stillSlot=1-stillSlot;const e=els[stillSlot];const img=e.querySelector("img");setImg(img,id);img.style.animation="none";void img.offsetWidth;img.style.animation="";
   e.classList.add("on");els[1-stillSlot].classList.remove("on")}
 const vidLink=a=>`<a class="vid" href="${vurl(a.v[0])}" target="_blank" rel="noopener">${a.o?"סרטון רשמי ↗":"לצפייה בסרטון ↗"}</a>`;
@@ -467,13 +465,12 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
       <dl class="facts"><dt>מתי</dt><dd>${esc(d.season)}</dd><dt>טיסה</dt><dd>${esc(d.flight)}</dd><dt>עוגנים</dt><dd>${esc(d.anchors)}</dd></dl>
     </div>
     <div style="min-width:0">
-      <ul class="atts">${d.atts.map(a=>`<li><button class="thumb" type="button" data-play="${a.v[0]}" data-title="${esc(a.n)}" aria-label="ניגון ${esc(a.n)}"><img loading="lazy" alt="" src="${thumb(a.v[0],"mqdefault")}"></button><div class="body"><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></div></li>`).join("")}</ul>
+      <ul class="atts">${d.atts.map(a=>`<li><button class="thumb" type="button" data-play="${a.v[0]}" data-title="${esc(a.n)}" aria-label="ניגון ${esc(a.n)}"><img loading="lazy" alt="" src="${thumb(a.v[0],"mqdefault")}"></button><div class="body"><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row">${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></div></li>`).join("")}</ul>
       <div class="extra">
         <div class="stay"><b>לינה ואוכל</b>${esc(d.stay)}</div>
         <div class="miss"><b>מה חסר</b>${esc(d.miss)}</div>
         <div class="tip"><b>טיפ מהיועץ</b>${esc(d.tip)}</div>
         <div class="stay"><b>רגע בת המצווה</b>${esc(d.fit.m)}</div>
-        <div class="stay"><b>נוער · הורים · סבים</b>${esc(d.fit.t)}. ${esc(d.fit.p)}. ${esc(d.fit.g)}.</div>
         <div class="stay"><b>מזג אוויר ומאמץ נסיעה</b>${esc(d.fit.w)}. ${esc(d.fit.e)}.</div>
       </div>
     </div>`;
@@ -615,7 +612,7 @@ function onState(k,e){
     setTimeout(()=>{if(prep[k]!==job)return;job.done=true;job.ok=true;if(!(job.step===si&&playing)){try{P[k].yt.pauseVideo()}catch(_){}}settle(k,job)},1500);
   }
 }
-function settle(k,job){if(job.step===si&&steps[si].vid)showVideo(k,job.ok)}
+function settle(k,job){if(job.step===si&&steps[si].vid){showVideo(k,job.ok);if(!job.ok&&playing&&steps[si].type==="att"){const at=si;setTimeout(()=>{if(si===at&&playing)enterStep(si+1)},500)}}}
 let sndMode="orig", fadeIv=null;
 function fadeTo(k,target,ms){clearInterval(fadeIv);const yt=P[k].yt;if(!yt)return;let v=0;try{v=yt.isMuted()?0:yt.getVolume()}catch(e){}
   if(target>0){try{yt.unMute()}catch(e){}}
@@ -667,7 +664,6 @@ function renderOverlay(){
     const f=d.fit;
     ov.innerHTML=head+`<div class="fitcard fade">
       <div class="fit-moment"><span class="dc-l">רגע בת המצווה</span><b style="color:${d.hex}">${esc(f.m)}</b></div>
-      <div class="fit-cols"><div><span class="dc-l">לנוער</span>${esc(f.t)}</div><div><span class="dc-l">להורים</span>${esc(f.p)}</div><div><span class="dc-l">לסבא וסבתא</span>${esc(f.g)}</div></div>
       <div class="fit-meta"><span class="chip">🌡 ${esc(f.w)}</span><span class="chip">✈ ${esc(f.e)}</span></div>
     </div>`;
   }else if(st.type==="data"){
@@ -679,7 +675,7 @@ function renderOverlay(){
   }else{
     const a=st.a;
     ov.innerHTML=head+`<div class="shot fade"><span class="n">${st.i+1} / ${st.n}${a.z?" · זנזיבר":""}</span><h3>${esc(a.n)}</h3><p>${esc(a.t)}</p>
-    <div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.o?'<span class="who a" style="color:#e9d7a8">סרטון רשמי</span>':""}</div></div>`;
+    ${a.o?'<div class="row"><span class="who a" style="color:#e9d7a8">סרטון רשמי</span></div>':""}</div>`;
   }
 }
 
