@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>לאן טסים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Assistant:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: a dark screening room. A 16:9 "screen" plays the film; below it the same story is set as a printed program, then the vote. */
+:root{
+  --ink:#0b0d10; --panel:#14171c; --panel2:#1b1f26; --line:#2b3039;
+  --text:#efe9df; --muted:#a8a197; --dim:#6f6a63; --accent:#e9b04b;
+  --good:#5fbf8a; --warn:#d9a441; --bad:#c9564a;
+  --c-is:#7fd6d0; --c-lk:#73cf8f; --c-tz:#e8913f; --c-it:#ec9fab; --c-vn:#ec5b4b;
+  --display:"Karantina","Assistant",system-ui,sans-serif;
+  --body:"Assistant",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color-scheme:dark;
+}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.eyebrow{font-size:13px;letter-spacing:.14em;color:var(--accent);font-weight:700}
+.muted{color:var(--muted)}
+
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:16px}
+.mast h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,76px);line-height:.9;letter-spacing:.01em}
+.mast p{margin:0;max-width:46ch;color:var(--muted)}
+
+/* screen */
+.screen{position:relative;isolation:isolate;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:16/9;max-width:100%;box-shadow:0 30px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--line)}
+@media (max-width:700px){.screen{aspect-ratio:9/14}}
+.screen canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(5,6,8,.72) 0%,rgba(5,6,8,0) 34%,rgba(5,6,8,0) 48%,rgba(5,6,8,.86) 100%)}
+.ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(16px,3.2vw,40px)}
+.ov-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:999px;background:rgba(10,12,15,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14)}
+.title-block{display:flex;flex-direction:column;gap:6px;max-width:36ch}
+.big{font-family:var(--display);font-weight:700;font-size:clamp(56px,11vw,138px);line-height:.82;letter-spacing:.005em;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.tag{font-size:clamp(17px,2.1vw,24px);font-weight:600;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.meta .chip{font-weight:600;letter-spacing:0}
+.shot{display:flex;flex-direction:column;gap:4px;max-width:60ch;min-width:0}
+.shot .n{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.shot h3{font-family:var(--display);font-weight:700;font-size:clamp(32px,4.8vw,58px);line-height:.95}
+.shot p{margin:0;font-size:clamp(15px,1.7vw,19px);text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.shot .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.who{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.who.t{color:#ffd08a}.who.g{color:#a9e3ff}.who.a{color:#d6f5c6}
+.vid{font-size:14px;font-weight:700;text-decoration:none;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.vid:hover{background:rgba(255,255,255,.22)}
+.fade{animation:fin .7s ease both}
+@keyframes fin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}}
+.mini-bars{display:grid;gap:8px;width:min(560px,100%)}
+.mb{display:grid;grid-template-columns:88px 1fr 70px;align-items:center;gap:10px;font-weight:700}
+.mb i{display:block;height:14px;border-radius:7px}
+.mb span:last-child{font-variant-numeric:tabular-nums;text-align:left}
+
+.datacard{display:grid;grid-template-columns:auto 1fr;gap:14px 28px;align-items:end;background:rgba(8,10,13,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(12px,2vw,22px);max-width:900px}
+@media (max-width:700px){.datacard{grid-template-columns:1fr;gap:10px}}
+.dc-k{display:flex;flex-direction:column;gap:2px}
+.dc-v{font-family:var(--display);font-weight:700;font-size:clamp(56px,8vw,96px);line-height:.85;font-variant-numeric:tabular-nums}
+.dc-s{font-size:13px;color:var(--muted)}
+.dc-l{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:2px}
+.dc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;font-size:clamp(13px,1.4vw,15px);font-weight:600}
+.dc-scores{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;border-top:1px solid rgba(255,255,255,.12);padding-top:10px}
+@media (max-width:700px){.dc-scores{grid-template-columns:repeat(2,minmax(0,1fr))}.dc-grid div:last-child{display:none}}
+.reelbtn{text-decoration:none;justify-content:center}
+.pl{position:absolute;top:50%;left:50%;height:100%;aspect-ratio:16/9;min-width:100%;transform:translate(-50%,-50%) scale(1.02);opacity:0;transition:opacity .9s ease;pointer-events:none}
+.pl.on{opacity:1}
+.pl iframe,.pl>div{width:100%;height:100%;border:0;display:block}
+.gate{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(ellipse at center,rgba(5,6,8,.35),rgba(5,6,8,.8));text-align:center;padding:16px}
+.gate-btn{font:inherit;font-family:var(--display);font-weight:700;font-size:clamp(34px,6vw,64px);color:#1a1307;background:var(--accent);border:0;border-radius:999px;padding:.15em .9em .1em;cursor:pointer;display:inline-flex;align-items:center;gap:.35em;box-shadow:0 20px 60px -10px rgba(233,176,75,.55)}
+.gate-btn span{font-size:.7em}
+.gate p{margin:0;color:var(--text);opacity:.85;max-width:40ch}
+.gate-fs{display:inline-flex;gap:8px;align-items:center;font-weight:600}
+.screen:fullscreen{border-radius:0;aspect-ratio:auto;width:100vw;height:100vh}
+.clock{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600}
+.cmpcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px 32px;align-items:center;background:rgba(8,10,13,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(12px,2vw,22px)}
+@media (max-width:800px){.cmpcard{grid-template-columns:1fr}.mini-scores{display:none}}
+.mini-scores table{border-collapse:collapse;width:100%;font-size:14px}
+.mini-scores th{font-size:12px;color:var(--muted);font-weight:700;padding:4px;text-align:center}
+.mini-scores td{padding:6px 4px;text-align:center;border-top:1px solid rgba(255,255,255,.1)}
+.mini-scores td:first-child{text-align:right;font-weight:800;white-space:nowrap}
+/* transport */
+.transport{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:12px}
+.btn{font:inherit;font-weight:700;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:#4a515c}
+.btn.primary{background:var(--accent);color:#1a1307;border-color:var(--accent)}
+.chapters{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0}
+.chapters button{font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chapters button[aria-current="true"]{color:var(--ink);background:var(--text);border-color:var(--text)}
+.progress{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:12px}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.note{font-size:13px;color:var(--dim);margin-top:8px}
+
+/* program */
+section.block{margin-top:64px}
+.sh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sh h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,5vw,56px);line-height:.95}
+.sh p{margin:0;color:var(--muted);max-width:60ch}
+
+/* season grid */
+.cal{overflow-x:auto}
+.cal table{border-collapse:separate;border-spacing:4px;min-width:640px;width:100%}
+.cal th{font-size:13px;font-weight:600;color:var(--muted);text-align:center}
+.cal th.dn{text-align:right;color:var(--text);font-size:15px;font-weight:700;white-space:nowrap;padding-left:10px}
+.cal td{height:30px;border-radius:5px;background:var(--panel)}
+.cal td.best{background:var(--good)}
+.cal td.ok{background:color-mix(in srgb,var(--good) 38%,var(--panel))}
+.cal td.no{background:color-mix(in srgb,var(--bad) 45%,var(--panel))}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:12px;border-radius:3px;display:inline-block}
+.cal-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 24px;margin-top:16px;font-size:14px;color:var(--muted)}
+.cal-notes b{color:var(--text)}
+
+/* destination cards */
+.dest{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;padding-block:28px;border-top:1px solid var(--line)}
+@media (max-width:820px){.dest{grid-template-columns:1fr;gap:18px}}
+.dest .side{display:flex;flex-direction:column;gap:12px}
+.dest .num{font-size:13px;letter-spacing:.14em;font-weight:700}
+.dest h3{font-family:var(--display);font-weight:700;font-size:64px;line-height:.85}
+.dest .line{font-size:18px;font-weight:600}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px;margin:0}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.price{font-family:var(--display);font-size:52px;font-weight:700;line-height:1}
+.price small{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:600}
+.atts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.atts li{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.atts b{font-size:16px}
+.atts p{margin:0;font-size:14px;color:var(--muted)}
+.atts .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto}
+.atts .vid{background:var(--panel2);border-color:var(--line);font-size:13px}
+.extra{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
+.extra div{font-size:15px;padding:12px 14px;border-radius:10px;background:var(--panel)}
+.extra div b{display:block;font-size:13px;letter-spacing:.08em;margin-bottom:2px}
+.extra .miss b{color:#f0a196}
+.extra .tip{border:1px solid var(--accent)}
+.extra .tip b{color:var(--accent)}
+.extra .stay b{color:var(--muted)}
+
+/* compare */
+.cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:860px){.cmp{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.panel h3{font-size:18px;margin-bottom:12px}
+.pbars{position:relative;display:grid;gap:12px}
+.pb{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center}
+.pb .lab{font-weight:700}
+.pb .track{position:relative;height:28px}
+.pb .bar{position:absolute;inset-block:0;right:0;border-radius:6px;display:flex;align-items:center;justify-content:flex-start;padding-inline:10px;font-weight:800;color:#121212;font-variant-numeric:tabular-nums;font-size:15px}
+.band{position:absolute;top:-6px;bottom:-6px;background:rgba(233,176,75,.12);border-inline:1px dashed var(--accent);pointer-events:none}
+.band-lab{font-size:13px;color:var(--accent);margin-top:10px}
+.scores{overflow-x:auto}
+.scores table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+.scores th{font-size:13px;color:var(--muted);font-weight:600;text-align:center;padding:6px 4px;border-bottom:1px solid var(--line)}
+.scores th:first-child{text-align:right}
+.scores td{padding:9px 4px;border-bottom:1px solid var(--line);text-align:center}
+.scores td:first-child{text-align:right;font-weight:700;white-space:nowrap}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--text)}
+
+/* vote */
+.vote{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:900px){.vote{grid-template-columns:1fr}}
+.voters{display:grid;gap:10px}
+.voter{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+@media (max-width:520px){.voter{grid-template-columns:1fr}}
+.voter .vn{font-weight:800}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opts button{font:inherit;font-size:14px;font-weight:700;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.opts button:hover{color:var(--text)}
+.opts button[aria-pressed="true"]{color:#121212;border-color:transparent}
+.results{display:grid;gap:12px}
+.res{display:grid;gap:4px}
+.res .top{display:flex;justify-content:space-between;font-weight:800}
+.res .top span:last-child{font-variant-numeric:tabular-nums}
+.res .tr{height:16px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.res .tr i{display:block;height:100%;border-radius:8px;transition:width .4s ease}
+.res .names{font-size:13px;color:var(--muted);min-height:1.2em}
+.lead{font-size:12px;font-weight:800;color:#121212;background:var(--accent);border-radius:999px;padding:1px 8px;margin-inline-start:6px}
+.status{font-size:13px;color:var(--muted);margin-top:14px}
+.vrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header class="mast">
+    <div>
+      <div class="eyebrow">טיול בת המצווה · 2027</div>
+      <h1>חמישה עולמות. בחירה אחת.</h1>
+    </div>
+    <p>שבעה מטיילים, שלושה דורות. לוחצים פעם אחת על הפעלה, צופים בסרט, ובסוף מצביעים.</p>
+  </header>
+
+  <div class="screen" id="screen">
+    <canvas id="cv" aria-hidden="true"></canvas>
+    <div class="pl" id="pA"><div></div></div>
+    <div class="pl" id="pB"><div></div></div>
+    <div class="scrim"></div>
+    <div class="ov" id="ov" aria-live="polite"></div>
+    <div class="gate" id="startgate">
+      <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
+      <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
+      <p>כ-7 דקות. סרטונים אמיתיים מיוטיוב, מוזיקה, ובסוף השוואה והצבעה.</p>
+    </div>
+  </div>
+
+  <div class="transport">
+    <button class="btn primary" id="play" type="button">▶ הפעלת הסרט</button>
+    <button class="btn" id="prev" type="button" aria-label="הקודם">→</button>
+    <button class="btn" id="next" type="button" aria-label="הבא">←</button>
+    <button class="btn" id="mute" type="button" aria-pressed="false">♪ מוזיקה פועלת</button>
+    <button class="btn" id="fs" type="button">⛶ מסך מלא</button>
+    <span class="clock" id="clock">0:00</span>
+    <nav class="chapters" id="chapters" aria-label="פרקים"></nav>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+  <p class="note">הקטעים לקוחים מתוך הסרטונים ביוטיוב ומתנגנים מושתקים, עם מוזיקה. אם סרטון חסום, הסרט מדלג לבד. במסך מלא, החצים במקלדת עוברים קדימה ואחורה ורווח עוצר.</p>
+
+  <section class="block" id="seasons">
+    <div class="sh"><h2>מתי נוסעים</h2><p>כל יעד בחודשים שבהם הוא במיטבו. אי אפשר לקבל את כולם באותו חודש.</p></div>
+    <div class="cal" id="cal"></div>
+    <div class="legend"><span><i style="background:var(--good)"></i>הזמן הטוב ביותר</span><span><i style="background:color-mix(in srgb,var(--good) 38%,var(--panel))"></i>אפשרי</span><span><i style="background:color-mix(in srgb,var(--bad) 45%,var(--panel))"></i>להימנע</span></div>
+    <div class="cal-notes" id="calnotes"></div>
+  </section>
+
+  <section class="block" id="program">
+    <div class="sh"><h2>היעדים</h2><p>מה עושים בכל מקום, מי נהנה מה, מה חסר, וכמה זה עולה לאדם כולל הכול.</p></div>
+    <div id="dests"></div>
+  </section>
+
+  <section class="block" id="compare">
+    <div class="sh"><h2>זה מול זה</h2><p>מחיר לאדם כולל טיסות, לינה, רכב, אטרקציות ואוכל. הציונים הם הערכת היועץ להרכב שלכם.</p></div>
+    <div class="cmp">
+      <div class="panel"><h3>כמה זה עולה לאדם</h3><div class="pbars" id="pbars"></div><div class="band-lab">הפס המקווקו הוא התקציב שהגדרתם, 4,000 עד 4,500 דולר לאדם</div></div>
+      <div class="panel scores"><h3>מה כל יעד נותן</h3><div id="scores"></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="voteSec">
+    <div class="sh"><h2>ההצבעה</h2><p>כל אחד בוחר יעד אחד. אפשר לשנות עד שמסכמים.</p></div>
+    <div class="vote">
+      <div class="voters" id="voters"></div>
+      <div class="panel"><h3>התוצאות</h3><div class="results" id="results"></div>
+        <div class="vrow"><button class="btn" id="reset" type="button">איפוס ההצבעה</button><span id="resetAsk" hidden><button class="btn" id="resetYes" type="button" style="border-color:var(--bad)">כן, לאפס</button> <button class="btn" id="resetNo" type="button">ביטול</button></span></div>
+        <div class="status" id="status">ההצבעה נשמרת במכשיר הזה.</div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">הסרטונים שייכים לבעליהם ומוצגים דרך נגן יוטיוב. המחירים הם הערכות לפי בדיקה מאוקטובר 2026 ושער של כ-125 קרונות לדולר. רק חלק מהם מבוסס על מחירים מפורסמים, ולכן הם לפני אימות מול ספקים. לפני הזמנה יש לבדוק אזהרות מסע מול המטה לביטחון לאומי.</p>
+</div>
+
+<script>
+document.documentElement.lang="he";
+const WHO={t:"נוער",g:"סבים",a:"כולם"};
+const A=(n,t,w,v,o=0,f=1,z=0)=>({n,t,w,v:Array.isArray(v)?v:[v],o,f,z});
+const D=[
+ {id:"is",name:"איסלנד",color:"var(--c-is)",hex:"#7fd6d0",season:"יוני עד אמצע אוגוסט, הכי טוב תחילת יולי",when:"יולי",price:4150,range:"4,000–4,400",flight:"עם עצירה, כ-14 עד 17 שעות",anchors:"3 (הלה, האלי, ריקיאוויק)",
+  line:"קרח, אש ותוכים, באור של לילה שלא נגמר.",
+  promo:["P0FuspOiTng"],
+  best:[6,7],ok:[8],no:[],
+  calnote:"מערות הקרח הכחולות רק נובמבר עד מרץ, והזוהר הצפוני רק ספטמבר עד אפריל.",
+  atts:[
+   A("לנדמנאלאוגר","הרים בצבעי חלודה, ירוק וצהוב, שדות אובסידיאן וטבילה במעיין חם טבעי בסוף.","a","Lb7ivdcv3Hg"),
+   A("הקרחון בסולהיימיוקול","הליכה עם נעלי ברזל על קרחון חי, ולנוער זיפליין מעליו.","t","LCjWHMRpDkA",1),
+   A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t","umB1enFSKx0",1),
+   A("תוכי איי וסטמן","המושבה הגדולה בעולם, כ-1.1 מיליון זוגות, והר געש שהתפרץ ב-1973.","a","LaAh5Kkailc",1),
+   A("זודיאק ביוקולסארלון","סירה מהירה בין קרחונים צפים עד קיר הקרחון. הסבים בסירה אמפיבית.","a","S0PhL19vLYc",1),
+   A("חוף היהלומים","גושי קרח שקופים זרוקים על חול שחור.","g","Q0TQke41cIM"),
+   A("לווייתנים מריקיאוויק","גבנונים ומינקי. ביותר מ-90 אחוז מההפלגות רואים.","a","GYhLx_EnVpg",1),
+   A("ויקינגים","אולם ויקינגי מהמאה העשירית מתחת לריקיאוויק, וחוות שטנג מתקופת ההתיישבות.","a","hbcIlaESGRw"),
+   A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1)],
+  stay:"Stracta בהלה, Hali ליד הלגונה. ארוחה חגיגית ב-Matur og Drykkur, ו-Slippurinn באיי וסטמן.",
+  miss:"אין לווייתן כחול ואין זוהר צפוני בקיץ. קר בהרים גם ביולי. ממשלת איסלנד ביקורתית כלפי ישראל.",
+  tip:"לשריין את הלינה ואת Slippurinn כבר בנובמבר. בעונה הזו המקומות הקטנים נגמרים ראשונים.",
+  s:{wow:5,animals:3,adr:5,gp:4,val:3}},
+ {id:"lk",name:"סרי לנקה",color:"var(--c-lk)",hex:"#73cf8f",season:"סוף פברואר עד אמצע מרץ",when:"פברואר–מרץ",price:3350,range:"2,500–3,350",flight:"עם עצירה",anchors:"2 (הרי התה, החוף הדרומי)",
+  line:"הלווייתן הגדול בעולם, נמרים, ותה בתוך העננים.",
+  promo:["NBWEClCXC6A"],
+  best:[2,3],ok:[12,1],no:[6,7,8,9,10],
+  calnote:"לווייתנים כחולים דצמבר עד מרץ. יאלה סגור בספטמבר ואוקטובר, ובקיץ מונסון בחוף הדרומי.",
+  atts:[
+   A("לווייתנים כחולים במיריסה","יוצאים בבוקר, והמדף היבשתי מביא את היצור הגדול על כדור הארץ קרוב לחוף.","a","NP9RDA32f_Q",1),
+   A("ספארי ביאלה","צפיפות הנמרים הגבוהה בעולם, פילים, דובי שפתיים ותנינים.","a","YiKy_2MM864"),
+   A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t","EzzcDcaG4P4"),
+   A("הרכבת הנופית","הנסיעה בין מטעי התה וגשר תשע הקשתות היא האטרקציה עצמה.","a","0Lfft5EoQOU"),
+   A("בונגלו תה קולוניאלי","בית של מגדלי תה מהמאה ה-19 עם באטלר, בתוך מטע פעיל.","g","6ViBh5ZAU5s",1),
+   A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t","CwD6k-JfS1o"),
+   A("החוף בטנגאלה","וילה עם צוות מול הים.","g","ut5Ev7yus1M",1)],
+  stay:"Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
+  miss:"חוף הדרום היה ברמת אזהרה 4 ב-2024. ספארי ירגיש מוכר אחרי אפריקה. יום מעבר ארוך, חום ולחות.",
+  tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
+  s:{wow:4,animals:5,adr:3,gp:3,val:4}},
+ {id:"tz",name:"טנזניה וזנזיבר",color:"var(--c-tz)",hex:"#e8913f",season:"יולי עד אוגוסט",when:"יולי–אוגוסט",price:6750,range:"5,000–6,750",flight:"עם עצירה, דרך אדיס אבבה",anchors:"3 (נגורונגורו, סרנגטי, זנזיבר)",
+  line:"הספארי הגדול בעולם, ואחריו האיים של זנזיבר.",
+  promo:["qOhmZwk1Ft4"], zpromo:["y5RpLxjjWdA","rOHAQM87KfE"],
+  best:[7,8],ok:[],no:[],
+  calnote:"חציית נהר המארה בצפון הסרנגטי מאמצע יולי עד סוף אוגוסט.",
+  atts:[
+   A("לוע נגורונגורו","יורדים לתחתית לוע הר געש עתיק שמלא בחיות.","a","TbVrdeKXGD4",1),
+   A("הסרנגטי","הנדידה הגדולה וחציית נהר המארה.","a","Fzlq5YwwY-c"),
+   A("טרנגירה","עדרי פילים ענקיים בין עצי באובב.","a","yMDsMC9W1gQ"),
+   A("שבט ההדזבה","זריחה עם ציידים לקטים באגם אייאסי. הנוער יוצא לציד עם קשתות.","t","H8q8tfzdNNA"),
+   A("כדור פורח","טיסה בזריחה מעל הסרנגטי, כ-500 עד 600 דולר לאדם.","a","e6SNbkIuRts",1),
+   A("לודג' מאבן","Serengeti Serena, בנוי מאבן ולא אוהל, עם נוף לסוואנה.","g","WzNTDtYKtqY",1,0),
+   A("חופי זנזיבר","מים טורקיז בנונגווי, קנדווה ופאג'ה.","a",["rOHAQM87KfE","YmsRLB0ahxo","gvz_pZS-E54"],0,1,1),
+   A("סטון טאון","העיר העתיקה, הסמטאות והדלתות המגולפות, ושקיעה על סירת דאו.","g",["iUq317Zzcyg","PDvZrGIh9E4"],0,1,1),
+   A("שנורקל באטול מנמבה","דולפינים, צבים ושונית צבעונית.","a",["QDaZB0MEN-U","tOwuFuS1F7s","uC6QXLXYkxA"],0,1,1),
+   A("גלישת עפיפונים בפאג'ה","לגונה רדודה ורוח קבועה, מקום מושלם ללמוד.","t",["dbuWrzrIY1Q","mNCnWFa0hr8"],0,1,1),
+   A("קופי הקולובוס האדומים","יער ג'וזאני, המין היחיד שחי רק בזנזיבר.","a","vCbxAOTpXjQ",0,0,1),
+   A("צבי הענק באי פריזן","צבים בני יותר ממאה שנה, שייט קצר מהעיר.","g","4605C0V8-Yw",0,0,1)],
+  stay:"Ngorongoro Serena ו-Serengeti Serena, לודג'ים מאבן. וילה בזנזיבר.",
+  miss:"זו חזרה על מה שכבר ראיתם. שלושה עוגנים, היקר מכולם, ויש אזהרת מסע עדכנית.",
+  tip:"בלי הכדור הפורח ועם לודג'ים בדרגת ביניים יורדים לכ-5,000 דולר לאדם.",
+  s:{wow:4,animals:5,adr:2,gp:3,val:1}},
+ {id:"it",name:"צפון איטליה",color:"var(--c-it)",hex:"#ec9fab",season:"יוני עד ספטמבר, בלי אמצע אוגוסט",when:"יוני–ספטמבר",price:2800,range:"כ-2,800",flight:"ישירה, כ-4 שעות",anchors:"2 (קורטינה, אגם גארדה)",
+  line:"צוקים ורודים, מנהרות מלחמה ורכבלים מעל העננים.",
+  promo:["Tu0lBDLOqPA"],
+  best:[6,7,9],ok:[8],no:[],
+  calnote:"באמצע אוגוסט כל איטליה בחופשה והרכבלים עמוסים.",
+  atts:[
+   A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","t","t4RkzTRjD8o"),
+   A("צ'ינקווה טורי","המוזיאון הפתוח הגדול באירופה למלחמה, עולים ברכבל.","a","yNIOtJXi1UQ",1),
+   A("גשר צוק המוות","ויה פרטה איוונו דיבונה, גשר תלוי של 27 מטר. רק עם מדריך הרים.","t","AnOSiH_KhVE"),
+   A("סקייוויי על המון בלאן","קבינה מסתובבת עד 3,466 מטר בלי צעד אחד של מאמץ.","g","J7SffGjQQbE",1),
+   A("מרמולדה","מלכת הדולומיטים, 3,265 מטר, וקרחון שצפוי להיעלם עד 2040.","g","O3Uyiob0D10"),
+   A("הרכבל המסתובב בגארדה","ממלצ'זינה להר באלדו, 1,760 מטר מעל האגם.","g","ftF3k4Amwvg",1),
+   A("מצנח רחיפה מעל גארדה","טנדם עם מדריך, מפסגת הר באלדו עד חוף האגם.","t","FAyiIW_ulCc",1),
+   A("רפטינג בנהר הנוצ'ה","אחד מנהרות הרפטינג הטובים באלפים, בעמק ואל די סולה.","t","Ixy7UUXljfc",1)],
+  stay:"דירה או צ'אלה בקורטינה דאמפצו, וילה על אגם גארדה.",
+  miss:"כמעט אין חיות. האווירה קרובה למה שכבר ראיתם באוסטריה. המון בלאן רחוק כ-5 שעות מקורטינה.",
+  tip:"להשקיע במדריך הרים פרטי לכל השבוע. הוא הופך את הדולומיטים מנוף להרפתקה.",
+  s:{wow:3,animals:1,adr:4,gp:5,val:5}},
+ {id:"vn",name:"וייטנאם",color:"var(--c-vn)",hex:"#ec5b4b",season:"מרץ עד אפריל",when:"מרץ–אפריל",price:3000,range:"2,700–3,300",flight:"ישירה של ארקיע להאנוי, 11.5 עד 12.5 שעות",anchors:"3 (האנוי, פונג נה, הוי אן)",
+  line:"מפרץ של אלפי צוקים, מערות ענק ועיר של פנסים.",
+  promo:["Mw1lYkuHmTk"],
+  best:[3,4],ok:[2,5],no:[12,1],
+  calnote:"בדצמבר עד פברואר הצפון קר ומעורפל. במרכז עונת סערות מספטמבר עד ינואר.",
+  atts:[
+   A("שייט לילה במפרץ לאן הא","מאות צוקי גיר מתוך המים, קייקים, מערה ושחייה מהסיפון.","a","Kp3gDV7lEYM"),
+   A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a","sHpGjw7TwMU"),
+   A("מערת החושך","זיפליין של 400 מטר, קייקים, שחייה לתוך מערה ואמבט בוץ.","t","2eUixYYYQvs"),
+   A("בה נה הילס","רכבל ל-1,500 מטר והגשר הזהב שנשען על שתי ידיים ענקיות.","g","fwMsTwvFKd8"),
+   A("הוי אן","שייט פנסים בלילה ושיעור בישול בעיר העתיקה.","a","1edT2wG_010"),
+   A("מעבר הי ואן","נסיעת אופנוע עם נהג בכביש החוף המפורסם.","t","nfgMqTYBUiQ")],
+  stay:"שייט עם תאים משפחתיים, לודג' בפונג נה, וילה בהוי אן.",
+  miss:"כמעט אין חיות. הטיסה מעל 10 שעות. נדרשת ויזה אלקטרונית, ושלושה עוגנים לפחות.",
+  tip:"שני אזורים בלבד, צפון ומרכז, עשרה עד שנים עשר ימים. בלי לנסות להגיע לדרום.",
+  s:{wow:4,animals:1,adr:4,gp:3,val:4}}
+];
+const vurl=id=>"https://www.youtube.com/watch?v="+id;
+const vidLink=a=>`<a class="vid" href="${vurl(a.v[0])}" target="_blank" rel="noopener">${a.o?"סרטון רשמי ↗":"לצפייה בסרטון ↗"}</a>`;
+const SCOLS=[["wow","וואו וחידוש"],["animals","חיות"],["adr","אדרנלין לנוער"],["gp","נוחות לסבים"],["val","תמורה לכסף"]];
+const dots=n=>`<span class="dots" aria-label="${n} מתוך 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
+
+const MONTHS=["ינו","פבר","מרץ","אפר","מאי","יוני","יולי","אוג","ספט","אוק","נוב","דצמ"];
+/* ---------- static program ---------- */
+const $=s=>document.querySelector(s);
+function el(tag,attrs={},html=""){const e=document.createElement(tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(html)e.innerHTML=html;return e}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// season calendar
+(function(){
+  let h='<table><thead><tr><th></th>'+MONTHS.map(m=>`<th scope="col">${m}</th>`).join("")+'</tr></thead><tbody>';
+  D.forEach(d=>{h+=`<tr><th class="dn" scope="row" style="color:${d.color}">${esc(d.short||d.name)}</th>`;
+    for(let m=1;m<=12;m++){const c=d.best.includes(m)?"best":d.ok.includes(m)?"ok":d.no.includes(m)?"no":"";h+=`<td class="${c}" title="${esc(d.name)} · ${MONTHS[m-1]}"></td>`}
+    h+="</tr>"});
+  $("#cal").innerHTML=h+"</tbody></table>";
+  $("#calnotes").innerHTML=D.map(d=>`<div><b style="color:${d.color}">${esc(d.short||d.name)}.</b> ${esc(d.calnote)}</div>`).join("");
+})();
+
+// destination program
+(function(){
+  const box=$("#dests");
+  D.forEach((d,i)=>{
+    const s=el("article",{class:"dest",id:"d-"+d.id});
+    s.innerHTML=`<div class="side">
+      <div class="num" style="color:${d.color}">יעד ${i+1} מתוך ${D.length}</div>
+      <h3>${esc(d.name)}</h3>
+      <div class="line">${esc(d.line)}</div>
+      <div class="price">${d.price.toLocaleString("en-US")}$ <small>לאדם, טווח ${esc(d.range)}</small></div>
+      <dl class="facts"><dt>מתי</dt><dd>${esc(d.season)}</dd><dt>טיסה</dt><dd>${esc(d.flight)}</dd><dt>עוגנים</dt><dd>${esc(d.anchors)}</dd></dl>
+    </div>
+    <div style="min-width:0">
+      <ul class="atts">${d.atts.map(a=>`<li><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></li>`).join("")}</ul>
+      <div class="extra">
+        <div class="stay"><b>לינה ואוכל</b>${esc(d.stay)}</div>
+        <div class="miss"><b>מה חסר</b>${esc(d.miss)}</div>
+        <div class="tip"><b>טיפ מהיועץ</b>${esc(d.tip)}</div>
+      </div>
+    </div>`;
+    box.appendChild(s);
+  });
+})();
+
+// compare
+(function(){
+  const max=7000, pct=v=>v/max*100;
+  let h="";
+  [...D].sort((a,b)=>a.price-b.price).forEach(d=>{
+    h+=`<div class="pb"><span class="lab" style="color:${d.color}">${esc(d.short||d.name)}</span><div class="track"><div class="band" style="right:${pct(4000)}%;width:${pct(500)}%"></div><div class="bar" style="width:${pct(d.price)}%;background:${d.hex}">${d.price.toLocaleString("en-US")}$</div></div></div>`;
+  });
+  $("#pbars").innerHTML=h;
+  const cols=[["wow","וואו וחידוש"],["animals","חיות"],["adr","אדרנלין לנוער"],["gp","נוחות לסבים"],["val","תמורה לכסף"]];
+  const dots=n=>`<span class="dots" aria-label="${n} מתוך 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
+  let t='<table><thead><tr><th>יעד</th>'+cols.map(c=>`<th>${c[1]}</th>`).join("")+'</tr></thead><tbody>';
+  D.forEach(d=>{t+=`<tr><td style="color:${d.color}">${esc(d.short||d.name)}</td>`+cols.map(c=>`<td>${dots(d.s[c[0]])}</td>`).join("")+"</tr>"});
+  $("#scores").innerHTML=t+"</tbody></table>";
+})();
+
+/* ---------- soundtrack (generated live, no external files) ---------- */
+const STY={
+ intro:{bpm:84,ch:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]],arp:"tri",drums:"soft",cut:1100},
+ is:{bpm:68,ch:[[50,53,57],[46,50,53],[53,57,60],[48,52,55]],arp:"bell",drums:"none",cut:800},
+ lk:{bpm:96,ch:[[48,52,55],[45,48,52],[41,45,48],[43,47,50]],arp:"marimba",drums:"soft",cut:1300},
+ tz:{bpm:100,ch:[[52,55,59],[48,52,55],[43,47,50],[50,54,57]],arp:"tri",drums:"toms",cut:1000},
+ it:{bpm:90,ch:[[55,59,62],[50,54,57],[52,55,59],[48,52,55]],arp:"tri",drums:"soft",cut:1500},
+ vn:{bpm:80,ch:[[50,53,57],[48,52,55],[46,50,53],[45,48,52]],arp:"koto",drums:"none",cut:900}
+};
+STY.cmp=STY.intro;STY.vote=STY.intro;
+const Music={ac:null,master:null,wet:null,noise:null,on:true,started:false,e:0,next:0,iv:null,style:STY.intro,
+ init(){
+  if(this.ac)return;
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  const ac=this.ac=new AC();
+  this.master=ac.createGain();this.master.gain.value=0;this.master.connect(ac.destination);
+  const rv=ac.createConvolver(),len=ac.sampleRate*2.8,ir=ac.createBuffer(2,len,ac.sampleRate);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}
+  rv.buffer=ir;this.wet=ac.createGain();this.wet.gain.value=.55;this.wet.connect(rv);rv.connect(this.master);
+  const nb=ac.createBuffer(1,ac.sampleRate,ac.sampleRate),nd=nb.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;this.noise=nb;
+ },
+ f(m){return 440*Math.pow(2,(m-69)/12)},
+ out(node,dry=1){const g=this.ac.createGain();g.gain.value=dry;node.connect(g);g.connect(this.master);node.connect(this.wet)},
+ pad(notes,t,dur){const ac=this.ac,lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.value=this.style.cut;const g=ac.createGain();
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+dur*.3);g.gain.linearRampToValueAtTime(.04,t+dur*.8);g.gain.linearRampToValueAtTime(0,t+dur*1.05);
+  lp.connect(g);this.out(g,.8);
+  notes.forEach(n=>[-6,6].forEach(dt=>{const o=ac.createOscillator();o.type="sawtooth";o.frequency.value=this.f(n);o.detune.value=dt;o.connect(lp);o.start(t);o.stop(t+dur*1.1)}));
+  const b=ac.createOscillator(),bg=ac.createGain();b.type="sine";b.frequency.value=this.f(notes[0]-12);bg.gain.setValueAtTime(0,t);bg.gain.linearRampToValueAtTime(.12,t+.08);bg.gain.exponentialRampToValueAtTime(.001,t+dur);b.connect(bg);this.out(bg,1);b.start(t);b.stop(t+dur)},
+ note(m,t,kind){const ac=this.ac,o=ac.createOscillator(),g=ac.createGain();let dec=.5,vol=.07;
+  if(kind==="bell"){o.type="sine";dec=1.6;vol=.06;const o2=ac.createOscillator();o2.type="sine";o2.frequency.value=this.f(m)*2.76;const g2=ac.createGain();g2.gain.setValueAtTime(.02,t);g2.gain.exponentialRampToValueAtTime(.0005,t+.8);o2.connect(g2);this.out(g2,.6);o2.start(t);o2.stop(t+.9)}
+  else if(kind==="marimba"){o.type="sine";dec=.35;vol=.11}
+  else if(kind==="koto"){o.type="triangle";dec=.9;vol=.07}
+  else{o.type="triangle";dec=.45}
+  o.frequency.value=this.f(m);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.008);g.gain.exponentialRampToValueAtTime(.0005,t+dec);o.connect(g);this.out(g,.7);o.start(t);o.stop(t+dec+.05)},
+ kick(t,f0=110,vol=.35){const ac=this.ac,o=ac.createOscillator(),g=ac.createGain();o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(40,t+.25);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.connect(g);g.connect(this.master);o.start(t);o.stop(t+.4)},
+ hat(t,vol=.03){const ac=this.ac,s=ac.createBufferSource(),hp=ac.createBiquadFilter(),g=ac.createGain();s.buffer=this.noise;hp.type="highpass";hp.frequency.value=7000;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+.06);s.connect(hp);hp.connect(g);g.connect(this.master);s.start(t);s.stop(t+.08)},
+ sched(e,t){const st=this.style,eighth=60/st.bpm/2,bar=Math.floor(e/8),pos=e%8,chd=st.ch[bar%st.ch.length];
+  if(pos===0)this.pad(chd,t,eighth*8);
+  const pat=[0,1,2,1,2,1,0,2];
+  if(st.arp==="bell"){if(pos%4===0)this.note(chd[pat[pos]]+12,t,"bell")}
+  else if(st.arp==="koto"){if([0,3,5].includes(pos))this.note(chd[pat[pos]]+12+(pos===5?2:0),t,"koto")}
+  else this.note(chd[pat[pos]]+12,t,st.arp);
+  if(st.drums==="soft"){if(pos===0||pos===4)this.kick(t);if(pos%2===1)this.hat(t)}
+  if(st.drums==="toms"){if(pos===0||pos===3||pos===6)this.kick(t,pos===0?120:180,.25);if(pos%2===1)this.hat(t,.02)}
+ },
+ loop(){if(!this.ac)return;while(this.next<this.ac.currentTime+.25){this.sched(this.e,this.next);this.next+=60/this.style.bpm/2;this.e++}},
+ setStyle(k){this.style=STY[k]||STY.intro},
+ play(){this.init();if(!this.ac)return;this.ac.resume();if(!this.started){this.started=true;this.next=this.ac.currentTime+.1;this.e=0}
+  this.master.gain.cancelScheduledValues(this.ac.currentTime);this.master.gain.setTargetAtTime(this.on?.55:0,this.ac.currentTime,.6);
+  clearInterval(this.iv);this.iv=setInterval(()=>this.loop(),80)},
+ pause(){if(!this.ac)return;this.master.gain.setTargetAtTime(0,this.ac.currentTime,.3);clearInterval(this.iv);setTimeout(()=>{if(!playing)this.ac.suspend()},900)},
+ toggle(){this.on=!this.on;if(this.ac)this.master.gain.setTargetAtTime(this.on&&playing?.55:0,this.ac.currentTime,.3);return this.on}
+};
+
+/* ---------- film: real footage sequencer ---------- */
+const TITLE_MS=8000, DATA_MS=12000, SUB_MS=5500;
+const steps=[{k:"intro",type:"intro",dur:8000}];
+const chapters=[{label:"פתיחה",at:0,k:"intro"}];
+D.forEach(d=>{
+  chapters.push({label:d.name,at:steps.length,k:d.id});
+  const film=d.atts.filter(a=>a.f);
+  const clip=film.length>8?7000:8000;
+  steps.push({k:d.id,type:"title",d,vid:d.promo,frac:.12,dur:TITLE_MS});
+  steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS});
+  let zDone=false;
+  film.forEach((a,i)=>{
+    if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:.3,dur:SUB_MS})}
+    steps.push({k:d.id,type:"att",d,a,i,n:film.length,vid:a.v,frac:.35,dur:clip});
+  });
+});
+chapters.push({label:"השוואה",at:steps.length,k:"cmp"});steps.push({k:"cmp",type:"cmp",dur:22000});
+chapters.push({label:"הצבעה",at:steps.length,k:"vote"});steps.push({k:"vote",type:"vote",dur:0});
+const TOTAL=steps.reduce((s,x)=>s+x.dur,0);
+const chapterOf=i=>{let c=0;chapters.forEach((h,j)=>{if(h.at<=i)c=j});return c};
+
+let si=0, playing=false, timer=null, stepStart=0, remain=0, ch=0, started=false;
+const ov=$("#ov"), chapNav=$("#chapters");
+chapters.forEach((c,i)=>{const b=el("button",{type:"button"},esc(c.label));b.addEventListener("click",()=>goStep(c.at));chapNav.appendChild(b)});
+
+/* players */
+const P=[{el:$("#pA"),yt:null,ready:false},{el:$("#pB"),yt:null,ready:false}];
+let ytReady=false, slot=0;
+const prep=[null,null]; // {step, ok, done, cb}
+function loadYT(){if(window.YT&&window.YT.Player){initPlayers();return}const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s)}
+window.onYouTubeIframeAPIReady=initPlayers;
+function initPlayers(){if(ytReady)return;ytReady=true;
+  P.forEach((p,k)=>{p.yt=new YT.Player(p.el.querySelector("div"),{width:"100%",height:"100%",
+    playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,mute:1,origin:location.origin},
+    events:{onReady:()=>{p.ready=true;p.yt.mute();if(P.every(q=>q.ready))kick()},onStateChange:e=>onState(k,e),onError:()=>onErr(k)}})});
+}
+function kick(){prepare(slot,si);prepare(1-slot,nextVideoStep(si))}
+function nextVideoStep(i){for(let j=i+1;j<steps.length;j++){if(steps[j].vid)return j;if(steps[j].type==="vote")return -1}return -1}
+function prepare(k,i){
+  const p=P[k];if(!p.ready||i<0||!steps[i]||!steps[i].vid){prep[k]=null;return}
+  const st=steps[i];const job={step:i,ids:st.vid.slice(),idx:0,frac:st.frac,ok:false,done:false,seeked:false};prep[k]=job;
+  tryId(k,job);
+}
+function tryId(k,job){
+  if(job.idx>=job.ids.length){job.done=true;job.ok=false;settle(k,job);return}
+  job.seeked=false;clearTimeout(job.to);
+  job.to=setTimeout(()=>{if(prep[k]===job&&!job.done){job.idx++;tryId(k,job)}},7000);
+  try{P[k].yt.mute();P[k].yt.loadVideoById({videoId:job.ids[job.idx],startSeconds:0})}catch(e){job.idx++;tryId(k,job)}
+}
+function onErr(k){const job=prep[k];if(!job||job.done)return;job.idx++;tryId(k,job)}
+function onState(k,e){
+  const job=prep[k];if(!job)return;
+  if(e.data===YT.PlayerState.PLAYING&&!job.done){
+    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d>20){P[k].yt.seekTo(d*job.frac,true);return}}
+    clearTimeout(job.to);job.done=true;job.ok=true;
+    if(!(steps[si]&&job.step===si&&playing))P[k].yt.pauseVideo();
+    settle(k,job);
+  }
+}
+function settle(k,job){if(job.step===si&&steps[si].vid)showVideo(k,job.ok)}
+function showVideo(k,ok){
+  P.forEach((p,j)=>p.el.classList.toggle("on",ok&&j===k));
+  if(ok&&playing){try{P[k].yt.playVideo()}catch(e){}}
+}
+function hideVideos(){P.forEach(p=>{p.el.classList.remove("on");try{p.yt&&p.yt.pauseVideo()}catch(e){}})}
+
+/* overlay */
+function renderOverlay(){
+  const st=steps[si];ch=chapterOf(si);
+  [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
+  if(st.type==="intro"){
+    ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
+    <div class="title-block fade"><div class="eyebrow">חמישה יעדים · כ-7 דקות</div><div class="big">לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
+    return;
+  }
+  if(st.type==="cmp"){
+    const sorted=[...D].sort((a,b)=>a.price-b.price);
+    ov.innerHTML=`<div class="ov-top"><span class="chip">זה מול זה</span></div>
+    <div class="cmpcard fade"><div><div class="dc-l">כמה לאדם, כולל הכול</div><div class="mini-bars">${sorted.map(d=>`<div class="mb"><span style="color:${d.hex}">${esc(d.name)}</span><i style="width:${d.price/7000*100}%;background:${d.hex}"></i><span>${d.price.toLocaleString("en-US")}$</span></div>`).join("")}</div><div class="dc-s" style="margin-top:6px">התקציב שלכם 4,000–4,500 דולר לאדם</div></div>
+    <div class="mini-scores"><table><thead><tr><th></th>${SCOLS.map(c=>`<th>${c[1]}</th>`).join("")}</tr></thead><tbody>${D.map(d=>`<tr><td style="color:${d.hex}">${esc(d.name)}</td>${SCOLS.map(c=>`<td>${dots(d.s[c[0]])}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+    return;
+  }
+  if(st.type==="vote"){
+    ov.innerHTML=`<div class="ov-top"><span class="chip">הסוף</span></div>
+    <div class="title-block fade"><div class="big">ועכשיו, אתם.</div><div class="tag">כל אחד בוחר יעד אחד.</div>
+    <div><a class="btn primary" href="#voteSec" style="text-decoration:none;margin-top:10px">להצבעה ↓</a></div></div>`;
+    return;
+  }
+  const d=st.d, idx=D.indexOf(d);
+  const head=`<div class="ov-top"><span class="chip" style="color:${d.hex}">יעד ${idx+1} מתוך ${D.length} · ${esc(d.name)}</span><span class="chip">${esc(d.when)} · ${d.price.toLocaleString("en-US")}$ לאדם</span></div>`;
+  if(st.type==="title"){
+    ov.innerHTML=head+`<div class="title-block fade"><div class="big" style="color:${d.hex}">${esc(d.name)}</div><div class="tag">${esc(d.line)}</div>
+    <div class="meta"><span class="chip">${esc(d.season)}</span><span class="chip">טיסה ${esc(d.flight)}</span></div></div>`;
+  }else if(st.type==="sub"){
+    ov.innerHTML=head+`<div class="title-block fade"><div class="eyebrow">החלק השני של הטיול</div><div class="big" style="color:${d.hex}">זנזיבר</div><div class="tag">אחרי הספארי, כמה ימים של ים טורקיז, שנורקל ועיר עתיקה.</div></div>`;
+  }else if(st.type==="data"){
+    ov.innerHTML=head+`<div class="datacard fade">
+      <div class="dc-k"><span class="dc-l">כולל הכול, לאדם</span><span class="dc-v" style="color:${d.hex}">${d.price.toLocaleString("en-US")}$</span><span class="dc-s">טווח ${esc(d.range)}</span></div>
+      <div class="dc-grid"><div><span class="dc-l">מתי</span>${esc(d.season)}</div><div><span class="dc-l">טיסה</span>${esc(d.flight)}</div><div><span class="dc-l">עוגנים</span>${esc(d.anchors)}</div><div><span class="dc-l">מה חסר</span>${esc(d.miss)}</div></div>
+      <div class="dc-scores">${SCOLS.map(c=>`<div><span class="dc-l">${c[1]}</span>${dots(d.s[c[0]])}</div>`).join("")}</div>
+    </div>`;
+  }else{
+    const a=st.a;
+    ov.innerHTML=head+`<div class="shot fade"><span class="n">${st.i+1} / ${st.n}${a.z?" · זנזיבר":""}</span><h3>${esc(a.n)}</h3><p>${esc(a.t)}</p>
+    <div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.o?'<span class="who a" style="color:#e9d7a8">סרטון רשמי</span>':""}</div></div>`;
+  }
+}
+
+/* timeline */
+function enterStep(i){
+  si=Math.max(0,Math.min(steps.length-1,i));
+  const st=steps[si];
+  setSceneKey(st.k);Music.setStyle(st.k);renderOverlay();
+  if(st.vid){
+    let k=prep.findIndex(j=>j&&j.step===si);
+    if(k<0){k=slot;prepare(k,si)}
+    slot=k;const job=prep[k];
+    if(job&&job.done)showVideo(k,job.ok);else P.forEach(p=>p.el.classList.remove("on"));
+    P.forEach((p,j)=>{if(j!==k){try{p.yt&&p.ready&&p.yt.pauseVideo()}catch(e){}}});
+    prepare(1-k,nextVideoStep(si));
+  }else{hideVideos();const n=nextVideoStep(si);if(n>=0&&!prep.some(j=>j&&j.step===n))prepare(slot,n)}
+  remain=st.dur;stepStart=performance.now();arm();updateProg();
+}
+function arm(){clearTimeout(timer);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>enterStep(si+1),remain)}
+function goStep(i){enterStep(i)}
+function step(){if(si<steps.length-1)enterStep(si+1)}
+function back(){if(si>0)enterStep(si-1)}
+function elapsed(){let t=0;for(let i=0;i<si;i++)t+=steps[i].dur;return t+(playing?Math.min(steps[si].dur,performance.now()-stepStart+ (steps[si].dur-remain)):(steps[si].dur-remain))}
+function updateProg(){$("#prog").style.width=Math.min(100,elapsed()/TOTAL*100)+"%";const s=Math.round(elapsed()/1000),T=Math.round(TOTAL/1000);$("#clock").textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")} / ${Math.floor(T/60)}:${String(T%60).padStart(2,"0")}`}
+let progIv=null;
+function setPlaying(p){
+  if(p===playing)return;
+  if(!p){remain=Math.max(0,remain-(performance.now()-stepStart));clearTimeout(timer);P.forEach(q=>{try{q.yt&&q.ready&&q.yt.pauseVideo()}catch(e){}});Music.pause()}
+  playing=p;$("#play").textContent=p?"❚❚ השהיה":"▶ המשך";
+  if(p){stepStart=performance.now();Music.play();const job=prep[slot];if(steps[si].vid&&job&&job.step===si&&job.ok){try{P[slot].yt.playVideo()}catch(e){}}arm()}
+  clearInterval(progIv);if(p)progIv=setInterval(updateProg,250);updateProg();
+}
+function start(){
+  $("#startgate").hidden=true;started=true;loadYT();
+  const scr=$("#screen");if(scr.requestFullscreen&&$("#fsAuto").checked){scr.requestFullscreen().catch(()=>{})}
+  playing=false;setPlaying(true);enterStep(0);
+}
+$("#startBtn").addEventListener("click",start);
+$("#play").addEventListener("click",()=>{if(!started){start();return}if(!playing&&si===steps.length-1)enterStep(0);setPlaying(!playing)});
+$("#next").addEventListener("click",()=>{if(!started){start();return}step()});
+$("#prev").addEventListener("click",()=>{if(!started){start();return}back()});
+$("#fs").addEventListener("click",()=>{const s=$("#screen");if(document.fullscreenElement)document.exitFullscreen();else if(s.requestFullscreen)s.requestFullscreen().catch(()=>{})});
+$("#mute").addEventListener("click",()=>{const on=Music.toggle();$("#mute").textContent=on?"♪ מוזיקה פועלת":"♪ מוזיקה כבויה";$("#mute").setAttribute("aria-pressed",on?"false":"true")});
+document.addEventListener("keydown",e=>{if(e.target.closest("input,a,button"))return;if(e.key==="ArrowLeft")$("#next").click();if(e.key==="ArrowRight")$("#prev").click();if(e.key===" "){e.preventDefault();$("#play").click()}});
+
+/* ---------- canvas scenes ---------- */
+const cv=$("#cv"), ctx=cv.getContext("2d");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W=0,H=0,DPR=1;
+function resize(){const r=cv.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);if(reduce)frame(0)}
+new ResizeObserver(resize).observe($("#screen"));
+const stars=Array.from({length:140},(_,i)=>({x:(Math.sin(i*91.7)*0.5+0.5),y:(Math.sin(i*37.3)*0.5+0.5)*0.6,r:((i*13)%7)/7*1.3+0.3,p:i}));
+function grad(stops,y0=0,y1=1){const g=ctx.createLinearGradient(0,y0*H,0,y1*H);stops.forEach(([o,c])=>g.addColorStop(o,c));return g}
+function n1(x,s){return Math.sin(x*1.7+s)*.5+Math.sin(x*3.9+s*2.1)*.3+Math.sin(x*9.1+s*.7)*.2}
+function ridge(base,amp,seed,color,{f=1,spike=0,step=4}={}){
+  ctx.beginPath();ctx.moveTo(0,H);
+  for(let x=0;x<=W+step;x+=step){const u=x/W*6*f;let v=(n1(u,seed)+1)/2;if(spike)v=Math.pow(v,1+spike)+Math.pow(Math.abs(Math.sin(u*2.3+seed)),18)*spike*.35;ctx.lineTo(x,base*H-amp*H*v)}
+  ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=color;ctx.fill();
+}
+function starfield(t,a=1){const b=ctx.globalAlpha;stars.forEach(s=>{ctx.globalAlpha=b*a*Math.max(0,.45+.55*Math.sin(t*.0015+s.p));ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,7);ctx.fill()});ctx.globalAlpha=b}
+
+const scenes={
+ intro(t){ctx.fillStyle=grad([[0,"#07080c"],[.7,"#141824"],[1,"#2a2117"]]);ctx.fillRect(0,0,W,H);starfield(t);
+   const g=ctx.createRadialGradient(W*.5,H*1.05,0,W*.5,H*1.05,H*.9);g.addColorStop(0,"rgba(233,176,75,.35)");g.addColorStop(1,"rgba(233,176,75,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+   ridge(.92,.12,2,"#0b0c10",{f:.7})},
+ is(t){ctx.fillStyle=grad([[0,"#04111b"],[.55,"#0c2a33"],[1,"#163a3a"]]);ctx.fillRect(0,0,W,H);starfield(t,.6);
+   ctx.save();ctx.globalCompositeOperation="lighter";
+   for(let i=0;i<4;i++){ctx.beginPath();for(let x=0;x<=W;x+=6){const y=H*(.2+i*.045)+Math.sin(x*.005+t*.0004+i*1.3)*H*.06+Math.sin(x*.013+t*.0007)*H*.02;x?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+     ctx.strokeStyle=i%2?"rgba(120,255,200,.10)":"rgba(90,220,255,.08)";ctx.lineWidth=H*.07;ctx.shadowColor="#6fffc6";ctx.shadowBlur=30;ctx.stroke()}
+   ctx.restore();
+   ridge(.6,.2,1.1,"#e9f3f4",{f:.8});ridge(.62,.19,1.1,"#1d3a42",{f:.8});
+   ridge(.7,.12,4,"#122a30",{f:1.3});
+   ctx.fillStyle=grad([[0,"#0f2c36"],[1,"#081a20"]],.7,.86);ctx.fillRect(0,.7*H,W,.16*H);
+   for(let i=0;i<9;i++){const x=((i*.137+t*.000008*(1+i%3))%1.1-.05)*W,y=H*(.74+(i%3)*.035),s=H*(.012+(i*7%5)*.006);
+     ctx.fillStyle=i%2?"#cfeff5":"#9fdbe8";ctx.beginPath();ctx.moveTo(x-s*2,y);ctx.lineTo(x-s,y-s*1.4);ctx.lineTo(x+s*.4,y-s);ctx.lineTo(x+s*1.8,y);ctx.closePath();ctx.fill()}
+   ctx.fillStyle="#050607";ctx.fillRect(0,.86*H,W,.14*H)},
+ lk(t){ctx.fillStyle=grad([[0,"#1d3360"],[.45,"#e2876c"],[.62,"#f5c98d"]]);ctx.fillRect(0,0,W,H);
+   const g=ctx.createRadialGradient(W*.3,H*.6,0,W*.3,H*.6,H*.5);g.addColorStop(0,"rgba(255,226,170,.8)");g.addColorStop(1,"rgba(255,226,170,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+   ridge(.6,.22,7,"#3c6d58",{f:.6});ridge(.62,.12,3,"#2b5a44",{f:1.1});
+   ctx.strokeStyle="rgba(20,50,35,.45)";ctx.lineWidth=1.2;for(let k=0;k<7;k++){ctx.beginPath();for(let x=0;x<=W;x+=8){const y=H*(.545+k*.012)+Math.sin(x*.01+k)*H*.01;x?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
+   ctx.fillStyle=grad([[0,"#2a6f8a"],[1,"#0d2f45"]],.62,1);ctx.fillRect(0,.62*H,W,.38*H);
+   ctx.strokeStyle="rgba(255,230,190,.35)";ctx.lineWidth=1.5;for(let i=0;i<26;i++){const y=H*(.64+((i*.037)%0.33)),x=((i*.21+t*.00003)%1)*W;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+W*.04,y);ctx.stroke()}
+   const p=((t%9000)/9000), up=Math.max(0,Math.sin(Math.min(1,p*1.6)*Math.PI));
+   if(up>0){const bx=W*.66,by=H*.8-up*H*.17,s=H*.09;ctx.fillStyle="#0a1c28";ctx.beginPath();ctx.moveTo(bx-s*.12,H*.8);ctx.quadraticCurveTo(bx-s*.1,by+s*.4,bx,by+s*.2);ctx.quadraticCurveTo(bx+s*.1,by+s*.4,bx+s*.12,H*.8);ctx.fill();
+     ctx.beginPath();ctx.moveTo(bx,by+s*.25);ctx.quadraticCurveTo(bx-s*.6,by+s*.1,bx-s*1.1,by-s*.25);ctx.quadraticCurveTo(bx-s*.7,by+s*.3,bx-s*.05,by+s*.42);ctx.quadraticCurveTo(bx+s*.7,by+s*.3,bx+s*1.1,by-s*.25);ctx.quadraticCurveTo(bx+s*.6,by+s*.1,bx,by+s*.25);ctx.fill();
+     ctx.fillStyle="rgba(255,255,255,.5)";for(let k=0;k<8;k++){ctx.beginPath();ctx.arc(bx+(k-4)*s*.18,by+s*.5+Math.sin(k+t*.01)*3,1.5,0,7);ctx.fill()}}
+   ctx.strokeStyle="#0c1a12";ctx.lineWidth=H*.012;ctx.beginPath();ctx.moveTo(W*.94,H);ctx.quadraticCurveTo(W*.9,H*.55,W*.86,H*.32);ctx.stroke();
+   ctx.fillStyle="#0c1a12";for(let k=0;k<7;k++){const a=k/7*Math.PI*2+Math.sin(t*.0008)*.05;ctx.save();ctx.translate(W*.86,H*.32);ctx.rotate(a);ctx.beginPath();ctx.ellipse(H*.12,0,H*.12,H*.018,0,0,7);ctx.fill();ctx.restore()}},
+ tz(t){ctx.fillStyle=grad([[0,"#2b1a3e"],[.5,"#c4512b"],[.68,"#f2a24a"]]);ctx.fillRect(0,0,W,H);
+   const sx=W*.62,sy=H*.6;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,H*.45);g.addColorStop(0,"rgba(255,214,140,.95)");g.addColorStop(.25,"rgba(255,170,90,.55)");g.addColorStop(1,"rgba(255,170,90,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+   ctx.fillStyle="#ffd998";ctx.beginPath();ctx.arc(sx,sy,H*.085,0,7);ctx.fill();
+   const bx=((t*.000012)%1.3-.15)*W, by=H*.2+Math.sin(t*.0006)*H*.02;ctx.fillStyle="#3a1a1a";ctx.beginPath();ctx.ellipse(bx,by,H*.045,H*.055,0,0,7);ctx.fill();ctx.fillRect(bx-H*.012,by+H*.075,H*.024,H*.02);ctx.strokeStyle="#3a1a1a";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bx-H*.03,by+H*.035);ctx.lineTo(bx-H*.01,by+H*.075);ctx.moveTo(bx+H*.03,by+H*.035);ctx.lineTo(bx+H*.01,by+H*.075);ctx.stroke();
+   ctx.fillStyle="#2a140c";ctx.fillRect(0,H*.68,W,H*.32);ridge(.69,.03,5,"#2a140c",{f:.5});
+   const tree=(x,s)=>{ctx.strokeStyle="#1a0c07";ctx.lineWidth=s*.06;ctx.beginPath();ctx.moveTo(x,H*.7);ctx.lineTo(x,H*.7-s*.55);ctx.moveTo(x,H*.7-s*.35);ctx.lineTo(x-s*.25,H*.7-s*.6);ctx.moveTo(x,H*.7-s*.35);ctx.lineTo(x+s*.3,H*.7-s*.6);ctx.stroke();ctx.fillStyle="#1a0c07";ctx.beginPath();ctx.ellipse(x,H*.7-s*.62,s*.55,s*.09,0,0,7);ctx.fill()};
+   tree(W*.18,H*.32);tree(W*.82,H*.24);tree(W*.45,H*.14);
+   const gir=(x,s,ph)=>{ctx.strokeStyle="#160904";ctx.fillStyle="#160904";ctx.lineCap="round";const y=H*.7;ctx.lineWidth=s*.05;
+     const sw=Math.sin(t*.004+ph)*s*.06;[[-.18,sw],[-.08,-sw],[.12,-sw],[.2,sw]].forEach(([dx,o])=>{ctx.beginPath();ctx.moveTo(x+dx*s,y-s*.42);ctx.lineTo(x+dx*s+o,y);ctx.stroke()});
+     ctx.beginPath();ctx.ellipse(x,y-s*.47,s*.24,s*.09,-.15,0,7);ctx.fill();ctx.lineWidth=s*.07;ctx.beginPath();ctx.moveTo(x-s*.2,y-s*.5);ctx.lineTo(x-s*.36,y-s*1.02);ctx.stroke();ctx.beginPath();ctx.ellipse(x-s*.42,y-s*1.03,s*.08,s*.04,.4,0,7);ctx.fill()};
+   const gx=((t*.000018)%1.4-.2);gir(W*(1-gx),H*.36,0);gir(W*(1.1-gx),H*.27,1.4)},
+ it(t){ctx.fillStyle=grad([[0,"#2b4f88"],[.45,"#93b6de"],[.6,"#f2cbbb"]]);ctx.fillRect(0,0,W,H);
+   ridge(.58,.36,2.2,"#d98f93",{f:1.4,spike:2.4,step:3});
+   ctx.fillStyle=grad([[0,"rgba(110,70,90,0)"],[1,"rgba(80,55,75,.75)"]],.3,.58);ridge(.58,.36,2.2,ctx.fillStyle,{f:1.4,spike:2.4,step:3});
+   ridge(.64,.1,6,"#2f4a3a",{f:1.6});ridge(.66,.06,9,"#22392c",{f:2.2});
+   ctx.fillStyle=grad([[0,"#4a7aa6"],[1,"#1d3b5a"]],.66,1);ctx.fillRect(0,.66*H,W,.34*H);
+   ctx.save();ctx.translate(0,1.32*H);ctx.scale(1,-1);ctx.globalAlpha*=.25;ridge(.66,.12,2.2,"#d98f93",{f:1.4,spike:2.4,step:6});ctx.restore();
+   ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=1;for(let i=0;i<18;i++){const y=H*(.7+i*.016),x=((i*.31+t*.00002)%1)*W;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+W*.06,y);ctx.stroke()}
+   const x0=W*.08,y0=H*.62,x1=W*.55,y1=H*.2;ctx.strokeStyle="#1c2430";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+   const p=(Math.sin(t*.00025)+1)/2,cx=x0+(x1-x0)*p,cy=y0+(y1-y0)*p;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx,cy+H*.025);ctx.stroke();ctx.fillStyle="#c8323a";ctx.fillRect(cx-H*.025,cy+H*.025,H*.05,H*.035)},
+ vn(t){ctx.fillStyle=grad([[0,"#1a2433"],[.5,"#6f7a7c"],[.72,"#d7b98f"]]);ctx.fillRect(0,0,W,H);
+   const pill=(x,w,h,col)=>{const b=H*.68;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x-w/2,b);ctx.bezierCurveTo(x-w/2,b-h*.7,x-w*.42,b-h,x,b-h);ctx.bezierCurveTo(x+w*.46,b-h,x+w/2,b-h*.6,x+w/2,b);ctx.fill()};
+   [[.12,"rgba(120,135,140,.55)",.3],[.3,"rgba(80,95,100,.7)",.42],[.55,"rgba(45,58,62,.88)",.55],[.8,"#1f2a2c",.62]].forEach(([s,col,hh],L)=>{for(let i=0;i<7;i++){const x=((i*.17+L*.09+s)%1.05)*W;pill(x,W*(.06+((i+L)%3)*.025),H*hh*(.55+((i*7+L)%5)*.1),col)}});
+   ctx.fillStyle=grad([[0,"rgba(215,185,143,.0)"],[1,"rgba(215,190,160,.55)"]],.45,.68);ctx.fillRect(0,.45*H,W,.23*H);
+   ctx.fillStyle=grad([[0,"#7d8a86"],[1,"#2a3534"]],.68,1);ctx.fillRect(0,.68*H,W,.32*H);
+   const bx=((t*.000015)%1.3-.15)*W,by=H*.8;ctx.fillStyle="#2a1712";ctx.beginPath();ctx.moveTo(bx-H*.12,by);ctx.lineTo(bx+H*.12,by);ctx.lineTo(bx+H*.09,by+H*.03);ctx.lineTo(bx-H*.1,by+H*.03);ctx.fill();
+   ctx.fillStyle="#b4452f";[[-.06,.17],[.02,.21],[.09,.15]].forEach(([dx,h])=>{ctx.beginPath();ctx.moveTo(bx+dx*H,by);ctx.lineTo(bx+dx*H,by-h*H);ctx.quadraticCurveTo(bx+(dx+.07)*H,by-h*H*.5,bx+(dx+.05)*H,by-H*.02);ctx.closePath();ctx.fill()});
+   for(let i=0;i<14;i++){const x=((i*.077+t*.000006)%1)*W,y=H*(.84+(i%4)*.035)+Math.sin(t*.002+i)*2;const g=ctx.createRadialGradient(x,y,0,x,y,H*.03);g.addColorStop(0,"rgba(255,170,80,.95)");g.addColorStop(1,"rgba(255,120,60,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,H*.03,0,7);ctx.fill()}},
+ cmp(t){scenes.intro(t)},vote(t){scenes.intro(t)}
+};
+let cur="intro",prevKey=null,fadeStart=0;
+function setSceneKey(k){if(k!==cur){prevKey=cur;cur=k;fadeStart=performance.now();if(reduce){prevKey=null;frame(performance.now())}}}
+function frame(now){
+  if(!W)return;
+  ctx.globalAlpha=1;
+  if(prevKey){const a=Math.min(1,(now-fadeStart)/1100);scenes[prevKey](now);ctx.globalAlpha=a;ctx.save();scenes[cur](now);ctx.restore();ctx.globalAlpha=1;if(a>=1)prevKey=null}
+  else scenes[cur](now);
+  // film grain vignette
+  const v=ctx.createRadialGradient(W/2,H/2,H*.3,W/2,H/2,Math.max(W,H)*.75);v.addColorStop(0,"rgba(0,0,0,0)");v.addColorStop(1,"rgba(0,0,0,.45)");ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
+}
+function loop(now){frame(now);requestAnimationFrame(loop)}
+if(!reduce)requestAnimationFrame(loop);
+renderOverlay();resize();
+
+/* ---------- vote ---------- */
+const VOTERS=["אבא","אמא","הבן הגדול","הבת","בת המצווה","סבא","סבתא"];
+let votes={}, docRef=null, canWrite=true, writeChain=Promise.resolve();
+try{const s=localStorage.getItem("trip-votes");if(s)votes=JSON.parse(s)||{}}catch(e){}
+const status=t=>{$("#status").textContent=t};
+function saveLocal(){try{localStorage.setItem("trip-votes",JSON.stringify(votes))}catch(e){}}
+function renderVoters(){
+  $("#voters").innerHTML=VOTERS.map((v,i)=>`<div class="voter"><span class="vn">${esc(v)}</span><div class="opts" role="group" aria-label="הבחירה של ${esc(v)}">${D.map(d=>{const on=votes["v"+i]===d.id;return `<button type="button" id="vote-${i}-${d.id}" data-v="${i}" data-d="${d.id}" aria-pressed="${on}" style="${on?`background:${d.hex}`:""}">${esc(d.short||d.name)}</button>`}).join("")}</div></div>`).join("");
+}
+function renderResults(){
+  const counts={};D.forEach(d=>counts[d.id]=[]);
+  Object.entries(votes).forEach(([k,v])=>{const i=+k.slice(1);if(counts[v]&&VOTERS[i])counts[v].push(VOTERS[i])});
+  const max=Math.max(0,...Object.values(counts).map(a=>a.length));
+  $("#results").innerHTML=[...D].sort((a,b)=>counts[b.id].length-counts[a.id].length).map(d=>{const n=counts[d.id].length;return `<div class="res"><div class="top"><span style="color:${d.hex}">${esc(d.short||d.name)}${n&&n===max?'<span class="lead">מוביל</span>':""}</span><span>${n} מתוך ${VOTERS.length}</span></div><div class="tr"><i style="width:${n/VOTERS.length*100}%;background:${d.hex}"></i></div><div class="names">${esc(counts[d.id].join(", "))}</div></div>`}).join("");
+}
+function renderVote(){renderVoters();renderResults()}
+function persist(){
+  saveLocal();
+  if(false){const snap={votes:{...votes}};writeChain=writeChain.then(()=>docRef.set(snap)).then(()=>status("ההצבעה נשמרת לכל מי שפותח את הדף.")).catch(()=>{canWrite=false;status("אין לכם הרשאה לשמור לכולם, ולכן ההצבעה נשמרת במכשיר הזה בלבד.")})}
+}
+$("#voters").addEventListener("click",e=>{const b=e.target.closest("button[data-v]");if(!b)return;const k="v"+b.dataset.v;votes[k]===b.dataset.d?delete votes[k]:votes[k]=b.dataset.d;renderVote();persist()});
+$("#reset").addEventListener("click",()=>{$("#resetAsk").hidden=false;$("#reset").hidden=true});
+$("#resetNo").addEventListener("click",()=>{$("#resetAsk").hidden=true;$("#reset").hidden=false});
+$("#resetYes").addEventListener("click",()=>{votes={};$("#resetAsk").hidden=true;$("#reset").hidden=false;renderVote();persist()});
+renderVote();
+status("ההצבעה נשמרת במכשיר הזה. מצביעים יחד על המסך הגדול.");
+</script>
+</body>
+</html>
