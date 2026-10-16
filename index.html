@@ -18,6 +18,7 @@
   --body:"Assistant",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   color-scheme:dark;
 }
+[hidden]{display:none!important}
 body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
 a{color:inherit}
@@ -87,6 +88,20 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .mini-scores th{font-size:12px;color:var(--muted);font-weight:700;padding:4px;text-align:center}
 .mini-scores td{padding:6px 4px;text-align:center;border-top:1px solid rgba(255,255,255,.1)}
 .mini-scores td:first-child{text-align:right;font-weight:800;white-space:nowrap}
+.hud{position:absolute;inset:auto 0 0 0;z-index:5;padding:10px max(14px,env(safe-area-inset-left,0px)) 12px;background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,0));transition:opacity .35s ease;opacity:1}
+.screen.idle .hud{opacity:0;pointer-events:none}
+.screen.idle{cursor:none}
+.hud-prog{height:4px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.hud-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.hud-row{display:flex;align-items:center;gap:8px}
+.hud .sp{flex:1}
+.hbtn{font:inherit;font-weight:700;font-size:18px;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;min-width:42px;height:42px;padding:0 12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.hbtn:hover{background:rgba(255,255,255,.24)}
+.hbtn.big{min-width:54px;height:54px;font-size:22px;background:var(--accent);color:#1a1307;border-color:var(--accent)}
+.hbtn.wide{font-size:14px}
+.hud .clock{color:#fff;opacity:.85;font-size:14px}
+.ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
+.gate{z-index:6}
 /* transport */
 .transport{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:12px}
 .btn{font:inherit;font-weight:700;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
@@ -212,21 +227,24 @@ section.block{margin-top:64px}
     <div class="gate" id="startgate">
       <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
       <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
-      <p>כ-7 דקות. סרטונים אמיתיים מיוטיוב, מוזיקה, ובסוף השוואה והצבעה.</p>
+      <p>כ-7 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
+    </div>
+    <div class="hud" id="hud">
+      <div class="hud-prog"><i id="prog"></i></div>
+      <div class="hud-row">
+        <button class="hbtn" id="prev" type="button" aria-label="הקודם">→</button>
+        <button class="hbtn big" id="play" type="button" aria-label="הפעלה או עצירה">▶</button>
+        <button class="hbtn" id="next" type="button" aria-label="הבא">←</button>
+        <span class="clock" id="clock">0:00</span>
+        <span class="sp"></span>
+        <button class="hbtn wide" id="snd" type="button">🔊 סאונד מקורי</button>
+        <button class="hbtn" id="fs" type="button" aria-label="מסך מלא">⛶</button>
+      </div>
     </div>
   </div>
 
-  <div class="transport">
-    <button class="btn primary" id="play" type="button">▶ הפעלת הסרט</button>
-    <button class="btn" id="prev" type="button" aria-label="הקודם">→</button>
-    <button class="btn" id="next" type="button" aria-label="הבא">←</button>
-    <button class="btn" id="mute" type="button" aria-pressed="false">♪ מוזיקה פועלת</button>
-    <button class="btn" id="fs" type="button">⛶ מסך מלא</button>
-    <span class="clock" id="clock">0:00</span>
-    <nav class="chapters" id="chapters" aria-label="פרקים"></nav>
-  </div>
-  <div class="progress"><i id="prog"></i></div>
-  <p class="note">הקטעים לקוחים מתוך הסרטונים ביוטיוב ומתנגנים מושתקים, עם מוזיקה. אם סרטון חסום, הסרט מדלג לבד. במסך מלא, החצים במקלדת עוברים קדימה ואחורה ורווח עוצר.</p>
+  <nav class="chapters" id="chapters" aria-label="פרקים" style="margin-top:12px"></nav>
+  <p class="note">לחיצה על המסך עוצרת וממשיכה. החצים במקלדת עוברים קדימה ואחורה, ורווח עוצר. כפתור הצליל עובר בין הסאונד המקורי של הסרטונים, מוזיקה ושקט.</p>
 
   <section class="block" id="seasons">
     <div class="sh"><h2>מתי נוסעים</h2><p>כל יעד בחודשים שבהם הוא במיטבו. אי אפשר לקבל את כולם באותו חודש.</p></div>
@@ -462,15 +480,17 @@ const Music={ac:null,master:null,wet:null,noise:null,on:true,started:false,e:0,n
   if(st.arp==="bell"){if(pos%4===0)this.note(chd[pat[pos]]+12,t,"bell")}
   else if(st.arp==="koto"){if([0,3,5].includes(pos))this.note(chd[pat[pos]]+12+(pos===5?2:0),t,"koto")}
   else this.note(chd[pat[pos]]+12,t,st.arp);
-  if(st.drums==="soft"){if(pos===0||pos===4)this.kick(t);if(pos%2===1)this.hat(t)}
+  if((bar%2===1)&&(pos===2||pos===6)){const sc=[0,2,4,7,9];const r=Math.abs(Math.sin(e*12.9898))*5|0;this.note(chd[0]+24+sc[r],t,st.arp==="marimba"?"marimba":"bell")}
+  if(st.drums==="soft"&&bar%8>=2){if(pos===0||pos===4)this.kick(t);if(pos%2===1)this.hat(t)}
   if(st.drums==="toms"){if(pos===0||pos===3||pos===6)this.kick(t,pos===0?120:180,.25);if(pos%2===1)this.hat(t,.02)}
  },
  loop(){if(!this.ac)return;while(this.next<this.ac.currentTime+.25){this.sched(this.e,this.next);this.next+=60/this.style.bpm/2;this.e++}},
  setStyle(k){this.style=STY[k]||STY.intro},
  play(){this.init();if(!this.ac)return;this.ac.resume();if(!this.started){this.started=true;this.next=this.ac.currentTime+.1;this.e=0}
-  this.master.gain.cancelScheduledValues(this.ac.currentTime);this.master.gain.setTargetAtTime(this.on?.55:0,this.ac.currentTime,.6);
+  this.master.gain.cancelScheduledValues(this.ac.currentTime);this.master.gain.setTargetAtTime(this.on&&!this.ducked?.55:0,this.ac.currentTime,.6);
   clearInterval(this.iv);this.iv=setInterval(()=>this.loop(),80)},
  pause(){if(!this.ac)return;this.master.gain.setTargetAtTime(0,this.ac.currentTime,.3);clearInterval(this.iv);setTimeout(()=>{if(!playing)this.ac.suspend()},900)},
+ duck(d){this.ducked=d;if(this.ac)this.master.gain.setTargetAtTime(!d&&playing?.55:0,this.ac.currentTime,.4)},
  toggle(){this.on=!this.on;if(this.ac)this.master.gain.setTargetAtTime(this.on&&playing?.55:0,this.ac.currentTime,.3);return this.on}
 };
 
@@ -507,7 +527,7 @@ function loadYT(){if(window.YT&&window.YT.Player){initPlayers();return}const s=d
 window.onYouTubeIframeAPIReady=initPlayers;
 function initPlayers(){if(ytReady)return;ytReady=true;
   P.forEach((p,k)=>{p.yt=new YT.Player(p.el.querySelector("div"),{width:"100%",height:"100%",
-    playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,mute:1,origin:location.origin},
+    playerVars:{controls:0,disablekb:1,fs:0,iv_load_policy:3,modestbranding:1,playsinline:1,rel:0,mute:1,cc_load_policy:0,origin:location.origin},
     events:{onReady:()=>{p.ready=true;p.yt.mute();if(P.every(q=>q.ready))kick()},onStateChange:e=>onState(k,e),onError:()=>onErr(k)}})});
 }
 function kick(){prepare(slot,si);prepare(1-slot,nextVideoStep(si))}
@@ -527,16 +547,28 @@ function onErr(k){const job=prep[k];if(!job||job.done)return;job.idx++;tryId(k,j
 function onState(k,e){
   const job=prep[k];if(!job)return;
   if(e.data===YT.PlayerState.PLAYING&&!job.done){
-    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d>20){P[k].yt.seekTo(d*job.frac,true);return}}
+    try{P[k].yt.unloadModule("captions");P[k].yt.unloadModule("cc")}catch(_){}
+    if(!job.seeked){job.seeked=true;const d=P[k].yt.getDuration()||0;if(d>20){P[k].yt.seekTo(d*job.frac,true);setTimeout(()=>{if(prep[k]===job&&!job.done&&P[k].yt.getPlayerState()===1)onState(k,{data:1})},900);return}}
     clearTimeout(job.to);job.done=true;job.ok=true;
     if(!(steps[si]&&job.step===si&&playing))P[k].yt.pauseVideo();
     settle(k,job);
   }
 }
 function settle(k,job){if(job.step===si&&steps[si].vid)showVideo(k,job.ok)}
+let sndMode="orig", fadeIv=null;
+function fadeTo(k,target,ms){clearInterval(fadeIv);const yt=P[k].yt;if(!yt)return;let v=0;try{v=yt.isMuted()?0:yt.getVolume()}catch(e){}
+  if(target>0){try{yt.unMute()}catch(e){}}
+  const steps=Math.max(1,Math.round(ms/50)),dv=(target-v)/steps;let n=0;
+  fadeIv=setInterval(()=>{n++;v+=dv;try{yt.setVolume(Math.max(0,Math.min(100,v)))}catch(e){}if(n>=steps){clearInterval(fadeIv);if(target===0){try{yt.mute()}catch(e){}}}},50)}
+function applyAudio(){
+  const st=steps[si];const job=prep[slot];const vidOn=!!(st&&st.vid&&job&&job.step===si&&job.done&&job.ok);
+  if(sndMode==="orig"&&vidOn){Music.duck(true);if(playing)fadeTo(slot,85,600)}
+  else{if(vidOn){try{P[slot].yt.mute()}catch(e){}}Music.duck(sndMode==="off")}
+}
 function showVideo(k,ok){
   P.forEach((p,j)=>p.el.classList.toggle("on",ok&&j===k));
   if(ok&&playing){try{P[k].yt.playVideo()}catch(e){}}
+  applyAudio();
 }
 function hideVideos(){P.forEach(p=>{p.el.classList.remove("on");try{p.yt&&p.yt.pauseVideo()}catch(e){}})}
 
@@ -595,9 +627,10 @@ function enterStep(i){
     P.forEach((p,j)=>{if(j!==k){try{p.yt&&p.ready&&p.yt.pauseVideo()}catch(e){}}});
     prepare(1-k,nextVideoStep(si));
   }else{hideVideos();const n=nextVideoStep(si);if(n>=0&&!prep.some(j=>j&&j.step===n))prepare(slot,n)}
-  remain=st.dur;stepStart=performance.now();arm();updateProg();
+  remain=st.dur;stepStart=performance.now();arm();applyAudio();updateProg();
 }
-function arm(){clearTimeout(timer);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>enterStep(si+1),remain)}
+let fadeOutT=null;
+function arm(){clearTimeout(timer);clearTimeout(fadeOutT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>enterStep(si+1),remain);const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
 function goStep(i){enterStep(i)}
 function step(){if(si<steps.length-1)enterStep(si+1)}
 function back(){if(si>0)enterStep(si-1)}
@@ -607,8 +640,8 @@ let progIv=null;
 function setPlaying(p){
   if(p===playing)return;
   if(!p){remain=Math.max(0,remain-(performance.now()-stepStart));clearTimeout(timer);P.forEach(q=>{try{q.yt&&q.ready&&q.yt.pauseVideo()}catch(e){}});Music.pause()}
-  playing=p;$("#play").textContent=p?"❚❚ השהיה":"▶ המשך";
-  if(p){stepStart=performance.now();Music.play();const job=prep[slot];if(steps[si].vid&&job&&job.step===si&&job.ok){try{P[slot].yt.playVideo()}catch(e){}}arm()}
+  playing=p;$("#play").textContent=p?"❚❚":"▶";$("#screen").classList.remove("idle");
+  if(p){stepStart=performance.now();Music.play();const job=prep[slot];if(steps[si].vid&&job&&job.step===si&&job.ok){try{P[slot].yt.playVideo()}catch(e){}}arm();applyAudio();poke()}
   clearInterval(progIv);if(p)progIv=setInterval(updateProg,250);updateProg();
 }
 function start(){
@@ -621,8 +654,13 @@ $("#play").addEventListener("click",()=>{if(!started){start();return}if(!playing
 $("#next").addEventListener("click",()=>{if(!started){start();return}step()});
 $("#prev").addEventListener("click",()=>{if(!started){start();return}back()});
 $("#fs").addEventListener("click",()=>{const s=$("#screen");if(document.fullscreenElement)document.exitFullscreen();else if(s.requestFullscreen)s.requestFullscreen().catch(()=>{})});
-$("#mute").addEventListener("click",()=>{const on=Music.toggle();$("#mute").textContent=on?"♪ מוזיקה פועלת":"♪ מוזיקה כבויה";$("#mute").setAttribute("aria-pressed",on?"false":"true")});
-document.addEventListener("keydown",e=>{if(e.target.closest("input,a,button"))return;if(e.key==="ArrowLeft")$("#next").click();if(e.key==="ArrowRight")$("#prev").click();if(e.key===" "){e.preventDefault();$("#play").click()}});
+const SND={orig:["🔊 סאונד מקורי","music"],music:["♪ מוזיקה","off"],off:["🔇 שקט","orig"]};
+$("#snd").addEventListener("click",e=>{e.stopPropagation();sndMode=SND[sndMode][1];$("#snd").textContent=SND[sndMode][0];if(sndMode!=="orig"){P.forEach(p=>{try{p.yt&&p.yt.mute()}catch(_){}})}applyAudio()});
+let idleT=null;
+function poke(){const sc=$("#screen");sc.classList.remove("idle");clearTimeout(idleT);if(playing)idleT=setTimeout(()=>sc.classList.add("idle"),2600)}
+["mousemove","touchstart","keydown"].forEach(ev=>document.addEventListener(ev,poke,{passive:true}));
+$("#screen").addEventListener("click",e=>{if(!started||e.target.closest("button,a,input,label,.hud"))return;setPlaying(!playing)});
+document.addEventListener("keydown",e=>{if(e.target.closest("input"))return;if(e.key===" "&&e.target.closest("button")){e.preventDefault()}if(e.key==="ArrowLeft")$("#next").click();if(e.key==="ArrowRight")$("#prev").click();if(e.key===" "){e.preventDefault();$("#play").click()}});
 
 /* ---------- canvas scenes ---------- */
 const cv=$("#cv"), ctx=cv.getContext("2d");
