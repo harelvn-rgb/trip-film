@@ -96,7 +96,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud-prog>i{border-radius:4px}
 .ticks{position:absolute;inset:0;pointer-events:none}
 .ticks b{position:absolute;top:-3px;bottom:-3px;width:2px;background:rgba(255,255,255,.55)}
-.tip{position:absolute;bottom:18px;transform:translateX(50%);background:rgba(0,0,0,.85);color:#fff;font-size:13px;font-weight:700;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.bartip{position:absolute;bottom:18px;transform:translateX(50%);background:rgba(0,0,0,.85);color:#fff;font-size:13px;font-weight:700;padding:4px 8px;border-radius:6px;white-space:nowrap}
 .hud-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
 .hud-row{display:flex;align-items:center;gap:8px}
 .hud .sp{flex:1}
@@ -107,6 +107,22 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .hud .clock{color:#fff;opacity:.85;font-size:14px}
 .ov{padding-bottom:calc(clamp(16px,3.2vw,40px) + 70px)!important}
 .gate{z-index:6}
+.still{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;overflow:hidden}
+.still.on{opacity:1}
+.still img{width:100%;height:100%;object-fit:cover;transform:scale(1.36);animation:kb 9s ease-out both}
+.still img.wide{transform:scale(1.04)}
+@keyframes kb{from{scale:1}to{scale:1.08}}
+@media (prefers-reduced-motion:reduce){.still img{animation:none}}
+.atts li{padding:0;overflow:hidden}
+.atts li>.body{padding:12px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.thumb{position:relative;display:block;aspect-ratio:16/9;background:#000;cursor:pointer;border:0;padding:0;width:100%}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb::after{content:"▶";position:absolute;inset:auto auto 10px 10px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center;font-size:15px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:grid;place-items:center;padding:16px}
+.modal-box{width:min(1100px,100%);aspect-ratio:16/9;max-height:80vh;position:relative}
+.modal-box iframe{width:100%;height:100%;border:0;border-radius:10px;background:#000}
+.modal-x{position:absolute;top:-46px;left:0}
+.modal-t{position:absolute;bottom:-36px;right:0;font-weight:700}
 .fitcard{display:grid;gap:14px;background:rgba(8,10,13,.66);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(12px,2vw,22px);max-width:980px}
 .fit-moment b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,52px);line-height:1}
 .fit-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 22px;font-size:clamp(14px,1.5vw,17px);font-weight:600}
@@ -247,6 +263,8 @@ section.block{margin-top:64px}
 
   <div class="screen" id="screen">
     <canvas id="cv" aria-hidden="true"></canvas>
+    <div class="still" id="stillA"><img alt=""></div>
+    <div class="still" id="stillB"><img alt=""></div>
     <div class="pl" id="pA"><div></div></div>
     <div class="pl" id="pB"><div></div></div>
     <div class="scrim"></div>
@@ -257,7 +275,7 @@ section.block{margin-top:64px}
       <p>כ-7.5 דקות. סרטונים אמיתיים מיוטיוב עם הסאונד שלהם, ובסוף השוואה והצבעה.</p>
     </div>
     <div class="hud" id="hud">
-      <div class="hud-prog" id="bar" role="slider" aria-label="ציר הזמן" tabindex="0"><i id="prog"></i><div class="ticks" id="ticks"></div><span class="tip" id="tip" hidden></span></div>
+      <div class="hud-prog" id="bar" role="slider" aria-label="ציר הזמן" tabindex="0"><i id="prog"></i><div class="ticks" id="ticks"></div><span class="bartip" id="tip" hidden></span></div>
       <div class="hud-row">
         <button class="hbtn" id="prev" type="button" aria-label="הקודם">→</button>
         <button class="hbtn big" id="play" type="button" aria-label="הפעלה או עצירה">▶</button>
@@ -304,6 +322,7 @@ section.block{margin-top:64px}
     </div>
   </section>
 
+  <div class="modal" id="modal" hidden><div class="modal-box"><button class="btn modal-x" id="modalX" type="button">✕ סגירה</button><iframe id="modalF" allow="autoplay; encrypted-media; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="סרטון"></iframe><div class="modal-t" id="modalT"></div></div></div>
   <p class="foot">הסרטונים שייכים לבעליהם ומוצגים דרך נגן יוטיוב. המחירים הם הערכות לפי בדיקה מאוקטובר 2026 ושער של כ-125 קרונות לדולר. רק חלק מהם מבוסס על מחירים מפורסמים, ולכן הם לפני אימות מול ספקים. לפני הזמנה יש לבדוק אזהרות מסע מול המטה לביטחון לאומי.</p>
 </div>
 
@@ -406,6 +425,15 @@ const D=[
   s:{wow:4,animals:1,adr:4,gp:3,val:4}}
 ];
 const vurl=id=>"https://www.youtube.com/watch?v="+id;
+const thumb=(id,q)=>`https://i.ytimg.com/vi/${id}/${q}.jpg`;
+function setImg(img,id){img.className="";img.onerror=null;
+  img.onload=()=>{if(img.naturalWidth<=120&&img.src.includes("maxres")){img.src=thumb(id,"hqdefault")}else if(img.src.includes("maxres"))img.className="wide"};
+  img.onerror=()=>{if(img.src.includes("maxres"))img.src=thumb(id,"hqdefault")};
+  img.src=thumb(id,"maxresdefault");}
+let stillSlot=0,stillId=null;
+function showStill(id){const els=[$("#stillA"),$("#stillB")];if(!id){els.forEach(e=>e.classList.remove("on"));stillId=null;return}
+  if(id===stillId)return;stillId=id;stillSlot=1-stillSlot;const e=els[stillSlot];const img=e.querySelector("img");setImg(img,id);img.style.animation="none";void img.offsetWidth;img.style.animation="";
+  e.classList.add("on");els[1-stillSlot].classList.remove("on")}
 const vidLink=a=>`<a class="vid" href="${vurl(a.v[0])}" target="_blank" rel="noopener">${a.o?"סרטון רשמי ↗":"לצפייה בסרטון ↗"}</a>`;
 const SCOLS=[["wow","וואו וחידוש"],["animals","חיות"],["adr","אדרנלין לנוער"],["gp","נוחות לסבים"],["val","תמורה לכסף"]];
 const dots=n=>`<span class="dots" aria-label="${n} מתוך 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
@@ -439,7 +467,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
       <dl class="facts"><dt>מתי</dt><dd>${esc(d.season)}</dd><dt>טיסה</dt><dd>${esc(d.flight)}</dd><dt>עוגנים</dt><dd>${esc(d.anchors)}</dd></dl>
     </div>
     <div style="min-width:0">
-      <ul class="atts">${d.atts.map(a=>`<li><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></li>`).join("")}</ul>
+      <ul class="atts">${d.atts.map(a=>`<li><button class="thumb" type="button" data-play="${a.v[0]}" data-title="${esc(a.n)}" aria-label="ניגון ${esc(a.n)}"><img loading="lazy" alt="" src="${thumb(a.v[0],"mqdefault")}"></button><div class="body"><b>${esc(a.n)}</b><p>${esc(a.t)}</p><div class="row"><span class="who ${a.w}">${WHO[a.w]}</span>${a.z?'<span class="who g" style="color:#9fd8e8">זנזיבר</span>':""}${vidLink(a)}</div></div></li>`).join("")}</ul>
       <div class="extra">
         <div class="stay"><b>לינה ואוכל</b>${esc(d.stay)}</div>
         <div class="miss"><b>מה חסר</b>${esc(d.miss)}</div>
@@ -608,7 +636,7 @@ function hideVideos(){P.forEach(p=>{p.el.classList.remove("on");try{p.yt&&p.yt.p
 
 /* overlay */
 function renderOverlay(){
-  const st=steps[si];ch=chapterOf(si);
+  const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:null);
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   if(st.type==="intro"){
     ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
@@ -695,6 +723,10 @@ function start(){
   playing=false;setPlaying(true);enterStep(0);
 }
 $("#startBtn").addEventListener("click",start);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-play]");if(!b)return;if(playing)setPlaying(false);$("#modalF").src="https://www.youtube.com/embed/"+b.dataset.play+"?autoplay=1&rel=0&modestbranding=1&cc_load_policy=0";$("#modalT").textContent=b.dataset.title;$("#modal").hidden=false});
+function closeModal(){$("#modal").hidden=true;$("#modalF").src="about:blank"}
+$("#modalX").addEventListener("click",closeModal);$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#modal").hidden)closeModal()});
 const startOf=i=>{let t=0;for(let j=0;j<i;j++)t+=steps[j].dur;return t};
 $("#ticks").innerHTML=chapters.slice(1).map(c=>`<b style="right:${startOf(c.at)/TOTAL*100}%"></b>`).join("");
 function fracAt(e){const r=$("#bar").getBoundingClientRect();return Math.max(0,Math.min(1,(r.right-e.clientX)/r.width))}
