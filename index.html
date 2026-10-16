@@ -395,6 +395,30 @@ section.block{margin-top:64px}
 .intro-dests span.on{transform:scale(1.12);box-shadow:0 0 34px currentColor}
 @keyframes popIn{from{opacity:0;transform:scale(.4) translateY(24px)}to{opacity:1;transform:none}}
 @media (max-width:700px){.intro-dests span{font-size:22px}.intro-q{font-size:56px}}
+
+/* big-screen vote */
+.vt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:3% 4% 90px;background:radial-gradient(ellipse at 50% 45%,rgba(20,16,8,.55),rgba(0,0,0,.85))}
+.vt-in{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.6vw,22px);animation:ccUp .5s ease both;width:100%;position:relative}
+.vt-ey{font-size:clamp(14px,1.7vw,22px);letter-spacing:.3em;font-weight:700;color:#e9d7a8}
+.vt-name{font-family:var(--display);font-weight:700;font-size:clamp(56px,10vw,150px);line-height:.9;color:#fff;animation:ccName .8s cubic-bezier(.16,.84,.24,1) both}
+.vt-q{font-size:clamp(20px,3vw,40px);font-weight:700;color:#f3ead8}
+.vt-opts{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(8px,1.2vw,16px);max-width:1100px}
+.vt-opts button{font:inherit;font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,52px);line-height:1;padding:.18em .6em;border-radius:999px;cursor:pointer;color:var(--c);background:rgba(8,10,13,.7);border:3px solid var(--c);transition:transform .15s,background .15s}
+.vt-opts button:hover{transform:scale(1.07);background:color-mix(in srgb,var(--c) 25%,rgba(8,10,13,.7))}
+.vt-back{font:inherit;font-size:15px;color:#cfc6b4;background:none;border:1px solid #5a5347;border-radius:999px;padding:6px 14px;cursor:pointer}
+.vt-tally{display:grid;gap:12px;width:min(760px,100%)}
+.vt-row{display:grid;grid-template-columns:clamp(110px,16vw,220px) 1fr 40px;align-items:center;gap:12px;font-size:clamp(18px,2.4vw,32px);font-weight:700;text-align:right}
+.vt-row i{display:block;height:clamp(16px,2vw,28px);border-radius:14px;min-width:6px;animation:barIn 1s ease both}
+@keyframes barIn{from{width:0!important}}
+.vt-big{font-family:var(--display);font-weight:700;font-size:clamp(60px,11vw,170px);line-height:.95;color:#fff;animation:ccName 1s cubic-bezier(.16,.84,.24,1) both}
+.vt-face{width:clamp(90px,16vh,190px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 4px #f0cf7c,0 0 80px rgba(255,200,110,.6);animation:ccName 1s both}
+.vt-face img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.vt-gold{font-family:var(--display);font-weight:700;font-size:clamp(56px,9vw,140px);line-height:.9;background:linear-gradient(176deg,#fff7df 0%,#f6dc94 25%,#d9a443 50%,#8f5f17 56%,#f0c86c 80%,#fff0c4 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 14px rgba(0,0,0,.8))}
+.vt-w{min-height:100%;justify-content:center}
+.vt-win{font-family:var(--display);font-weight:700;font-size:clamp(90px,17vw,270px);line-height:.86;color:var(--c);text-shadow:0 0 70px color-mix(in srgb,var(--c) 60%,transparent),0 8px 40px rgba(0,0,0,.6);animation:ccName 1.3s cubic-bezier(.16,.84,.24,1) both}
+.cf{position:absolute;top:-6%;width:10px;height:16px;border-radius:2px;opacity:.95;animation:cfall 3s linear infinite;pointer-events:none}
+@keyframes cfall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(110vh) rotate(720deg)}}
+@media (max-width:700px){.vt-opts button{font-size:22px}.vt-name{font-size:48px}.vt-big{font-size:52px}.vt-win{font-size:72px}}
 </style>
 </head>
 <body>
@@ -633,6 +657,32 @@ const SCOLS=[["wow","וואו וחידוש"],["animals","חיות"],["adr","אד
 const dots=n=>`<span class="dots" aria-label="${n} מתוך 5">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
 
 const MONTHS=["ינו","פבר","מרץ","אפר","מאי","יוני","יולי","אוג","ספט","אוק","נוב","דצמ"];
+
+/* ---------- the vote on the big screen: one by one, and then Einbar decides ---------- */
+const VT={i:0,v:{},stage:"vote",music:false,names:["אבי אביעד","מרים אביעד","מור וקנין","עדי וקנין","יהונתן וקנין","הראל וקנין"],t:null};
+function vtBtns(){return `<div class="vt-opts">${D.map(d=>`<button type="button" data-vt="${d.id}" style="--c:${d.hex}">${esc(d.name)}</button>`).join("")}</div>`}
+function vtRender(){const el=$("#vt");if(!el)return;clearTimeout(VT.t);
+  if(VT.stage==="vote"){const n=VT.names[VT.i];
+    el.innerHTML=`<div class="vt-in" key="${VT.i}"><div class="vt-ey">ההצבעה · ${VT.i+1} מתוך ${VT.names.length}</div><div class="vt-name">${esc(n)}</div><div class="vt-q">מה היעד שלך?</div>${vtBtns()}
+      ${VT.i?'<button type="button" class="vt-back" data-back="1">→ חזרה</button>':""}</div>`;return}
+  if(VT.stage==="tally"){const c={};D.forEach(d=>c[d.id]=[]);Object.entries(VT.v).forEach(([n,id])=>c[id].push(n));
+    el.innerHTML=`<div class="vt-in"><div class="vt-ey">התוצאות</div><div class="vt-tally">${[...D].sort((a,b)=>c[b.id].length-c[a.id].length).map(d=>`<div class="vt-row"><b style="color:${d.hex}">${esc(d.name)}</b><i style="width:${c[d.id].length/VT.names.length*100}%;background:${d.hex}"></i><span>${c[d.id].length}</span></div>`).join("")}</div></div>`;
+    VT.t=setTimeout(()=>{VT.stage="s1";vtRender()},4200);return}
+  const lines={s1:"עם כל הכבוד...",s2:"אבל אתם לא קובעים...",s3:"מי שקובע:"};
+  if(lines[VT.stage]){el.innerHTML=`<div class="vt-in"><div class="vt-big">${lines[VT.stage]}</div></div>`;
+    if(VT.stage==="s1")Music.fx("riser");if(VT.stage==="s3")Music.fx("impact");
+    VT.t=setTimeout(()=>{VT.stage={s1:"s2",s2:"s3",s3:"einbar"}[VT.stage];vtRender()},VT.stage==="s3"?1800:2300);return}
+  if(VT.stage==="einbar"){Music.fx("impact");
+    el.innerHTML=`<div class="vt-in vt-e"><div class="vt-face"><img src="einbar.jpg" alt=""></div><div class="vt-gold">עינבר וקנין</div><div class="vt-q">מה היעד הבא?</div>${vtBtns()}</div>`;return}
+  if(VT.stage==="win"){const d=D.find(x=>x.id===VT.win);showStill(d.promo[0]);Music.fx("impact");VT.music=true;musicFor(d.id,true);try{MP[mCur]&&MP[mCur].yt.playVideo()}catch(e){}
+    el.innerHTML=`<div class="vt-in vt-w" style="--c:${d.hex}"><div class="vt-ey">היעד הבא של משפחת וקנין</div><div class="vt-win">${esc(d.name)}</div><div class="vt-q">מזל טוב עינבר!</div>${Array.from({length:70},(_,k)=>`<i class="cf" style="left:${(k*137)%100}%;background:${["#f6dc94","#fff",d.hex,"#ec5b4b","#73cf8f"][k%5]};animation-delay:${(k%14)*.12}s;animation-duration:${2.4+(k%7)*.35}s"></i>`).join("")}</div>`;
+    try{votes["v6"]=d.id;Object.entries(VT.v).forEach(([n,id])=>{const i=VOTERS.indexOf(n);if(i>=0)votes["v"+i]=id});renderVote();persist()}catch(e){}}
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-vt],[data-back]");if(!b||!$("#vt"))return;e.stopPropagation();
+  if(b.dataset.back){VT.i=Math.max(0,VT.i-1);vtRender();return}
+  const id=b.dataset.vt;
+  if(VT.stage==="vote"){VT.v[VT.names[VT.i]]=id;Music.fx("whoosh");VT.i++;if(VT.i>=VT.names.length)VT.stage="tally";vtRender()}
+  else if(VT.stage==="einbar"){VT.win=id;VT.stage="win";vtRender()}},true);
 /* ---------- static program ---------- */
 const $=s=>document.querySelector(s);
 function el(tag,attrs={},html=""){const e=document.createElement(tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(html)e.innerHTML=html;return e}
@@ -965,7 +1015,7 @@ setInterval(()=>{MP.forEach((m,k)=>{if(!m.ready||!m.key)return;let ct=0,st=-1;tr
   const s0=(TRACK[m.key].ids[m.idx]||[])[1]||0;
   let du=0;try{du=m.yt.getDuration()}catch(e){}
   if(!m.live&&st===1&&ct>=s0+.3&&du>90){m.live=true;clearTimeout(m.to)}
-  const target=(k===mCur&&m.live&&playing&&sndMode==="music")?MVOL:0;
+  const target=(k===mCur&&m.live&&(playing||VT.music)&&sndMode==="music")?MVOL:0;
   if(k!==mCur&&m.vol<=0&&st===1&&m.live){try{m.yt.pauseVideo()}catch(e){}}
   if(m.vol!==target){m.vol=target>m.vol?Math.min(target,m.vol+6):Math.max(0,m.vol-8);try{if(m.vol>0){m.yt.unMute();m.yt.setVolume(m.vol)}else m.yt.mute()}catch(e){}}
 })},90);
@@ -1004,9 +1054,7 @@ function renderOverlay(){
     return;
   }
   if(st.type==="vote"){
-    ov.innerHTML=`<div class="ov-top"><span class="chip">הסוף</span></div>
-    <div class="title-block fade"><div class="big">ועכשיו, אתם.</div><div class="tag">כל אחד בוחר יעד אחד.</div>
-    <div><a class="btn primary" href="#voteSec" style="text-decoration:none;margin-top:10px">להצבעה ↓</a></div></div>`;
+    ov.innerHTML=`<div class="vt" id="vt"></div>`;VT.i=0;VT.v={};VT.stage="vote";vtRender();
     return;
   }
   const d=st.d, idx=D.indexOf(d);
@@ -1307,7 +1355,7 @@ if(!reduce)requestAnimationFrame(loop);
 renderOverlay();resize();
 
 /* ---------- vote ---------- */
-const VOTERS=["אבא","אמא","הבן הגדול","הבת","עינבר","סבא","סבתא"];
+const VOTERS=["אבי אביעד","מרים אביעד","מור וקנין","עדי וקנין","יהונתן וקנין","הראל וקנין","עינבר וקנין"];
 let votes={}, docRef=null, canWrite=true, writeChain=Promise.resolve();
 try{const s=localStorage.getItem("trip-votes");if(s)votes=JSON.parse(s)||{}}catch(e){}
 const status=t=>{$("#status").textContent=t};
