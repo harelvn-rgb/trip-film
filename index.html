@@ -297,7 +297,7 @@ section.block{margin-top:64px}
 
 /* ---- big-screen pass: readable from the couch ---- */
 /* performance: players are a fixed 1280x720 box (YouTube streams 720p, light and smooth) scaled up to fill the screen; no animated transforms or blur over video */
-.pl{transition:opacity 1s ease-in-out;width:1280px;height:720px;min-width:0;aspect-ratio:auto;transform:translate(-50%,-50%) scale(calc(var(--fit,1)*var(--vz,1)*1.04));will-change:opacity}
+.pl{transition:opacity 1s ease-in-out;width:854px;height:480px;min-width:0;aspect-ratio:auto;transform:translate(-50%,-50%) scale(calc(var(--fit,1)*var(--vz,1)*1.04));will-change:opacity}
 .screen *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .screen .chip{background:rgba(10,12,15,.72)}
 .screen .datacard,.screen .cmpcard,.screen .tmoment{background:rgba(8,10,13,.8)}
@@ -550,12 +550,12 @@ const D=[
    A("לנדמנאלאוגר","הרים בצבעי חלודה, ירוק וצהוב, שדות אובסידיאן וטבילה במעיין חם טבעי בסוף.","a",["KAPLJrVWagg","HsMN__wzkhY","RBebVbsJ9zc"]),
    A("סקוגאפוס וסליאלנדספוס","שני המפלים המפורסמים של איסלנד. מאחורי אחד הולכים בשביל בתוך הסלע, ומתחת לשני עומדים בתוך הרסס ומחפשים קשת.","a",["-eejVvSLQfk","xfejpaTA9u4"]),
    A("הקרחון בסולהיימיוקול","הליכה עם נעלי ברזל על קרחון חי, ולנוער זיפליין מעליו.","t",["kGRF19PDTB4","wrg4ZueSoCE"]),
-   A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t",["l5GNOKqJjtE","ULnYRIlC0Q0"]),
+   A("שנורקל בסילפרה","צפים במים צלולים בשבר בין יבשת אמריקה לאירופה. מגיל 12.","t",["l5GNOKqJjtE","ULnYRIlC0Q0"],0,0,0),
    A("תוכי איי וסטמן","המושבה הגדולה בעולם, כ-1.1 מיליון זוגות, והר געש שהתפרץ ב-1973.","a",["2Hi-cDYQd68","iS-9FATRpbM"]),
    A("זודיאק ביוקולסארלון","סירה מהירה בין קרחונים צפים עד קיר הקרחון. הסבים בסירה אמפיבית.","a",["S0PhL19vLYc","jCm9w9UsC4Y","f3Rs-BRvd8U"],1),
    A("חוף היהלומים","גושי קרח שקופים זרוקים על חול שחור.","a","lPmMesPEQ4s",0,0),
    A("לווייתנים מריקיאוויק","גבנונים ומינקי. ביותר מ-90 אחוז מההפלגות רואים.","a",["NO2FCuztj6Q","GYhLx_EnVpg"],1),
-   A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a",["QExESkZdS-M","gdvl0062Hfk","TisMHZ9_vuU"]),
+   A("בתי הדשא של הוויקינגים","חוות מתקופת ההתיישבות עם גגות דשא, ואולם ויקינגי מהמאה העשירית מתחת לריקיאוויק.","a",["QExESkZdS-M","gdvl0062Hfk","TisMHZ9_vuU"],0,0,0),
    A("סקיי לגון","מים חמים על קצה האוקיינוס, לסיום הטיול.","g","3uSsbjjPx2w",1,0)],
   stay:"Stracta בהלה, Hali ליד הלגונה. ארוחה חגיגית ב-Matur og Drykkur, ו-Slippurinn באיי וסטמן.",
   miss:"בקיץ, יוני עד אוגוסט: שמש חצות, תוכים, לווייתנים והרים ירוקים. בחורף, נובמבר עד מרץ: זוהר צפוני ומערות קרח כחולות. ההמלצה לכם: תחילת יולי, עם מעיל גשם ושכבות חמות.",
@@ -570,11 +570,11 @@ const D=[
    A("סלע האריה בסיגיריה","מבצר מלכותי על סלע של 200 מטר באמצע הג'ונגל. עולים במדרגות בין כפות האריה עד הפסגה, והנוף פתוח לכל הכיוונים.","a",["XkCZHYRz4oo","ty_Wx_VfL-s"]),
    A("לווייתנים כחולים במיריסה","יוצאים בבוקר, והמדף היבשתי מביא את היצור הגדול על כדור הארץ קרוב לחוף.","a",["98XmqV_rUps","1DwDEYHjEZI"]),
    A("ספארי ביאלה","צפיפות הנמרים הגבוהה בעולם, פילים, דובי שפתיים ותנינים.","a",["tzlhUJqak38","Xa2rirO_0rA"]),
-   A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t",["EzzcDcaG4P4","bwTW-tscs1Y"]),
+   A("רפטינג בקיטולגלה","חמש אשדות גדולות על נהר הקלאני, מגיל 10.","t",["EzzcDcaG4P4","bwTW-tscs1Y"],0,0,0),
    A("הרכבת הנופית","הנסיעה בין מטעי התה וגשר תשע הקשתות היא האטרקציה עצמה.","a",["Oy3k1Fdbl-0","KnwH-t7utRE","MEF5iQg5_nM"]),
    A("בונגלו תה קולוניאלי","בית של מגדלי תה מהמאה ה-19 עם באטלר, בתוך מטע פעיל.","g",["6ViBh5ZAU5s","RUiznYJmXJw"],1),
    A("גלישה בחוף הדרום","חופים רכים ללמידה בוליגמה, עם גלים טובים בעונה הזו.","t",["v8ogmVRbUeU","RD-dsrXpUys","CwD6k-JfS1o"]),
-   A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a",["lrtVzDkb3xI","Vlb8HnD7q0w","bD87jUPtvAw"])],
+   A("מפרצי החוף הדרומי","חופי זהב ומים טורקיז בין מיריסה לטנגאלה, ווילה עם צוות מול הים.","a",["lrtVzDkb3xI","Vlb8HnD7q0w","bD87jUPtvAw"],0,0,0)],
   stay:"שני לילות ליד סיגיריה, Ceylon Tea Trails או Stafford Bungalow בהרים, וילה עם צוות בטנגאלה.",
   miss:"העונה של החוף הדרומי: דצמבר עד מרץ, יחד עם עונת הלווייתנים הכחולים. ההמלצה לכם: סוף פברואר עד אמצע מרץ. הרי התה קרירים ונעימים, החוף חם, ומשלבים ימי מנוחה בווילה.",
   tip:"בונגלו התה הוא החוויה שאין לה תחליף. על זה לא מוותרים גם בגרסה החסכונית.",
@@ -592,9 +592,9 @@ const D=[
    A("כדור פורח","טיסה בזריחה מעל הסרנגטי, כ-500 עד 600 דולר לאדם.","a",["HgA6cH2joZE","TJEZEGL6aPc"]),
    A("לודג' מאבן","Serengeti Serena, בנוי מאבן ולא אוהל, עם נוף לסוואנה.","g","WzNTDtYKtqY",1,0),
    A("חופי זנזיבר","מים טורקיז בנונגווי, קנדווה ופאג'ה.","a",["xq5xNUUcPhk","gvz_pZS-E54"],0,1,1),
-   A("סטון טאון","העיר העתיקה, הסמטאות והדלתות המגולפות, ושקיעה על סירת דאו.","g",["y5zsdeVXbX8","iUq317Zzcyg"],0,1,1),
+   A("סטון טאון","העיר העתיקה, הסמטאות והדלתות המגולפות, ושקיעה על סירת דאו.","g",["y5zsdeVXbX8","iUq317Zzcyg"],0,0,1),
    A("שנורקל באטול מנמבה","דולפינים, צבים ושונית צבעונית.","a",["tOwuFuS1F7s","QDaZB0MEN-U"],0,1,1),
-   A("גלישת עפיפונים בפאג'ה","לגונה רדודה ורוח קבועה, מקום מושלם ללמוד.","t",["mNCnWFa0hr8","dbuWrzrIY1Q"],0,1,1),
+   A("גלישת עפיפונים בפאג'ה","לגונה רדודה ורוח קבועה, מקום מושלם ללמוד.","t",["mNCnWFa0hr8","dbuWrzrIY1Q"],0,0,1),
    A("קופי הקולובוס האדומים","יער ג'וזאני, המין היחיד שחי רק בזנזיבר.","a","vCbxAOTpXjQ",0,0,1),
    A("צבי הענק באי פריזן","צבים בני יותר ממאה שנה, שייט קצר מהעיר.","g","4605C0V8-Yw",0,0,1)],
   stay:"Ngorongoro Serena ו-Serengeti Serena, לודג'ים מאבן. וילה בזנזיבר.",
@@ -608,17 +608,17 @@ const D=[
   calnote:"באמצע אוגוסט כל איטליה בחופשה והרכבלים עמוסים.",
   atts:[
    A("רכס סצ'דה","רכבל מעמק גרדנה לרכס שנראה כמו גל אבן ענק שנשבר, ומתחתיו אחו ירוק עד האופק.","a",["4UeCqaGgWO0","rPf2d-N2PYk"]),
-   A("אלפה די סיוזי וארוחה בבקתה","האחו ההררי הגדול באירופה. פרות, בקתות עץ, וארוחת צהריים של קנדרלי, גבינות הרים ושטרודל מול הנוף.","a",["AR88T70EG8w","1o26ejm445E"]),
+   A("אלפה די סיוזי וארוחה בבקתה","האחו ההררי הגדול באירופה. פרות, בקתות עץ, וארוחת צהריים של קנדרלי, גבינות הרים ושטרודל מול הנוף.","a",["AR88T70EG8w","1o26ejm445E"],0,0,0),
    A("אגם בראייס","סירות עץ על מים בצבע אמרלד מתחת לצוק אנכי. שוכרים סירה וחותרים בעצמכם.","a",["Rhmyqr9ujZw","L02Sc7A2C50"]),
    A("טרה צ'ימה די לבארדו","שלושת הצריחים המפורסמים של הדולומיטים, ושביל נוח שמקיף אותם.","a","c5z-I4yAGY4",0,0),
-   A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","a",["WL2HpiE3uwU","Fkc79yV8hwI"]),
+   A("מנהרות הלגאצואי","יורדים עם קסדה ופנס בתוך מנהרה של 3 ק\"מ שנחצבה במלחמת העולם הראשונה.","a",["WL2HpiE3uwU","Fkc79yV8hwI"],0,0,0),
    A("גשר צוק המוות","ויה פרטה איוונו דיבונה, גשר תלוי של 27 מטר. יוצאים עם מדריך הרים.","t",["Yazv7p-9pBo","xfkYfvr-EuY","Dp8P1Tf7tzE"]),
    A("צ'ינקווה טורי","המוזיאון הפתוח הגדול באירופה למלחמה, עולים ברכבל.","a","yNIOtJXi1UQ",1,0),
    A("מרמולדה","מלכת הדולומיטים, 3,265 מטר, ורכבל עד הקרחון.","a","iwOaheCBMk0",0,0),
    A("רפטינג בנהר הנוצ'ה","אחד מנהרות הרפטינג הטובים באלפים, בעמק ואל די סולה.","t","Ixy7UUXljfc",1,0),
    A("בוקר במחלבת פרמזן","בשש בבוקר מרימים את הגבינה מדודי הנחושת, ואחר כך נכנסים למחסן של אלפי גלגלים. טעימה של פרמזן בן 12, 24 ו-36 חודשים.","a",["IQcJCmAVDjY","GA7xtobfzmc"],0,1,1),
    A("סדנת פסטה טרייה","מרדדים בצק במערוך ענק כמו הספולינות של בולוניה, ואוכלים את הטורטליני שהכנתם.","a","FYdaLR88EqA",0,0,1),
-   A("מוזיאון פרארי במרנלו","המכוניות האדומות, הסיפור של אנצו פרארי, ואפשר גם סימולטור נהיגה.","a",["2H2LsPvoO7A","xiTh29qNnDk"],0,1,1),
+   A("מוזיאון פרארי במרנלו","המכוניות האדומות, הסיפור של אנצו פרארי, ואפשר גם סימולטור נהיגה.","a",["2H2LsPvoO7A","xiTh29qNnDk"],0,0,1),
    A("מודנה וחומץ בלסמי","עליית גג עם חביות עץ שבהן החומץ מבשיל עשרות שנים, וטעימה ישר מהחבית.","a","eMr7GdR5h1E",0,0,1),
    A("אגם גארדה ומלצ'זינה","העיירה על המים, ורכבל מסתובב להר באלדו 1,760 מטר מעל האגם.","a","skeVmBZc1lM",0,0,1),
    A("אגם גארדה וטירת סירמיונה","טירה מימי הביניים שעומדת בתוך האגם, שייט בין העיירות וגלידה בסמטאות.","a",["EzH36D2M9cE","Q-6Z_GBztWg"],0,1,1),
@@ -636,7 +636,7 @@ const D=[
   atts:[
    A("שייט לילה במפרץ לאן הא","מאות צוקי גיר מתוך המים, קייקים, מערה ושחייה מהסיפון.","a",["FUKqs1efCgE","3SoXlybjUfc","TPWbEUhYeyg"]),
    A("נין בין וטאם קוק","שייט בסירת משוטים בין צוקי גיר ושדות אורז. החותרים מחזיקים את המשוט ברגליים.","a",["_oUzXzTCIJ4","MnyYWNUPR1Y"]),
-   A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a",["8DHpKXo6iEE","aSdrsEvm0y0","AemI8X_W2go"]),
+   A("מערות פונג נה ופרדייס","אולמות ענק עם שבילים סלולים, מתאים גם לסבים.","a",["8DHpKXo6iEE","aSdrsEvm0y0","AemI8X_W2go"],0,0,0),
    A("מערת החושך","זיפליין של 400 מטר, קייקים, שחייה לתוך מערה ואמבט בוץ.","t",["2eUixYYYQvs","XFJixg2s03w"]),
    A("בה נה הילס","רכבל ל-1,500 מטר והגשר הזהב שנשען על שתי ידיים ענקיות.","a",["zDuRWVVXfVk","1TKSH19PuVQ"]),
    A("הוי אן","שייט פנסים בלילה ושיעור בישול בעיר העתיקה.","a",["PHe_0vSE1Lg","Vym2MBTbvw4"]),
@@ -914,13 +914,13 @@ const chapters=[{label:"פתיחה",at:0,k:"intro"}];
 D.forEach(d=>{
   chapters.push({label:d.name,at:steps.length,k:d.id});
   const film=d.atts.filter(a=>a.f);
-  const K=d.id,clip=bars(K,film.length>8?6000:6500);
+  const K=d.id,clip=bars(K,8000);
   steps.push({k:K,type:"country",d,dur:bars(K,4000)});
   steps.push({k:K,type:"title",d,vid:d.promo,frac:startFor(d.promo,.2),dur:bars(K,5500)});
   steps.push({k:K,type:"data",d,vid:d.promo,frac:.5,dur:bars(K,7500),cont:true});
   let zDone=false;
   film.forEach((a,i)=>{
-    if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:startFor(d.zpromo,.3),dur:bars(K,4000)})}
+    if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,dur:bars(K,4000)})}
     steps.push({k:d.id,type:"att",d,a,i,n:film.length,vid:a.v,frac:startFor(a.v,.35),dur:clip});
   });
 });
@@ -1028,7 +1028,7 @@ function musicFor(k,force){if(!MP.every(q=>q.ready))return;const key=trackKey(k)
   mCur=j;
   /* preload the next country's song on the other player once this one is running */
   const nk=nextKey(si);const o=1-j;clearTimeout(musicFor.t);
-  musicFor.t=setTimeout(()=>{if(mCur!==j||!nk||MP[o].key===nk)return;mLoad(o,nk)},4000)}
+  musicFor.t=setTimeout(()=>{if(mCur!==j||!nk||MP[o].key===nk)return;mLoad(o,nk)},25000)}
 function nextKey(i){const cur=trackKey(steps[i].k);for(let n=i+1;n<steps.length;n++){const t=trackKey(steps[n].k);if(t!==cur)return t}return null}
 function musicPlay(p){MP.forEach((m,k)=>{if(!m.ready||!m.key)return;try{if(p&&k===mCur)m.yt.playVideo();else if(!p)m.yt.pauseVideo()}catch(e){}})}
 const musicOn=()=>{const m=MP[mCur];return !!(m&&m.key===mKey&&!m.failed)};
@@ -1037,7 +1037,7 @@ function hideVideos(){P.forEach(p=>{p.el.classList.remove("on");try{p.yt&&p.yt.p
 
 /* overlay */
 function renderOverlay(){
-  const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:(st.type==="country"?st.d.promo[0]:null));
+  const st=steps[si];ch=chapterOf(si);showStill(st.vid?st.vid[0]:(st.type==="country"?st.d.promo[0]:st.type==="sub"?st.d.zpromo[0]:null));
   [...chapNav.children].forEach((b,i)=>b.setAttribute("aria-current",i===ch?"true":"false"));
   ov.classList.remove("country");
   if(st.type==="intro"){
@@ -1117,7 +1117,7 @@ let prerollT=null;
 function preroll(){const n=si+1;if(!steps[n]||!steps[n].vid||steps[n].cont)return;const k=prep.findIndex(j=>j&&j.step===n);if(k<0)return;const job=prep[k];if(!job.done||!job.ok)return;try{P[k].yt.mute();P[k].yt.seekTo(job.target||0,true);P[k].yt.playVideo()}catch(e){}}
 function advance(w){const n=si+1,ns=steps[n];if(ns&&ns.vid&&!ns.cont&&w<2600){const j=prep.find(x=>x&&x.step===n);if(j&&!j.done){timer=setTimeout(()=>advance(w+200),200);return}}enterStep(n)}
 let riserT=null;
-function arm(){clearTimeout(timer);clearTimeout(riserT);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>advance(0),remain);prerollT=setTimeout(preroll,Math.max(0,remain-1600));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
+function arm(){clearTimeout(timer);clearTimeout(riserT);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>advance(0),remain);prerollT=setTimeout(preroll,Math.max(0,remain-900));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
 /* watchdog: a frozen or finished clip never stays on screen */
 let wd={t:-1,since:0,key:""};
 setInterval(()=>{if(!playing)return;const st=steps[si],job=prep[slot];if(!st||!st.vid||!job||!job.done||!job.ok||job.step!==si)return;
@@ -1127,7 +1127,7 @@ setInterval(()=>{if(!playing)return;const st=steps[si],job=prep[slot];if(!st||!s
   if(wd.key!==key||Math.abs(ct-wd.t)>.05){wd={t:ct,since:now,key};return}
   const stuck=now-wd.since;
   if(stuck>1200&&stuck<1700){try{P[slot].yt.playVideo()}catch(e){}}
-  if(stuck>2800){wd.since=now;if(job.idx+1<job.ids.length){job.done=false;job.ok=false;job.idx++;tryId(slot,job)}else if(st.type==="att"){enterStep(si+1)}}
+  if(stuck>6000){wd.since=now;if(job.idx+1<job.ids.length){job.done=false;job.ok=false;job.idx++;tryId(slot,job)}else if(st.type==="att"){enterStep(si+1)}}
 },400);
 function goStep(i){enterStep(i)}
 function step(){if(si<steps.length-1)enterStep(si+1)}
@@ -1354,7 +1354,7 @@ function frame(now){
   const v=ctx.createRadialGradient(W/2,H/2,H*.3,W/2,H/2,Math.max(W,H)*.75);v.addColorStop(0,"rgba(0,0,0,0)");v.addColorStop(1,"rgba(0,0,0,.45)");ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
 }
 function loop(now){const covered=P.some(p=>p.el.classList.contains("on"))||document.querySelector(".still.on");if(!covered||!started)frame(now);requestAnimationFrame(loop)}
-function fitPlayers(){const r=$("#screen").getBoundingClientRect();const f=Math.max(r.width/1280,r.height/720);P.forEach(p=>p.el.style.setProperty("--fit",f.toFixed(4)))}
+function fitPlayers(){const r=$("#screen").getBoundingClientRect();const f=Math.max(r.width/854,r.height/480);P.forEach(p=>p.el.style.setProperty("--fit",f.toFixed(4)))}
 addEventListener("resize",fitPlayers);document.addEventListener("fullscreenchange",()=>setTimeout(fitPlayers,60));setTimeout(fitPlayers,0);
 if(!reduce)requestAnimationFrame(loop);
 renderOverlay();resize();
