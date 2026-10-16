@@ -387,7 +387,7 @@ section.block{margin-top:64px}
       <div class="gate-cta">
       <button class="gate-btn" id="startBtn" type="button"><span>▶</span>הפעלת הסרט</button>
       <label class="gate-fs"><input type="checkbox" id="fsAuto" checked> לפתוח במסך מלא</label>
-      <p>כ-6.5 דקות. סרטונים אמיתיים, מוזיקה של כל מדינה, ובסוף השוואה והצבעה.</p>
+      <p>כ-6 דקות. סרטונים אמיתיים, מוזיקה של כל מדינה, ובסוף השוואה והצבעה.</p>
       </div>
     </div>
     <div class="hud" id="hud">
@@ -635,128 +635,152 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 })();
 
 /* ---------- soundtrack (generated live, no external files) ---------- */
-/* each country has its own band: instruments, rhythm and a composed melody.
-   tracks: pat = percussion (x/s/g), mel = scale degrees per step (base36), arp = chord tones (0-5, c = full chord), pad = sustained chord */
-const SC={min:[0,2,3,5,7,8,10],maj:[0,2,4,5,7,9,11],hmin:[0,2,3,5,7,8,11],bhai:[0,1,4,5,7,8,11],pent:[0,2,4,7,9]};
+/* soundtrack: each country gets its own happy, rhythmic band.
+   tracks: pat = drums (x/s/g), mel = scale degrees (base36, '-' holds, '.' rests), arp = chord tones (0-5, c = whole chord), pad = sustained chord */
+const SC={maj:[0,2,4,5,7,9,11],pent:[0,2,4,7,9],mix:[0,2,4,5,7,9,10]};
 const STY={
- intro:{bpm:72,beats:4,grid:16,root:50,sc:"min",prog:[0,5,2,6],tr:[
-  {i:"strings",pad:1},{i:"choir",pad:1,from:1},{i:"bass",arp:"0...............",oct:-1},
-  {i:"bell",arp:"3...5...4...2...",oct:1,from:1,v:.8},{i:"taiko",pat:"x.......x...x.x.",from:2}]},
- is:{bpm:70,beats:4,grid:16,root:50,sc:"min",prog:[0,5,2,6],tr:[
-  {i:"strings",pad:1},{i:"choir",pad:1,from:2},{i:"bass",arp:"0.......0.......",oct:-1},
-  {i:"bell",arp:"0.1.2.3.5.3.2.1.",oct:1,from:1,v:.55},
-  {i:"bell",mel:["7.......9...8...","4.......5...4...","9.......b...9...","8.......7......."],oct:1,from:4,v:1.1},
-  {i:"taiko",pat:"x.....x.x.......",from:3},{i:"tom",pat:"............s.s.",from:6,mod:2}]},
- lk:{bpm:100,beats:4,grid:16,root:52,sc:"bhai",prog:[0,0,1,0],tr:[
-  {i:"drone",pad:1},
-  {i:"tablaGe",pat:"x.....x...x.....",from:1},{i:"tablaNa",pat:"..x.x..xx.x.x.xx",from:1},
-  {i:"tom",pat:"x..s..x...s.s...",from:3,v:.7},{i:"shaker",pat:"g.x.g.x.g.x.g.x.",from:2},
-  {i:"sitar",mel:["4..5.4.2.1.0....","0..1.2.4.5.4.2..","7..5.4.5.4.2.1.0","1.0............."],oct:1,from:2},
-  {i:"flute",mel:["7...............","8.......7.......","9...............","8...7...5...4..."],oct:1,from:6,v:.8}]},
- tz:{bpm:112,beats:4,grid:16,root:48,sc:"maj",prog:[0,3,5,4],tr:[
-  {i:"choir",pad:1,from:2},{i:"bass",arp:"0.....0...2.....",oct:-1},
-  {i:"kalimba",arp:"0.2.3.2.1.2.3.2.",oct:1},
-  {i:"djembe",pat:"x..sx.s.x..sx.s.",from:1},{i:"shaker",pat:"g.x.g.x.g.x.g.xx",from:1},
-  {i:"marimba",mel:["4.4.5.4.2...0...","2.2.4.2.0...5...","4.4.5.7.5.4.2...","1.2.4.......0..."],oct:1,from:3},
-  {i:"tom",pat:"..............ss",from:4,mod:4}]},
- it:{bpm:116,beats:2,grid:12,root:57,sc:"hmin",prog:[0,0,4,4,0,0,3,4],tr:[
-  {i:"bass",arp:"0.....2.....",oct:-1},{i:"accordion",arp:"..c.c...c.c.",from:0},
-  {i:"tamb",pat:"s.x.x.s.x.x.",from:1},{i:"kick",pat:"x.....x.....",from:2},
-  {i:"mandolin",mel:["4.4.4.5.4.3.","2.....1.0...","1.1.1.2.1.0.","6...........","4.4.4.5.4.3.","2.3.4.....0.","3.3.3.5.4.3.","1.2.1.0.6..."],oct:1,from:1}]},
- vn:{bpm:84,beats:4,grid:16,root:50,sc:"pent",prog:[0,0,3,0],tr:[
-  {i:"drone",pad:1},{i:"gong",pat:"x...............",mod:4},
-  {i:"zither",arp:"0.1.2.4.3.2.1.2.",oct:1,v:.8},
-  {i:"flute",mel:["5.......4...3...","2.......3.1.0...","5...7...6...5...","4.......2......."],oct:1,from:2},
-  {i:"wood",pat:"x.......x...x.x.",from:4},{i:"bass",arp:"0.......",oct:-1,from:1}]},
- fin:{bpm:92,beats:4,grid:16,root:48,sc:"maj",prog:[0,4,5,3],tr:[
-  {i:"strings",pad:1},{i:"choir",pad:1,from:1},{i:"bass",arp:"0.......0...0...",oct:-1},
-  {i:"bell",arp:"0.2.4.2.3.2.1.2.",oct:1,v:.7},{i:"taiko",pat:"x.......x.x.....",from:1},{i:"kick",pat:"x...x...x...x...",from:2},{i:"shaker",pat:"..x...x...x...x.",from:2}]}
+ /* opening: festive fanfare */
+ intro:{bpm:118,beats:4,grid:16,root:50,sc:"maj",prog:[0,4,5,3],tr:[
+  {i:"strings",pad:1},{i:"brass",arp:"c..c..c.....c.c.",v:.8},{i:"bass",arp:"0..0..0.....2.2.",oct:-1},
+  {i:"bell",arp:"0.2.4.2.5.4.2.4.",oct:1,v:.7},{i:"taiko",pat:"x.....x...x.x.xx"},{i:"kick",pat:"x...x...x...x...",from:1},{i:"clap",pat:"....x.......x...",from:1}]},
+ /* Iceland: stomp-and-clap Icelandic indie folk, glockenspiel and horns */
+ is:{bpm:106,beats:4,grid:16,root:50,sc:"maj",prog:[0,4,5,3],tr:[
+  {i:"kick",pat:"x.......x.x....."},{i:"clap",pat:"....x.......x..."},{i:"tamb",pat:"..x...x...x...x."},
+  {i:"strum",arp:"c.c.c.cc.cc.c.c.",v:.75},{i:"bass",arp:"0.....0.0...2...",oct:-1},
+  {i:"bell",mel:["4.4.7.4.5.4.2...","1.1.4.1.2.1.0...","2.2.5.2.4.2.0...","3.3.2.1.0......."],oct:1,from:1},
+  {i:"brass",mel:["................","................","................","................","7-.7.9-.b---9-..","8-.8.7-.6---4---","9-.9.b-.c---b-..","a-.9.8-.7-------"],oct:0,from:4,v:.9},
+  {i:"choir",pad:1,from:8},{i:"tom",pat:"............ssss",from:3,mod:4}]},
+ /* Sri Lanka: baila, the island's beach-party dance, with rabana drums and flute */
+ lk:{bpm:104,beats:2,grid:12,root:55,sc:"maj",prog:[0,0,4,4,0,0,4,0],tr:[
+  {i:"kick",pat:"x.....x....."},{i:"bongo",pat:"x.s.xsx.s.xs"},{i:"shaker",pat:"x.g.x.x.g.x.",from:1},
+  {i:"strum",arp:"..c.c...c.c.",v:.8},{i:"bass",arp:"0.....2.....",oct:-1},
+  {i:"flute",mel:["4.4.5.4.2.0.","2.4.7-----6.","8.8.9.8.6.4.","6.4.2.1-----","4.4.5.4.2.4.","7.9.7-----4.","8.6.4.6.8.9.","7-----------"],oct:1,from:1},
+  {i:"marimba",arp:"0.2.5.2.0.2.",oct:1,from:2,v:.6},
+  {i:"tom",pat:"x.x.xxx.x.xx",from:4,mod:4}]},
+ /* Tanzania and Zanzibar: bongo flava / highlife, guitars, marimba and voices */
+ tz:{bpm:116,beats:4,grid:16,root:52,sc:"maj",prog:[0,3,4,3],tr:[
+  {i:"kick",pat:"x.....x...x....."},{i:"clap",pat:"....x.......x..."},{i:"shaker",pat:"xgxgxgxgxgxgxgxg"},{i:"djembe",pat:"..s..s.x..s..sx.",from:1},
+  {i:"pluck",arp:"0.2.3.2.4.2.3.2.",oct:1,v:.75},{i:"pluck",arp:"..5...4...5...3.",oct:1,v:.45,from:2},
+  {i:"bass",arp:"0..0..2.0..0..2.",oct:-1},
+  {i:"marimba",mel:["4.2.4.5.4.2.0...","5.3.5.7.5.3.1...","6.4.6.8.6.4.2...","5.4.2.1.0......."],oct:1,from:2},
+  {i:"vox",mel:["7-------........","8---7---........","9-------........","8---7---5---4---"],oct:0,from:6,v:.9}]},
+ /* northern Italy: a sunny tarantella, mandolins, accordion and tambourine */
+ it:{bpm:124,beats:2,grid:12,root:50,sc:"maj",prog:[0,0,4,4,4,4,0,0],tr:[
+  {i:"kick",pat:"x.....x....."},{i:"tamb",pat:"s.x.x.s.x.x."},{i:"clap",pat:"......x.....",from:4},
+  {i:"accordion",arp:"..c.c...c.c."},{i:"bass",arp:"0.....2.....",oct:-1},
+  {i:"mandolin",mel:["4.7.7.7.6.7.","8.7.6.5.4...","4.6.6.6.5.6.","8.6.4.1.4...","4.6.8.8.6.8.","b.a.8.6.4...","7.9.b.9.7.4.","7.....7....."],oct:1,from:1},
+  {i:"accordion",mel:["7-----9-----","8-----6-----","6-----8-----","9-----6-----","8-----9-----","b-----9-----","9-----7-----","7-----------"],from:8,v:.8}]},
+ /* Vietnam: bright pentatonic pop with dan tranh zither, bamboo flute and dan bau */
+ vn:{bpm:104,beats:4,grid:16,root:55,sc:"pent",prog:[0,0,3,0],tr:[
+  {i:"kick",pat:"x.....x...x....."},{i:"clap",pat:"....x.......x..."},{i:"ohat",pat:"..x...x...x...x."},{i:"wood",pat:"x..x..x...x..x..",from:2},
+  {i:"gong",pat:"x...............",mod:8},
+  {i:"zither",mel:["0.2.4.5.7.5.4.2.","0.2.4.5.7.9.7.5."],oct:1,v:.7},{i:"bass",arp:"0.....0...2.....",oct:-1},
+  {i:"flute",mel:["7-.5.7-.9-.7.5..","4-.5.4-.2---0...","5-.7.9-.a-.9.7..","9-.7.5-.4---...."],oct:0,from:2},
+  {i:"danbau",mel:["7-.5.7-.9-.7.5..","4-.5.4-.2---0...","5-.7.9-.a-.9.7..","9-.7.5-.4---...."],oct:-1,from:6,v:.7}]},
+ /* comparison and vote: celebration */
+ fin:{bpm:118,beats:4,grid:16,root:48,sc:"maj",prog:[0,4,5,3],tr:[
+  {i:"kick",pat:"x...x...x...x..."},{i:"clap",pat:"....x.......x..."},{i:"ohat",pat:"..x...x...x...x."},
+  {i:"strings",pad:1},{i:"strum",arp:"c.c.c.cc.cc.c.c.",v:.6},{i:"bass",arp:"0..0..0...0.2...",oct:-1},
+  {i:"bell",mel:["4.4.5.7-.5.4.2..","2.2.4.5-.4.2.1..","4.4.5.7-.9.7.5..","5.4.2.1-.0......"],oct:1,from:1},
+  {i:"brass",arp:"c.......c..c....",from:2,v:.7}]}
 };
 STY.cmp=STY.fin;STY.vote=STY.fin;
-const Music={ac:null,master:null,wet:null,noise:null,on:true,started:false,e:0,next:0,iv:null,style:STY.intro,
+const Music={ac:null,master:null,bus:null,wet:null,noise:null,on:true,started:false,e:0,next:0,iv:null,style:STY.intro,
  init(){
   if(this.ac)return;
   const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
   const ac=this.ac=new AC();
-  const comp=ac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=3;comp.connect(ac.destination);
+  const comp=ac.createDynamicsCompressor();comp.threshold.value=-12;comp.ratio.value=4;comp.attack.value=.005;comp.release.value=.2;comp.connect(ac.destination);
   this.master=ac.createGain();this.master.gain.value=0;this.master.connect(comp);
-  const rv=ac.createConvolver(),len=ac.sampleRate*2.6,ir=ac.createBuffer(2,len,ac.sampleRate);
-  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.8)}
-  rv.buffer=ir;this.wet=ac.createGain();this.wet.gain.value=.42;this.wet.connect(rv);rv.connect(this.master);
+  this.bus=ac.createGain();this.bus.connect(this.master);
+  const rv=ac.createConvolver(),len=ac.sampleRate*2,ir=ac.createBuffer(2,len,ac.sampleRate);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.2)}
+  rv.buffer=ir;this.wet=ac.createGain();this.wet.gain.value=.32;this.wet.connect(rv);rv.connect(this.master);
   const nb=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate),nd=nb.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;this.noise=nb;
  },
  f(m){return 440*Math.pow(2,(m-69)/12)},
- out(node,dry=1,wet=1){const g=this.ac.createGain();g.gain.value=dry;node.connect(g);g.connect(this.master);if(wet){const w=this.ac.createGain();w.gain.value=wet;node.connect(w);w.connect(this.wet)}},
+ out(node,dry=1,wet=1,pump=false){const g=this.ac.createGain();g.gain.value=dry;node.connect(g);g.connect(pump?this.bus:this.master);if(wet){const w=this.ac.createGain();w.gain.value=wet;node.connect(w);w.connect(this.wet)}},
  env(t,peak,a,dec,hold=0){const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);if(hold)g.gain.setValueAtTime(peak,t+a+hold);g.gain.exponentialRampToValueAtTime(.0001,t+a+hold+dec);return g},
  osc(type,fr,t,end,to){const o=this.ac.createOscillator();o.type=type;o.frequency.setValueAtTime(fr,t);if(to)o.connect(to);o.start(t);o.stop(end);return o},
  filt(type,fr,q=1){const b=this.ac.createBiquadFilter();b.type=type;b.frequency.value=fr;b.Q.value=q;return b},
  nz(t,dur,to){const s=this.ac.createBufferSource();s.buffer=this.noise;s.connect(to);s.start(t,Math.random()*1.5);s.stop(t+dur);return s},
- /* melodic instruments */
- pluck(m,t,v,{type="sawtooth",dec=.6,bright=3800,dry=.7,wet=.6}={}){const fr=this.f(m),lp=this.filt("lowpass",bright,1.2);lp.frequency.setValueAtTime(bright,t);lp.frequency.exponentialRampToValueAtTime(320,t+dec);const g=this.env(t,.1*v,.004,dec);this.osc(type,fr,t,t+dec+.05,lp);lp.connect(g);this.out(g,dry,wet)},
- mandolin(m,t,len,v){const n=Math.max(1,Math.round(len/.075));for(let k=0;k<n;k++){const tt=t+k*.075;this.pluck(m,tt,v*(k?.55:.9),{dec:.14,bright:3400,wet:.4});this.pluck(m+.08,tt+.01,v*(k?.35:.5),{dec:.12,bright:3000,wet:.3})}},
- kalimba(m,t,v){const fr=this.f(m),g=this.env(t,.13*v,.003,.9);this.osc("sine",fr,t,t+1,g);const g2=this.env(t,.035*v,.002,.09);this.osc("sine",fr*5.4,t,t+.15,g2);this.out(g,.8,.7);this.out(g2,.6,.2)},
- marimba(m,t,v){const fr=this.f(m),g=this.env(t,.16*v,.003,.42);this.osc("sine",fr,t,t+.5,g);const g2=this.env(t,.05*v,.002,.07);this.osc("sine",fr*4,t,t+.12,g2);this.out(g,.85,.5);this.out(g2,.6,.2)},
- bell(m,t,v){const fr=this.f(m);[[1,.07,1.8],[2,.025,1],[3.01,.012,.5],[5.4,.006,.25]].forEach(([r,a,d])=>{const g=this.env(t,a*v,.003,d);this.osc("sine",fr*r,t,t+d+.1,g);this.out(g,.6,1)})},
- sitar(m,t,len,v){const fr=this.f(m),d=Math.max(.6,Math.min(1.4,len+.3)),bp=this.filt("bandpass",fr*3,2.2),lp=this.filt("lowpass",4200,.7),g=this.env(t,.09*v,.006,d);
-  const o=this.osc("sawtooth",fr*1.06,t,t+d+.05,bp);o.frequency.exponentialRampToValueAtTime(fr,t+.09);bp.frequency.setValueAtTime(fr*6,t);bp.frequency.exponentialRampToValueAtTime(fr*2,t+d*.6);bp.connect(lp);lp.connect(g);
-  const o2=this.osc("sawtooth",fr*1.005,t,t+d,lp);o2.frequency.exponentialRampToValueAtTime(fr*.998,t+.09);this.out(g,.8,.7)},
- zither(m,t,len,v,bend){const fr=this.f(m),d=1.5,lp=this.filt("lowpass",3200,1);lp.frequency.setValueAtTime(3200,t);lp.frequency.exponentialRampToValueAtTime(700,t+d);const g=this.env(t,.09*v,.004,d);
-  const o=this.osc("triangle",fr,t,t+d+.05,lp),o2=this.osc("sawtooth",fr,t,t+d+.05);const g2=this.ac.createGain();g2.gain.value=.25;o2.connect(g2);g2.connect(lp);
-  if(bend)[o,o2].forEach(x=>{x.frequency.setValueAtTime(fr,t+.22);x.frequency.linearRampToValueAtTime(fr*1.12,t+.38);x.frequency.linearRampToValueAtTime(fr,t+.75)});lp.connect(g);this.out(g,.8,.8)},
- flute(m,t,len,v){const fr=this.f(m),L=Math.max(.3,len),g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.06*v,t+.09);g.gain.setValueAtTime(.06*v,t+L);g.gain.exponentialRampToValueAtTime(.0001,t+L+.25);
-  const o=this.osc("sine",fr,t,t+L+.3,g),o2=this.osc("triangle",fr*2,t,t+L+.3);const g2=this.ac.createGain();g2.gain.value=.08;o2.connect(g2);g2.connect(g);
-  const lfo=this.osc("sine",5.2,t,t+L+.3),ld=this.ac.createGain();ld.gain.setValueAtTime(0,t);ld.gain.linearRampToValueAtTime(fr*.007,t+.35);lfo.connect(ld);ld.connect(o.frequency);ld.connect(o2.frequency);
-  const bp=this.filt("bandpass",fr*2.2,1.2),bg=this.ac.createGain();bg.gain.setValueAtTime(.0001,t);bg.gain.exponentialRampToValueAtTime(.012*v,t+.05);bg.gain.exponentialRampToValueAtTime(.002*v,t+.3);bg.gain.exponentialRampToValueAtTime(.0001,t+L+.25);this.nz(t,L+.3,bp);bp.connect(bg);bg.connect(g);
-  this.out(g,.8,1)},
- /* chords and beds */
- strings(ms,t,len){const lp=this.filt("lowpass",1500,.6),g=this.env(t,.035,len*.35,len*.5,len*.3);lp.connect(g);ms.forEach(m=>[-7,7].forEach(dt=>{const o=this.osc("sawtooth",this.f(m),t,t+len*1.25,lp);o.detune.value=dt}));this.out(g,.7,1)},
- choir(ms,t,len){const f1=this.filt("bandpass",700,4),f2=this.filt("bandpass",1150,5),g=this.env(t,.09,len*.4,len*.45,len*.3);f1.connect(g);f2.connect(g);ms.forEach(m=>[-10,0,10].forEach(dt=>{const o=this.osc("sawtooth",this.f(m+12),t,t+len*1.25);o.detune.value=dt;o.connect(f1);o.connect(f2)}));this.out(g,.7,1.2)},
- drone(ms,t,len){const lp=this.filt("lowpass",650,.8),g=this.env(t,.05,.6,len*.6,len*.5);lp.connect(g);ms.forEach(m=>{this.osc("sawtooth",this.f(m),t,t+len*1.2,lp);this.osc("sawtooth",this.f(m)*1.003,t,t+len*1.2,lp)});this.out(g,.8,.8)},
- accordion(ms,t,len,v){const bp=this.filt("bandpass",1300,.7),lp=this.filt("lowpass",3600,.5),g=this.env(t,.04*v,.015,.08,Math.max(.05,len*.7));bp.connect(lp);lp.connect(g);
-  const lfo=this.osc("sine",6,t,t+len+.2),ld=this.ac.createGain();ld.gain.value=4;lfo.connect(ld);ms.forEach(m=>[-8,8].forEach(dt=>{const o=this.osc(dt<0?"square":"sawtooth",this.f(m+12),t,t+len+.2,bp);o.detune.value=dt;ld.connect(o.detune)}));this.out(g,.8,.5)},
- bass(m,t,len,v){const fr=this.f(m),d=Math.min(.9,len+.2),g=this.env(t,.2*v,.008,d);this.osc("sine",fr,t,t+d+.05,g);const g2=this.env(t,.04*v,.005,d*.6);this.osc("triangle",fr*2,t,t+d,g2);this.out(g,1,0);this.out(g2,.8,0)},
- /* percussion */
- kick(t,v=1){const o=this.ac.createOscillator(),g=this.env(t,.38*v,.002,.32);o.frequency.setValueAtTime(115,t);o.frequency.exponentialRampToValueAtTime(42,t+.22);o.connect(g);o.start(t);o.stop(t+.4);this.out(g,1,0)},
- taiko(t,v=1){const o=this.ac.createOscillator(),g=this.env(t,.55*v,.003,.85);o.frequency.setValueAtTime(78,t);o.frequency.exponentialRampToValueAtTime(44,t+.4);o.connect(g);o.start(t);o.stop(t+1);this.out(g,1,.5);
-  const lp=this.filt("lowpass",500),gn=this.env(t,.22*v,.002,.18);this.nz(t,.25,lp);lp.connect(gn);this.out(gn,1,.4)},
- tom(t,v=1,acc){const o=this.ac.createOscillator(),g=this.env(t,(acc?.3:.2)*v,.002,.35);o.frequency.setValueAtTime(acc?190:140,t);o.frequency.exponentialRampToValueAtTime(acc?120:85,t+.25);o.connect(g);o.start(t);o.stop(t+.45);this.out(g,1,.4)},
- djembe(t,c,v=1){if(c==="x"){const o=this.ac.createOscillator(),g=this.env(t,.32*v,.002,.28);o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(70,t+.15);o.connect(g);o.start(t);o.stop(t+.35);this.out(g,1,.2)}
-  const bp=this.filt("bandpass",c==="s"?1900:1100,1.4),g=this.env(t,(c==="s"?.3:c==="g"?.06:.12)*v,.001,c==="s"?.09:.05);this.nz(t,.12,bp);bp.connect(g);this.out(g,1,.3);
-  if(c==="s"){const g2=this.env(t,.08*v,.001,.06);this.osc("sine",420,t,t+.1,g2);this.out(g2,1,.2)}},
- shaker(t,c,v=1){const hp=this.filt("highpass",5500),g=this.ac.createGain(),p=(c==="x"?.06:.03)*v;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(p,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.09);this.nz(t,.12,hp);hp.connect(g);this.out(g,.9,.2)},
- tamb(t,c,v=1){const bp=this.filt("bandpass",7800,.8),g=this.env(t,(c==="s"?.12:.06)*v,.001,c==="s"?.16:.09);this.nz(t,.2,bp);bp.connect(g);this.out(g,.9,.3)},
- tablaNa(t,v=1){const g=this.env(t,.11*v,.001,.2);const o=this.osc("sine",560,t,t+.25,g);o.frequency.exponentialRampToValueAtTime(600,t+.05);const g2=this.env(t,.04*v,.001,.08);this.osc("sine",1250,t,t+.1,g2);this.out(g,1,.3);this.out(g2,1,.2)},
- tablaGe(t,v=1){const g=this.env(t,.3*v,.003,.55);const o=this.osc("sine",80,t,t+.6,g);o.frequency.linearRampToValueAtTime(112,t+.25);this.out(g,1,.3)},
- wood(t,v=1){const g=this.env(t,.1*v,.001,.06);this.osc("sine",1150,t,t+.08,g);const bp=this.filt("bandpass",2300,3),g2=this.env(t,.06*v,.001,.03);this.nz(t,.05,bp);bp.connect(g2);this.out(g,1,.4);this.out(g2,1,.2)},
- gong(t,v=1){const fr=this.f(this.style.root-12);[[1,.09,4.5],[2.02,.05,3],[2.74,.04,2.6],[3.76,.025,2],[4.07,.02,1.6]].forEach(([r,a,d])=>{const g=this.env(t,a*v,.01,d);const o=this.osc("sine",fr*r,t,t+d+.1,g);o.frequency.linearRampToValueAtTime(fr*r*.995,t+d);this.out(g,.8,1)})},
- hat(t,v=1){const hp=this.filt("highpass",7000),g=this.env(t,.03*v,.001,.05);this.nz(t,.08,hp);hp.connect(g);this.out(g,1,0)},
+ pumpAt(t){const g=this.bus.gain;g.setValueAtTime(1,t);g.linearRampToValueAtTime(.5,t+.012);g.setTargetAtTime(1,t+.03,.09)},
+ /* melodic voices */
+ pluck(m,t,v,{type="sawtooth",dec=.45,bright=3600,dry=.7,wet=.45,pump=false}={}){const fr=this.f(m),lp=this.filt("lowpass",bright,1.4);lp.frequency.setValueAtTime(bright,t);lp.frequency.exponentialRampToValueAtTime(380,t+dec);const g=this.env(t,.1*v,.003,dec);this.osc(type,fr,t,t+dec+.05,lp);lp.connect(g);this.out(g,dry,wet,pump)},
+ strum(ms,t,v,up){const ns=[...ms,ms[0]+12];(up?ns.slice().reverse():ns).forEach((m,k)=>this.pluck(m+12,t+k*.011,v*(up?.45:.62),{dec:.32,bright:up?2600:3300,dry:.6,wet:.3,pump:true}))},
+ mandolin(m,t,len,v){const n=Math.max(1,Math.round(len/.07));for(let k=0;k<n;k++){const tt=t+k*.07;this.pluck(m,tt,v*(k?.5:.95),{dec:.13,bright:3600,wet:.35});this.pluck(m+.1,tt+.008,v*(k?.3:.5),{dec:.11,bright:3200,wet:.25})}},
+ marimba(m,t,v){const fr=this.f(m),g=this.env(t,.16*v,.003,.38);this.osc("sine",fr,t,t+.45,g);const g2=this.env(t,.05*v,.002,.06);this.osc("sine",fr*4,t,t+.1,g2);this.out(g,.85,.4);this.out(g2,.6,.2)},
+ bell(m,t,v){const fr=this.f(m);[[1,.08,1.1],[2,.03,.7],[3.01,.014,.35],[5.4,.007,.18]].forEach(([r,a,d])=>{const g=this.env(t,a*v,.002,d);this.osc("sine",fr*r,t,t+d+.1,g);this.out(g,.7,.7)})},
+ zither(m,t,len,v,bend){const fr=this.f(m),d=1.1,lp=this.filt("lowpass",3400,1);lp.frequency.setValueAtTime(3400,t);lp.frequency.exponentialRampToValueAtTime(800,t+d);const g=this.env(t,.085*v,.003,d);
+  const o=this.osc("triangle",fr,t,t+d+.05,lp),o2=this.osc("sawtooth",fr,t,t+d+.05);const g2=this.ac.createGain();g2.gain.value=.3;o2.connect(g2);g2.connect(lp);
+  if(bend)[o,o2].forEach(x=>{x.frequency.setValueAtTime(fr,t+.16);x.frequency.linearRampToValueAtTime(fr*1.12,t+.28);x.frequency.linearRampToValueAtTime(fr,t+.5)});lp.connect(g);this.out(g,.8,.6)},
+ flute(m,t,len,v){const fr=this.f(m),L=Math.max(.12,len*.92),g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.075*v,t+.04);g.gain.setValueAtTime(.075*v,t+L);g.gain.exponentialRampToValueAtTime(.0001,t+L+.12);
+  const o=this.osc("sine",fr,t,t+L+.2,g),o2=this.osc("triangle",fr*2,t,t+L+.2);const g2=this.ac.createGain();g2.gain.value=.1;o2.connect(g2);g2.connect(g);
+  if(L>.3){const lfo=this.osc("sine",5.5,t,t+L+.2),ld=this.ac.createGain();ld.gain.setValueAtTime(0,t);ld.gain.linearRampToValueAtTime(fr*.008,t+.3);lfo.connect(ld);ld.connect(o.frequency);ld.connect(o2.frequency)}
+  const bp=this.filt("bandpass",fr*2.2,1.2),bg=this.ac.createGain();bg.gain.setValueAtTime(.0001,t);bg.gain.exponentialRampToValueAtTime(.014*v,t+.03);bg.gain.exponentialRampToValueAtTime(.0001,t+L+.1);this.nz(t,L+.15,bp);bp.connect(bg);bg.connect(g);
+  this.out(g,.85,.7)},
+ danbau(m,t,len,v){const fr=this.f(m),L=Math.max(.2,len*.95),g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.09*v,t+.02);g.gain.exponentialRampToValueAtTime(.05*v,t+L);g.gain.exponentialRampToValueAtTime(.0001,t+L+.3);
+  const o=this.osc("sine",fr*.89,t,t+L+.35,g);o.frequency.exponentialRampToValueAtTime(fr,t+.1);const o2=this.osc("triangle",fr*2,t,t+L+.35);o2.frequency.exponentialRampToValueAtTime(fr*2,t+.1);const g2=this.ac.createGain();g2.gain.value=.12;o2.connect(g2);g2.connect(g);
+  const lfo=this.osc("sine",5.6,t,t+L+.35),ld=this.ac.createGain();ld.gain.setValueAtTime(0,t);ld.gain.linearRampToValueAtTime(fr*.016,t+L);lfo.connect(ld);ld.connect(o.frequency);this.out(g,.8,.8)},
+ vox(m,t,len,v){const fr=this.f(m),L=Math.max(.2,len*.95),f1=this.filt("bandpass",800,5),f2=this.filt("bandpass",1150,6),g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16*v,t+.06);g.gain.setValueAtTime(.16*v,t+L);g.gain.exponentialRampToValueAtTime(.0001,t+L+.2);f1.connect(g);f2.connect(g);
+  const lfo=this.osc("sine",5.2,t,t+L+.25),ld=this.ac.createGain();ld.gain.value=fr*.01;lfo.connect(ld);
+  [-9,0,9].forEach(dt=>{const o=this.osc("sawtooth",fr,t,t+L+.25);o.detune.value=dt;ld.connect(o.frequency);o.connect(f1);o.connect(f2)});this.out(g,.75,1)},
+ brass(ms,t,len,v){const L=Math.max(.1,len*.85),lp=this.filt("lowpass",500,2);lp.frequency.setValueAtTime(500,t);lp.frequency.exponentialRampToValueAtTime(3000,t+.05);lp.frequency.exponentialRampToValueAtTime(1500,t+.25);
+  const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045*v,t+.025);g.gain.setValueAtTime(.04*v,t+L);g.gain.exponentialRampToValueAtTime(.0001,t+L+.1);lp.connect(g);
+  ms.forEach(m=>[-6,6].forEach(dt=>{const o=this.osc("sawtooth",this.f(m+12),t,t+L+.15,lp);o.detune.value=dt}));this.out(g,.8,.5)},
+ /* beds */
+ strings(ms,t,len){const lp=this.filt("lowpass",2200,.6),g=this.env(t,.03,len*.2,len*.3,len*.55);lp.connect(g);ms.forEach(m=>[-7,7].forEach(dt=>{const o=this.osc("sawtooth",this.f(m),t,t+len*1.1,lp);o.detune.value=dt}));this.out(g,.7,.8,true)},
+ choir(ms,t,len){const f1=this.filt("bandpass",700,4),f2=this.filt("bandpass",1150,5),g=this.env(t,.08,len*.25,len*.3,len*.5);f1.connect(g);f2.connect(g);ms.forEach(m=>[-10,10].forEach(dt=>{const o=this.osc("sawtooth",this.f(m+12),t,t+len*1.1);o.detune.value=dt;o.connect(f1);o.connect(f2)}));this.out(g,.7,1,true)},
+ accordion(ms,t,len,v){const bp=this.filt("bandpass",1400,.7),lp=this.filt("lowpass",3800,.5),g=this.env(t,.045*v,.012,.06,Math.max(.04,len*.6));bp.connect(lp);lp.connect(g);
+  const lfo=this.osc("sine",6,t,t+len+.2),ld=this.ac.createGain();ld.gain.value=5;lfo.connect(ld);ms.forEach(m=>[-8,8].forEach(dt=>{const o=this.osc(dt<0?"square":"sawtooth",this.f(m+12),t,t+len+.2,bp);o.detune.value=dt;ld.connect(o.detune)}));this.out(g,.8,.4,true)},
+ bass(m,t,len,v){const fr=this.f(m),d=Math.min(.5,len*.9+.05),g=this.env(t,.24*v,.006,d);this.osc("sine",fr,t,t+d+.05,g);const lp=this.filt("lowpass",900,1),g2=this.env(t,.05*v,.004,d*.7);this.osc("sawtooth",fr,t,t+d,lp);lp.connect(g2);this.out(g,1,0);this.out(g2,.8,0)},
+ /* drums */
+ kick(t,v=1){const o=this.ac.createOscillator(),g=this.env(t,.5*v,.002,.3);o.frequency.setValueAtTime(130,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);o.connect(g);o.start(t);o.stop(t+.4);this.out(g,1,0);const hp=this.filt("highpass",2500),gc=this.env(t,.05*v,.001,.015);this.nz(t,.03,hp);hp.connect(gc);this.out(gc,1,0);this.pumpAt(t)},
+ clap(t,v=1){[0,.011,.022].forEach((dt,k)=>{const bp=this.filt("bandpass",1150,1.1),g=this.env(t+dt,.22*v,.001,k===2?.16:.02);this.nz(t+dt,.2,bp);bp.connect(g);this.out(g,.9,.5)})},
+ taiko(t,v=1){const o=this.ac.createOscillator(),g=this.env(t,.5*v,.003,.6);o.frequency.setValueAtTime(90,t);o.frequency.exponentialRampToValueAtTime(48,t+.3);o.connect(g);o.start(t);o.stop(t+.7);this.out(g,1,.4);
+  const lp=this.filt("lowpass",600),gn=this.env(t,.2*v,.002,.15);this.nz(t,.2,lp);lp.connect(gn);this.out(gn,1,.3)},
+ tom(t,v=1,acc){const o=this.ac.createOscillator(),g=this.env(t,(acc?.26:.18)*v,.002,.28);o.frequency.setValueAtTime(acc?210:150,t);o.frequency.exponentialRampToValueAtTime(acc?130:90,t+.2);o.connect(g);o.start(t);o.stop(t+.35);this.out(g,1,.3)},
+ djembe(t,c,v=1){if(c==="x"){const o=this.ac.createOscillator(),g=this.env(t,.3*v,.002,.22);o.frequency.setValueAtTime(115,t);o.frequency.exponentialRampToValueAtTime(75,t+.12);o.connect(g);o.start(t);o.stop(t+.3);this.out(g,1,.2)}
+  const bp=this.filt("bandpass",c==="s"?2000:1100,1.4),g=this.env(t,(c==="s"?.26:c==="g"?.05:.1)*v,.001,c==="s"?.08:.04);this.nz(t,.1,bp);bp.connect(g);this.out(g,1,.25);
+  if(c==="s"){const g2=this.env(t,.07*v,.001,.05);this.osc("sine",430,t,t+.08,g2);this.out(g2,1,.2)}},
+ bongo(t,c,v=1){const hi=c==="s",g=this.env(t,(c==="g"?.05:hi?.16:.2)*v,.001,hi?.09:.14);const o=this.osc("sine",hi?520:340,t,t+.2,g);o.frequency.exponentialRampToValueAtTime(hi?470:300,t+.06);this.out(g,1,.25);
+  if(hi){const bp=this.filt("bandpass",3200,1.5),g2=this.env(t,.05*v,.001,.025);this.nz(t,.05,bp);bp.connect(g2);this.out(g2,1,.2)}},
+ shaker(t,c,v=1){const hp=this.filt("highpass",6000),g=this.ac.createGain(),p=(c==="x"?.055:.025)*v;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(p,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+.07);this.nz(t,.1,hp);hp.connect(g);this.out(g,.9,.15)},
+ tamb(t,c,v=1){const bp=this.filt("bandpass",8000,.8),g=this.env(t,(c==="s"?.12:.06)*v,.001,c==="s"?.15:.08);this.nz(t,.2,bp);bp.connect(g);this.out(g,.9,.25)},
+ ohat(t,v=1){const hp=this.filt("highpass",7500),g=this.env(t,.045*v,.001,.16);this.nz(t,.2,hp);hp.connect(g);this.out(g,1,.1)},
+ wood(t,v=1){const g=this.env(t,.09*v,.001,.05);this.osc("sine",1250,t,t+.07,g);const bp=this.filt("bandpass",2400,3),g2=this.env(t,.05*v,.001,.025);this.nz(t,.04,bp);bp.connect(g2);this.out(g,1,.3);this.out(g2,1,.15)},
+ gong(t,v=1){const fr=this.f(this.style.root-12);[[1,.08,3.2],[2.02,.045,2.4],[2.74,.035,2],[3.76,.02,1.5]].forEach(([r,a,d])=>{const g=this.env(t,a*v,.01,d);const o=this.osc("sine",fr*r,t,t+d+.1,g);o.frequency.linearRampToValueAtTime(fr*r*.995,t+d);this.out(g,.7,.8)})},
  /* transition effects */
- riser(t,dur){if(!this.ac)return;const bp=this.filt("bandpass",300,1.6);bp.frequency.setValueAtTime(300,t);bp.frequency.exponentialRampToValueAtTime(5000,t+dur);const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+dur);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.05);this.nz(t,dur+.1,bp);bp.connect(g);this.out(g,.9,.6)},
- impact(t){if(!this.ac)return;this.taiko(t,1.4);this.taiko(t+.02,.8);const hp=this.filt("highpass",3500),g=this.env(t,.1,.004,2.6);this.nz(t,2.8,hp);hp.connect(g);this.out(g,.7,1);
-  const g2=this.env(t,.25,.01,2.2);this.osc("sine",this.f(this.style.root-24),t,t+2.4,g2);this.out(g2,1,.6)},
- whoosh(t){if(!this.ac)return;const bp=this.filt("bandpass",600,1.2);bp.frequency.setValueAtTime(500,t);bp.frequency.exponentialRampToValueAtTime(2600,t+.3);bp.frequency.exponentialRampToValueAtTime(900,t+.55);const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+.6);this.nz(t,.65,bp);bp.connect(g);this.out(g,.8,.5)},
+ riser(t,dur){if(!this.ac)return;const bp=this.filt("bandpass",300,1.6);bp.frequency.setValueAtTime(300,t);bp.frequency.exponentialRampToValueAtTime(5000,t+dur);const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.15,t+dur);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.05);this.nz(t,dur+.1,bp);bp.connect(g);this.out(g,.9,.6)},
+ impact(t){if(!this.ac)return;this.taiko(t,1.4);this.kick(t,1);const hp=this.filt("highpass",3500),g=this.env(t,.09,.004,2.2);this.nz(t,2.4,hp);hp.connect(g);this.out(g,.7,1);
+  const g2=this.env(t,.22,.01,1.6);this.osc("sine",this.f(this.style.root-24),t,t+1.8,g2);this.out(g2,1,.5)},
+ whoosh(t){if(!this.ac)return;const bp=this.filt("bandpass",600,1.2);bp.frequency.setValueAtTime(500,t);bp.frequency.exponentialRampToValueAtTime(2600,t+.3);bp.frequency.exponentialRampToValueAtTime(900,t+.55);const g=this.ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.035,t+.25);g.gain.exponentialRampToValueAtTime(.0001,t+.6);this.nz(t,.65,bp);bp.connect(g);this.out(g,.8,.5)},
  fx(kind){if(!this.ac||!this.started||!this.on||this.ducked)return;const t=this.ac.currentTime+.02;if(kind==="impact")this.impact(t);else if(kind==="whoosh")this.whoosh(t);else if(kind==="riser")this.riser(t,1.4)},
  /* sequencer */
  sd(){const S=this.style;return 60/S.bpm*S.beats/S.grid},
  dm(S,d,oct){const sc=SC[S.sc],L=sc.length;return S.root+12*oct+sc[((d%L)+L)%L]+12*Math.floor(d/L)},
  sched(e,t){const S=this.style,G=S.grid,bar=Math.floor(e/G),pos=e%G,sd=this.sd(),deg=S.prog[bar%S.prog.length];
+  const swing=(S.swing&&pos%2)?sd*S.swing:0;t+=swing;
   for(const tr of S.tr){if(bar<(tr.from||0))continue;if(tr.mod&&bar%tr.mod)continue;const v=tr.v??1,oct=tr.oct||0;
    const chord=[0,2,4].map(x=>this.dm(S,deg+x,oct));
-   if(tr.pad){if(pos!==0)continue;const len=sd*G;const ms=tr.i==="drone"?[S.root-12,S.root-5]:chord;this[tr.i](ms,t,len,v);continue}
+   if(tr.pad){if(pos!==0)continue;const len=sd*G;this[tr.i](chord,t,len,v);continue}
    if(tr.pat){const c=tr.pat[pos%tr.pat.length];if(!c||c===".")continue;
-    if(tr.i==="djembe"||tr.i==="shaker"||tr.i==="tamb")this[tr.i](t,c,v);else if(tr.i==="tom")this.tom(t,v,c==="s");else this[tr.i](t,v);continue}
-   const row=tr.mel?tr.mel[bar%tr.mel.length]:tr.arp;const c=row[pos%row.length];if(!c||c===".")continue;
-   let n=1;while(pos+n<G&&(row[(pos+n)%row.length]===".")&&n<G)n++;const len=n*sd;
+    if(tr.i==="djembe"||tr.i==="shaker"||tr.i==="tamb"||tr.i==="bongo")this[tr.i](t,c,v);else if(tr.i==="tom")this.tom(t,v,c==="s");else this[tr.i](t,v);continue}
+   const row=tr.mel?tr.mel[bar%tr.mel.length]:tr.arp;const c=row[pos%row.length];if(!c||c==="."||c==="-")continue;
+   let n=1;while(pos+n<G&&row[(pos+n)%row.length]==="-")n++;const len=n*sd;
    let ms;if(tr.mel)ms=[this.dm(S,parseInt(c,36),oct)];else if(c==="c")ms=chord;else{const k=+c;ms=[chord[k%3]+12*Math.floor(k/3)]}
-   ms.forEach(m=>this.voice(tr.i,m,t,len,v,e,ms))}
+   this.voice(tr.i,ms,t,len,v,e,pos)}
  },
- voice(i,m,t,len,v,e,ms){
-  if(i==="mandolin")this.mandolin(m,t,len,v);else if(i==="kalimba")this.kalimba(m,t,v);else if(i==="marimba")this.marimba(m,t,v);
-  else if(i==="bell")this.bell(m,t,v);else if(i==="sitar")this.sitar(m,t,len,v);else if(i==="zither")this.zither(m,t,len,v,(e*7)%11===0);
-  else if(i==="flute")this.flute(m,t,len,v);else if(i==="bass")this.bass(m,t,len,v);else if(i==="accordion"){if(m===ms[0])this.accordion(ms,t,len,v)}
-  else this.pluck(m,t,v)},
+ voice(i,ms,t,len,v,e,pos){
+  if(i==="strum"){this.strum(ms.length>1?ms:[ms[0],ms[0]+4,ms[0]+7],t,v,pos%4===2);return}
+  if(i==="brass"){this.brass(ms,t,len,v);return}
+  if(i==="accordion"){this.accordion(ms,t,len,v);return}
+  ms.forEach(m=>{
+   if(i==="mandolin")this.mandolin(m,t,len,v);else if(i==="marimba")this.marimba(m,t,v);else if(i==="bell")this.bell(m,t,v);
+   else if(i==="zither")this.zither(m,t,len,v,(e*7)%9===0);else if(i==="flute")this.flute(m,t,len,v);else if(i==="danbau")this.danbau(m,t,len,v);
+   else if(i==="vox")this.vox(m,t,len,v);else if(i==="bass")this.bass(m,t,len,v);else this.pluck(m,t,v)})},
  loop(){if(!this.ac)return;while(this.next<this.ac.currentTime+.3){try{this.sched(this.e,this.next)}catch(err){}this.next+=this.sd();this.e++}},
- setStyle(k){const ns=STY[k]||STY.intro;if(ns===this.style)return;this.style=ns;if(this.ac&&this.started){this.e=0;this.next=Math.max(this.next,this.ac.currentTime+.06)}},
+ setStyle(k){const ns=STY[k]||STY.intro;if(ns===this.style)return;this.style=ns;if(this.ac&&this.started){this.e=0;this.next=this.ac.currentTime+.03}},
  play(){this.init();if(!this.ac)return;this.ac.resume();if(!this.started){this.started=true;this.next=this.ac.currentTime+.1;this.e=0}
   this.master.gain.cancelScheduledValues(this.ac.currentTime);this.master.gain.setTargetAtTime(this.on&&!this.ducked?.6:0,this.ac.currentTime,.6);
   clearInterval(this.iv);this.iv=setInterval(()=>this.loop(),70)},
@@ -773,23 +797,25 @@ DEAcPVg8V7U:.25,y5RpLxjjWdA:.25,u1ARrjOefgc:.5,"45eddk-pMuY":.25,"Fzlq5YwwY-c":.
 dAGKMaekrOw:.5,WL2HpiE3uwU:.25,yNIOtJXi1UQ:.5,"Yazv7p-9pBo":.5,"c5z-I4yAGY4":.25,"OpomaNqeW-o":.5,skeVmBZc1lM:.72,FAyiIW_ulCc:.5,Ixy7UUXljfc:.5,
 "G0N2tIS-keQ":.25,FUKqs1efCgE:.5,"8DHpKXo6iEE":.75,"2eUixYYYQvs":.5,zDuRWVVXfVk:.25,"PHe_0vSE1Lg":.5,TaHwk7fVXyM:.75};
 const startFor=(ids,def)=>START[ids[0]]??def;
-const TITLE_MS=7000, DATA_MS=9000, SUB_MS=4000, COUNTRY_MS=3800;
-const steps=[{k:"intro",type:"intro",dur:8000}];
+/* every cut lands on a downbeat: durations are whole bars of that country's soundtrack */
+const barMs=k=>{const S=STY[k]||STY.intro;return 60000/S.bpm*S.beats};
+const bars=(k,ms)=>Math.max(1,Math.round(ms/barMs(k)))*barMs(k);
+const steps=[{k:"intro",type:"intro",dur:bars("intro",8000)}];
 const chapters=[{label:"פתיחה",at:0,k:"intro"}];
 D.forEach(d=>{
   chapters.push({label:d.name,at:steps.length,k:d.id});
   const film=d.atts.filter(a=>a.f);
-  const clip=film.length>8?6000:6500;
-  steps.push({k:d.id,type:"country",d,dur:COUNTRY_MS});
-  steps.push({k:d.id,type:"title",d,vid:d.promo,frac:startFor(d.promo,.2),dur:TITLE_MS});
-  steps.push({k:d.id,type:"data",d,vid:d.promo,frac:.5,dur:DATA_MS,cont:true});
+  const K=d.id,clip=bars(K,film.length>8?6000:6500);
+  steps.push({k:K,type:"country",d,dur:bars(K,4000)});
+  steps.push({k:K,type:"title",d,vid:d.promo,frac:startFor(d.promo,.2),dur:bars(K,5500)});
+  steps.push({k:K,type:"data",d,vid:d.promo,frac:.5,dur:bars(K,7500),cont:true});
   let zDone=false;
   film.forEach((a,i)=>{
-    if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:startFor(d.zpromo,.3),dur:SUB_MS})}
+    if(a.z&&!zDone&&d.zpromo){zDone=true;steps.push({k:d.id,type:"sub",d,vid:d.zpromo,frac:startFor(d.zpromo,.3),dur:bars(K,4000)})}
     steps.push({k:d.id,type:"att",d,a,i,n:film.length,vid:a.v,frac:startFor(a.v,.35),dur:clip});
   });
 });
-chapters.push({label:"השוואה",at:steps.length,k:"cmp"});steps.push({k:"cmp",type:"cmp",dur:18000});
+chapters.push({label:"השוואה",at:steps.length,k:"cmp"});steps.push({k:"cmp",type:"cmp",dur:bars("cmp",18000)});
 chapters.push({label:"הצבעה",at:steps.length,k:"vote"});steps.push({k:"vote",type:"vote",dur:0});
 const TOTAL=steps.reduce((s,x)=>s+x.dur,0);
 const chapterOf=i=>{let c=0;chapters.forEach((h,j)=>{if(h.at<=i)c=j});return c};
@@ -861,7 +887,7 @@ function renderOverlay(){
   ov.classList.remove("country");
   if(st.type==="intro"){
     ov.innerHTML=`<div class="ov-top"><span class="chip">טיול בת המצווה של עינבר · 2027</span><span class="chip">7 מטיילים · 3 דורות</span></div>
-    <div class="title-block i fade"><div class="eyebrow">חמישה יעדים · כ-6.5 דקות</div><div class="big" style="font-size:clamp(52px,8.5vw,120px)">עינבר, לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
+    <div class="title-block i fade"><div class="eyebrow">חמישה יעדים · כ-6 דקות</div><div class="big" style="font-size:clamp(52px,8.5vw,120px)">עינבר, לאן טסים?</div><div class="tag">איסלנד, סרי לנקה, טנזניה וזנזיבר, צפון איטליה ווייטנאם. כמה שניות מכל אטרקציה, הנתונים על המסך, ובסוף כולם מצביעים.</div></div>`;
     return;
   }
   if(st.type==="cmp"){
@@ -935,6 +961,17 @@ function preroll(){const n=si+1;if(!steps[n]||!steps[n].vid||steps[n].cont)retur
 function advance(w){const n=si+1,ns=steps[n];if(ns&&ns.vid&&!ns.cont&&w<2600){const j=prep.find(x=>x&&x.step===n);if(j&&!j.done){timer=setTimeout(()=>advance(w+200),200);return}}enterStep(n)}
 let riserT=null;
 function arm(){clearTimeout(timer);clearTimeout(riserT);clearTimeout(fadeOutT);clearTimeout(prerollT);if(!playing)return;const st=steps[si];if(!st.dur){setPlaying(false);return}timer=setTimeout(()=>advance(0),remain);if(steps[si+1]&&steps[si+1].type==="country"&&sndMode!=="off")riserT=setTimeout(()=>Music.fx("riser"),Math.max(0,remain-1450));prerollT=setTimeout(preroll,Math.max(0,remain-1600));const k=slot;if(st.vid&&sndMode==="orig")fadeOutT=setTimeout(()=>fadeTo(k,0,600),Math.max(0,remain-650))}
+/* watchdog: a frozen or finished clip never stays on screen */
+let wd={t:-1,since:0,key:""};
+setInterval(()=>{if(!playing)return;const st=steps[si],job=prep[slot];if(!st||!st.vid||!job||!job.done||!job.ok||job.step!==si)return;
+  let ct=0,state=-1;try{ct=P[slot].yt.getCurrentTime();state=P[slot].yt.getPlayerState()}catch(e){return}
+  const now=performance.now(),key=slot+":"+si;
+  if(state===0){if(st.type==="att"){enterStep(si+1)}else{try{P[slot].yt.seekTo((P[slot].yt.getDuration()||60)*.3,true);P[slot].yt.playVideo()}catch(e){}}return}
+  if(wd.key!==key||Math.abs(ct-wd.t)>.05){wd={t:ct,since:now,key};return}
+  const stuck=now-wd.since;
+  if(stuck>1200&&stuck<1700){try{P[slot].yt.playVideo()}catch(e){}}
+  if(stuck>2800){wd.since=now;if(job.idx+1<job.ids.length){job.done=false;job.ok=false;job.idx++;tryId(slot,job)}else if(st.type==="att"){enterStep(si+1)}}
+},400);
 function goStep(i){enterStep(i)}
 function step(){if(si<steps.length-1)enterStep(si+1)}
 function back(){if(si>0)enterStep(si-1)}
